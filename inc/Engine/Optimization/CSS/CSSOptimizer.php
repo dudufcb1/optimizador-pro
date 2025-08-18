@@ -107,7 +107,7 @@ class CSSOptimizer {
         // Generate cache key based on files, their modification times, and inline styles
         $cache_key = $this->generate_cache_key($optimizable_links, $inline_styles);
         $cached_file = $this->cache_dir . 'css/combined-' . $cache_key . '.css';
-        $cached_url = $this->plugin_url . 'cache/css/combined-' . $cache_key . '.css';
+        $cached_url = WP_CONTENT_URL . '/cache/optimizador-pro/css/combined-' . $cache_key . '.css';
 
         // Create combined CSS if not cached
         if (!file_exists($cached_file)) {
@@ -345,6 +345,48 @@ class CSSOptimizer {
         $css_cache_dir = $this->cache_dir . 'css/';
         if (!is_dir($css_cache_dir)) {
             \wp_mkdir_p($css_cache_dir);
+        }
+
+        // Ensure .htaccess exists in cache directory for proper file serving
+        $htaccess_file = $this->cache_dir . '.htaccess';
+        if (!file_exists($htaccess_file)) {
+            $htaccess_content = '# OptimizadorPro Cache Directory
+# Allow access to CSS and JS files
+
+<Files "*.css">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "*.js">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+</IfModule>
+
+# Enable compression if available
+<IfModule mod_deflate.c>
+    <FilesMatch "\.(css|js)$">
+        SetOutputFilter DEFLATE
+    </FilesMatch>
+</IfModule>
+
+# Set cache headers for better performance
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Prevent directory browsing
+Options -Indexes
+';
+            file_put_contents($htaccess_file, $htaccess_content);
         }
     }
 

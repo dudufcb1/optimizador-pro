@@ -52,27 +52,31 @@ class OptimizationServiceProvider extends AbstractServiceProvider {
      * Register services in the container
      */
     public function register(): void {
+        // Define cache directory and plugin URL
+        $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
+        $plugin_url = plugin_dir_url(OPTIMIZADOR_PRO_PLUGIN_FILE);
+
         // Register CSS Optimizer
         $this->getContainer()->add('css_optimizer', CSSOptimizer::class)
-            ->addArgument('cache_dir')
-            ->addArgument('plugin_url');
+            ->addArgument($cache_dir)
+            ->addArgument($plugin_url);
 
         // Register JS Optimizer
         $this->getContainer()->add('js_optimizer', JSOptimizer::class)
-            ->addArgument('cache_dir')
-            ->addArgument('plugin_url');
+            ->addArgument($cache_dir)
+            ->addArgument($plugin_url);
 
         // Register Defer JS Optimizer
         $this->getContainer()->add('defer_js_optimizer', DeferJSOptimizer::class);
 
         // Register Optimization Subscriber
         $this->getContainer()->add('optimization_subscriber', OptimizationSubscriber::class)
-            ->addArgument('css_optimizer')
-            ->addArgument('js_optimizer');
+            ->addArgument($this->getContainer()->get('css_optimizer'))
+            ->addArgument($this->getContainer()->get('js_optimizer'));
 
         // Register Defer JS Subscriber
         $this->getContainer()->add('defer_js_subscriber', DeferJSSubscriber::class)
-            ->addArgument('defer_js_optimizer');
+            ->addArgument($this->getContainer()->get('defer_js_optimizer'));
 
         // Register Critical CSS Subscriber
         $this->getContainer()->add('critical_css_subscriber', CriticalCSSSubscriber::class);

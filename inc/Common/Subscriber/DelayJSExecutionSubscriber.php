@@ -337,25 +337,46 @@ class DelayJSExecutionSubscriber {
                 userInteracted = true;
                 
                 delayedScripts.forEach(function(script) {
+                    // Skip scripts that might be problematic
+                    if (!script || !script.parentNode) {
+                        return;
+                    }
+
                     var newScript = document.createElement('script');
-                    
-                    // Copy attributes
-                    Array.from(script.attributes).forEach(function(attr) {
-                        if (attr.name === 'type') return;
-                        if (attr.name === 'data-src') {
-                            newScript.src = attr.value;
-                        } else {
-                            newScript.setAttribute(attr.name, attr.value);
-                        }
-                    });
-                    
-                    // Copy inline content
-                    if (script.innerHTML) {
-                        newScript.innerHTML = script.innerHTML;
+
+                    // Copy attributes safely
+                    try {
+                        Array.from(script.attributes).forEach(function(attr) {
+                            if (attr.name === 'type') return;
+                            if (attr.name === 'data-src') {
+                                newScript.src = attr.value;
+                            } else {
+                                newScript.setAttribute(attr.name, attr.value);
+                            }
+                        });
+                    } catch (e) {
+                        // Skip this script if attribute copying fails
+                        return;
                     }
                     
-                    // Replace the delayed script
-                    script.parentNode.replaceChild(newScript, script);
+                    // Copy inline content safely
+                    if (script.innerHTML) {
+                        try {
+                            newScript.innerHTML = script.innerHTML;
+                        } catch (e) {
+                            // Fallback: use textContent for problematic content
+                            newScript.textContent = script.textContent || script.innerHTML;
+                        }
+                    }
+
+                    // Replace the delayed script safely
+                    try {
+                        script.parentNode.replaceChild(newScript, script);
+                    } catch (e) {
+                        // Fallback: insert before and remove original
+                        script.parentNode.insertBefore(newScript, script);
+                        script.parentNode.removeChild(script);
+                    }
                 });
                 
                 // Clear the array

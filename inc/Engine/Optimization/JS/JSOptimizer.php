@@ -94,7 +94,7 @@ class JSOptimizer {
         // Generate cache key based on files and their modification times
         $cache_key = $this->generate_cache_key($optimizable_scripts);
         $cached_file = $this->cache_dir . 'js/combined-' . $cache_key . '.js';
-        $cached_url = $this->plugin_url . 'cache/js/combined-' . $cache_key . '.js';
+        $cached_url = WP_CONTENT_URL . '/cache/optimizador-pro/js/combined-' . $cache_key . '.js';
 
         // Create combined JS if not cached
         if (!file_exists($cached_file)) {
@@ -197,10 +197,19 @@ class JSOptimizer {
      */
     private function create_combined_js(array $scripts, string $output_file): void {
         $minifier = new JSMinifier();
+        $combined_content = '';
 
         foreach ($scripts as $script) {
             $js_content = file_get_contents($script['path']);
             if ($js_content !== false) {
+                // Clean and validate JS content before adding
+                $js_content = $this->clean_js_content($js_content);
+
+                // Skip if content is problematic
+                if ($this->is_problematic_js_content($js_content)) {
+                    continue;
+                }
+
                 $minifier->add($js_content);
             }
         }
@@ -213,6 +222,55 @@ class JSOptimizer {
 
         // Save minified JS
         file_put_contents($output_file, $minifier->minify());
+    }
+
+    /**
+     * Clean JS content to prevent syntax errors
+     *
+     * @param string $content JS content
+     * @return string Cleaned content
+     */
+    private function clean_js_content(string $content): string {
+        // Remove BOM if present
+        $content = preg_replace('/^\xEF\xBB\xBF/', '', $content);
+
+        // Ensure content ends with semicolon to prevent concatenation issues
+        $content = rtrim($content);
+        if (!empty($content) && !preg_match('/[;}]\s*$/', $content)) {
+            $content .= ';';
+        }
+
+        return $content;
+    }
+
+    /**
+     * Check if JS content is problematic and should be excluded
+     *
+     * @param string $content JS content
+     * @return bool True if problematic
+     */
+    private function is_problematic_js_content(string $content): bool {
+        // Check for ES6 imports/exports
+        if (preg_match('/\b(import\s+.*from|export\s+)/i', $content)) {
+            return true;
+        }
+
+        // Check for @wordpress imports
+        if (preg_match('/@wordpress\/[a-zA-Z-]+/', $content)) {
+            return true;
+        }
+
+        // Check for module syntax
+        if (preg_match('/module\.exports\s*=|require\s*\(/', $content)) {
+            return true;
+        }
+
+        // Check for problematic syntax patterns
+        if (preg_match('/\bawait\s+import\s*\(/', $content)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -259,11 +317,52 @@ class JSOptimizer {
      * @return bool
      */
     private function is_excluded(string $src): bool {
+        // Check user-defined exclusions
         foreach ($this->excluded_files as $excluded) {
             if (strpos($src, $excluded) !== false) {
                 return true;
             }
         }
+
+        // Automatic exclusions for problematic files
+        $auto_exclusions = [
+            'interactivity',
+            'wp-includes/js/dist/',
+            '@wordpress/',
+            'gutenberg',
+            'block-editor',
+            'wp-block-library',
+            'wp-edit-post',
+            'wp-editor',
+            'react',
+            'react-dom',
+            'lodash',
+            'moment',
+            'wp-api-fetch',
+            'wp-data',
+            'wp-element',
+            'wp-components',
+            'wp-compose',
+            'wp-hooks',
+            'wp-i18n',
+            'wp-is-shallow-equal',
+            'wp-keycodes',
+            'wp-primitives',
+            'wp-priority-queue',
+            'wp-redux-routine',
+            'wp-rich-text',
+            'wp-shortcode',
+            'wp-token-list',
+            'wp-url',
+            'wp-wordcount'
+        ];
+
+        foreach ($auto_exclusions as $exclusion) {
+            if (strpos($src, $exclusion) !== false) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -282,7 +381,8 @@ class JSOptimizer {
 
         // Check for WordPress Interactivity API (always ES6 modules)
         if (strpos($src, '@wordpress/interactivity') !== false ||
-            strpos($src, 'wp-includes/js/dist/') !== false) {
+            strpos($src, 'wp-includes/js/dist/') !== false ||
+            strpos($src, 'wp-content/plugins/') !== false && strpos($src, 'interactivity') !== false) {
             return true;
         }
 
@@ -298,6 +398,17 @@ class JSOptimizer {
 
                 // Check for dynamic imports
                 if (preg_match('/import\s*\(/i', $content)) {
+                    return true;
+                }
+
+                // Check for @wordpress imports (common in Gutenberg blocks)
+                if (preg_match('/@wordpress\/[a-zA-Z-]+/', $content)) {
+                    return true;
+                }
+
+                // Check for other problematic ES6 patterns
+                if (preg_match('/\b(const|let)\s+\{[^}]*\}\s*=\s*require\s*\(/', $content) ||
+                    preg_match('/module\.exports\s*=/', $content)) {
                     return true;
                 }
             }
@@ -443,6 +554,48 @@ class JSOptimizer {
         $js_cache_dir = $this->cache_dir . 'js/';
         if (!is_dir($js_cache_dir)) {
             \wp_mkdir_p($js_cache_dir);
+        }
+
+        // Ensure .htaccess exists in cache directory for proper file serving
+        $htaccess_file = $this->cache_dir . '.htaccess';
+        if (!file_exists($htaccess_file)) {
+            $htaccess_content = '# OptimizadorPro Cache Directory
+# Allow access to CSS and JS files
+
+<Files "*.css">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "*.js">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+</IfModule>
+
+# Enable compression if available
+<IfModule mod_deflate.c>
+    <FilesMatch "\.(css|js)$">
+        SetOutputFilter DEFLATE
+    </FilesMatch>
+</IfModule>
+
+# Set cache headers for better performance
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Prevent directory browsing
+Options -Indexes
+';
+            file_put_contents($htaccess_file, $htaccess_content);
         }
     }
 }

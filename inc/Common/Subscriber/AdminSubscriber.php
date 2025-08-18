@@ -753,8 +753,8 @@ class AdminSubscriber {
      * Get cache status
      */
     private function get_cache_status(): string {
-        // Use the same cache directory as the optimizers
-        $cache_dir = WP_CONTENT_DIR . '/plugins/optimizador-pro/cache/';
+        // Use the correct cache directory path
+        $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
 
         if (!is_dir($cache_dir)) {
             return '<span style="color: #666;">No cache directory found</span>';
