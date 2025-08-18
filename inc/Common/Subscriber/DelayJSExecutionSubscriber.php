@@ -77,7 +77,7 @@ class DelayJSExecutionSubscriber {
         $script_content = $matches[1] ?? '';
 
         // Don't delay if script should be excluded
-        if ($this->should_exclude_script($full_tag)) {
+        if ($this->should_exclude_script($full_tag, $script_content)) {
             return $full_tag;
         }
 
@@ -133,9 +133,10 @@ class DelayJSExecutionSubscriber {
      * @return string Delayed script tag
      */
     private function create_delayed_inline_script(string $content): string {
+        // Use a different type for inline scripts to handle them safely
         return sprintf(
-            '<script type="optimizador-pro-delayed">%s</script>',
-            $content
+            '<script type="optimizador-pro-delayed-inline">%s</script>',
+            \base64_encode($content) // Base64 encode to prevent parsing issues
         );
     }
 
@@ -143,23 +144,30 @@ class DelayJSExecutionSubscriber {
      * Check if script should be excluded from delaying
      * 
      * @param string $script_tag Full script tag
+     * @param string $script_content Inline script content
      * @return bool
      */
-    private function should_exclude_script(string $script_tag): bool {
+    private function should_exclude_script(string $script_tag, string $script_content): bool {
         // Always exclude scripts that are already delayed
         if (\strpos($script_tag, 'optimizador-pro-delayed') !== false) {
             return true;
         }
 
-        // Exclude JSON-LD and other structured data
-        if (\preg_match('/type=["\']application\/(ld\+json|json)["\']/', $script_tag)) {
+        // Exclude JSON-LD, importmaps, and other structured data
+        if (\preg_match('/type=["\']application\/(ld\+json|json|importmap)["\']/', $script_tag)) {
+            return true;
+        }
+        
+        // Exclude ES Modules, which cannot be delayed this way
+        if (\preg_match('/type=["\']module["\']/', $script_tag)) {
             return true;
         }
 
-        // Exclude critical scripts by pattern
+        // Exclude critical scripts by pattern in the tag
         $critical_patterns = [
             'jquery',
             'wp-includes/js/jquery',
+            '@wordpress/interactivity', // Critical for new WP features
             'wp-admin',
             'wp-login',
             'customizer',
@@ -168,6 +176,14 @@ class DelayJSExecutionSubscriber {
 
         foreach ($critical_patterns as $pattern) {
             if (\stripos($script_tag, $pattern) !== false) {
+                return true;
+            }
+        }
+        
+        // Exclude scripts that are likely JSON (like importmaps)
+        if (!empty($script_content) && strpos(trim($script_content), '{') === 0) {
+            json_decode($script_content);
+            if (json_last_error() === JSON_ERROR_NONE) {
                 return true;
             }
         }
@@ -205,7 +221,7 @@ class DelayJSExecutionSubscriber {
      */
     private function is_critical_inline_script(string $content): bool {
         // Very short scripts are usually critical
-        if (\strlen(\trim($content)) < 50) {
+        if (empty(trim($content)) || \strlen(\trim($content)) < 50) {
             return true;
         }
 
@@ -276,12 +292,17 @@ class DelayJSExecutionSubscriber {
 
     /**
      * Check if current page should be excluded from delay JS
-     * 
+     *
      * @return bool
      */
     private function should_exclude_page(): bool {
         // Exclude admin pages
-        if (\is_admin() || \is_login()) {
+        if (\is_admin()) {
+            return true;
+        }
+
+        // Exclude login page
+        if (\in_array($GLOBALS['pagenow'], ['wp-login.php', 'wp-register.php'])) {
             return true;
         }
 
@@ -290,17 +311,9 @@ class DelayJSExecutionSubscriber {
             return true;
         }
 
-        // Check general page exclusions
-        $excluded_pages = \get_option('optimizador_pro_excluded_pages', '');
-        if (!empty($excluded_pages)) {
-            $current_url = $_SERVER['REQUEST_URI'] ?? '';
-            $exclusions = array_filter(array_map('trim', explode("\n", $excluded_pages)));
-            
-            foreach ($exclusions as $exclusion) {
-                if (!empty($exclusion) && \strpos($current_url, $exclusion) !== false) {
-                    return true;
-                }
-            }
+        // Exclude if user is logged in and viewing admin bar
+        if (\is_user_logged_in() && \is_admin_bar_showing()) {
+            // Allow delay JS but be more conservative
         }
 
         return false;
@@ -315,99 +328,108 @@ class DelayJSExecutionSubscriber {
             return;
         }
 
+        // Don't add on excluded pages
+        if ($this->should_exclude_page()) {
+            return;
+        }
+
         ?>
         <script id="optimizador-pro-delay-js-loader">
         (function() {
             'use strict';
-            
+
             var delayedScripts = [];
             var userInteracted = false;
-            
+            var interactionEvents = ['click', 'scroll', 'keydown', 'touchstart', 'mousedown'];
+
             // Collect all delayed scripts
             function collectDelayedScripts() {
-                var scripts = document.querySelectorAll('script[type="optimizador-pro-delayed"]');
-                scripts.forEach(function(script) {
-                    delayedScripts.push(script);
-                });
+                var scripts = document.querySelectorAll('script[type="optimizador-pro-delayed"], script[type="optimizador-pro-delayed-inline"]');
+                delayedScripts = Array.from(scripts);
             }
-            
-            // Execute delayed scripts
+
+            // Execute all delayed scripts
             function executeDelayedScripts() {
-                if (userInteracted) return;
+                if (userInteracted || delayedScripts.length === 0) {
+                    return;
+                }
+
                 userInteracted = true;
-                
+
+                // Remove event listeners
+                interactionEvents.forEach(function(event) {
+                    document.removeEventListener(event, executeDelayedScripts, { passive: true });
+                });
+
+                // Process each delayed script
                 delayedScripts.forEach(function(script) {
-                    // Skip scripts that might be problematic
                     if (!script || !script.parentNode) {
                         return;
                     }
 
-                    var newScript = document.createElement('script');
-
-                    // Copy attributes safely
                     try {
+                        var newScript = document.createElement('script');
+
+                        // Handle external scripts
+                        if (script.hasAttribute('data-src')) {
+                            newScript.src = script.getAttribute('data-src');
+                        }
+
+                        // Handle inline scripts
+                        if (script.type === 'optimizador-pro-delayed-inline') {
+                            try {
+                                // Decode base64 content
+                                var content = atob(script.textContent || script.innerHTML);
+                                newScript.textContent = content;
+                            } catch (e) {
+                                // Fallback to direct content if base64 fails
+                                newScript.textContent = script.textContent || script.innerHTML;
+                            }
+                        }
+
+                        // Copy attributes (except type and data-src)
                         Array.from(script.attributes).forEach(function(attr) {
-                            if (attr.name === 'type') return;
-                            if (attr.name === 'data-src') {
-                                newScript.src = attr.value;
-                            } else {
+                            if (attr.name !== 'type' && attr.name !== 'data-src') {
                                 newScript.setAttribute(attr.name, attr.value);
                             }
                         });
-                    } catch (e) {
-                        // Skip this script if attribute copying fails
-                        return;
-                    }
-                    
-                    // Copy inline content safely
-                    if (script.innerHTML) {
-                        try {
-                            newScript.innerHTML = script.innerHTML;
-                        } catch (e) {
-                            // Fallback: use textContent for problematic content
-                            newScript.textContent = script.textContent || script.innerHTML;
-                        }
-                    }
 
-                    // Replace the delayed script safely
-                    try {
+                        // Replace the script
                         script.parentNode.replaceChild(newScript, script);
+
                     } catch (e) {
-                        // Fallback: insert before and remove original
-                        script.parentNode.insertBefore(newScript, script);
-                        script.parentNode.removeChild(script);
+                        console.warn('OptimizadorPro: Failed to execute delayed script', e);
                     }
                 });
-                
+
                 // Clear the array
                 delayedScripts = [];
             }
-            
-            // Event listeners for user interaction
-            var events = ['click', 'scroll', 'keydown', 'mousemove', 'touchstart'];
-            
-            function addEventListeners() {
-                events.forEach(function(event) {
-                    document.addEventListener(event, executeDelayedScripts, {
-                        once: true,
-                        passive: true
-                    });
-                });
-            }
-            
+
             // Initialize when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                    collectDelayedScripts();
-                    addEventListeners();
-                });
-            } else {
+            function init() {
                 collectDelayedScripts();
-                addEventListeners();
+
+                if (delayedScripts.length === 0) {
+                    return;
+                }
+
+                // Add event listeners for user interaction
+                interactionEvents.forEach(function(event) {
+                    document.addEventListener(event, executeDelayedScripts, { passive: true });
+                });
+
+                // Fallback: execute after 5 seconds regardless of interaction
+                setTimeout(executeDelayedScripts, 5000);
             }
-            
-            // Fallback: execute after 5 seconds regardless
-            setTimeout(executeDelayedScripts, 5000);
+
+            // Start when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
         })();
         </script>
         <?php
