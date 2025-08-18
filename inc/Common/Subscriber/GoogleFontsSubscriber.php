@@ -34,6 +34,8 @@ class GoogleFontsSubscriber {
         }
     }
 
+
+
     /**
      * Start output buffering to process HTML
      */
@@ -42,6 +44,8 @@ class GoogleFontsSubscriber {
         if (!\get_option('optimizador_pro_optimize_google_fonts', false)) {
             return;
         }
+
+
 
         // Don't process admin pages, login, etc.
         if ($this->should_exclude_page()) {
@@ -65,20 +69,27 @@ class GoogleFontsSubscriber {
 
         // Find all Google Fonts links
         $google_fonts = $this->extract_google_fonts($html);
-        
+
         if (empty($google_fonts)) {
             return $html;
         }
 
-        // Combine Google Fonts into a single request
-        $combined_url = $this->combine_google_fonts($google_fonts);
-        
-        if (!empty($combined_url)) {
-            // Remove original Google Fonts links
-            $html = $this->remove_google_fonts($html, $google_fonts);
-            
-            // Add combined Google Fonts link
-            $html = $this->add_combined_google_fonts($html, $combined_url);
+        // Remove original Google Fonts links first
+        $html = $this->remove_google_fonts($html, $google_fonts);
+
+        // Choose optimization method based on settings
+        if ($this->is_async_loading_enabled()) {
+            // Use async loading to prevent render blocking
+            $async_html = $this->convert_to_async_loading($google_fonts);
+            if (!empty($async_html)) {
+                $html = $this->add_async_fonts($html, $async_html);
+            }
+        } else {
+            // Default: combine Google Fonts into a single request
+            $combined_url = $this->combine_google_fonts($google_fonts);
+            if (!empty($combined_url)) {
+                $html = $this->add_combined_google_fonts($html, $combined_url);
+            }
         }
 
         return $html;
@@ -294,6 +305,22 @@ class GoogleFontsSubscriber {
         return $html;
     }
 
+
+
+    /**
+     * Add async fonts HTML
+     *
+     * @param string $html HTML content
+     * @param string $async_html Async loading HTML
+     * @return string Modified HTML
+     */
+    private function add_async_fonts(string $html, string $async_html): string {
+        // Add before closing </head> tag
+        $html = \str_replace('</head>', $async_html . "</head>", $html);
+
+        return $html;
+    }
+
     /**
      * Add preconnect hints for Google Fonts
      */
@@ -360,5 +387,33 @@ class GoogleFontsSubscriber {
         }
 
         return false;
+    }
+
+
+
+    /**
+     * Check if async loading is enabled
+     */
+    private function is_async_loading_enabled(): bool {
+        return \get_option('optimizador_pro_google_fonts_async_loading', false);
+    }
+
+
+
+    /**
+     * Convert Google Fonts links to async loading
+     */
+    private function convert_to_async_loading(array $google_fonts): string {
+        if (empty($google_fonts)) {
+            return '';
+        }
+
+        $async_html = '';
+        foreach ($google_fonts as $font_url) {
+            $async_html .= '<link rel="preload" href="' . esc_url($font_url) . '" as="style" onload="this.rel=\'stylesheet\'">' . "\n";
+            $async_html .= '<noscript><link rel="stylesheet" href="' . esc_url($font_url) . '"></noscript>' . "\n";
+        }
+
+        return $async_html;
     }
 }

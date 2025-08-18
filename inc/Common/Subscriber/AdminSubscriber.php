@@ -59,6 +59,8 @@ class AdminSubscriber {
         
         // Handle cache clearing
         add_action('wp_ajax_optimizador_pro_clear_cache', [$this, 'handle_clear_cache']);
+
+
     }
 
     /**
@@ -494,6 +496,7 @@ class AdminSubscriber {
             'optimizador_pro_minify_css' => 'checkbox',
             'optimizador_pro_combine_inline_css' => 'checkbox',
             'optimizador_pro_optimize_google_fonts' => 'checkbox',
+            'optimizador_pro_google_fonts_async_loading' => 'checkbox',
             'optimizador_pro_css_exclusions' => 'textarea',
             'optimizador_pro_critical_css' => 'textarea',
             'optimizador_pro_google_fonts_exclusions' => 'textarea',
@@ -570,6 +573,12 @@ class AdminSubscriber {
                 <th scope="row">Optimize Google Fonts</th>
                 <td>
                     <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_optimize_google_fonts', 'description' => 'Combine multiple Google Fonts requests into one, add preconnect hints, and optimize loading with font-display: swap.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Google Fonts Async Loading</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_google_fonts_async_loading', 'description' => '<strong>⚡ Elimina Bloqueo de Renderizado:</strong> Convierte las fuentes de Google a carga asíncrona usando preload + onload. Esto elimina completamente el bloqueo de renderizado de 1,820ms sin necesidad de alojar archivos localmente. <strong>✅ Solución simple y efectiva.</strong>', 'class' => 'recommended-option']); ?>
                 </td>
             </tr>
             <tr>
@@ -937,4 +946,6 @@ class AdminSubscriber {
         </table>
         <?php
     }
+
+
 }

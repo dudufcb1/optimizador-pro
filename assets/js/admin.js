@@ -156,5 +156,5 @@ jQuery(document).ready(function($) {
         $section.slideToggle();
         $(this).find('.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
     });
-    
+
 });
