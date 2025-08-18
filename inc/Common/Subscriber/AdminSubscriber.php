@@ -578,7 +578,7 @@ class AdminSubscriber {
             <tr>
                 <th scope="row">Google Fonts Async Loading</th>
                 <td>
-                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_google_fonts_async_loading', 'description' => '<strong>⚡ Elimina Bloqueo de Renderizado:</strong> Convierte las fuentes de Google a carga asíncrona usando preload + onload. Esto elimina completamente el bloqueo de renderizado de 1,820ms sin necesidad de alojar archivos localmente. <strong>✅ Solución simple y efectiva.</strong>', 'class' => 'recommended-option']); ?>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_google_fonts_async_loading', 'description' => '<strong>⚡ Eliminate Render Blocking:</strong> Convert Google Fonts to async loading using preload + onload. This completely eliminates the 1,820ms render blocking without needing to host files locally. <strong>✅ Simple and effective solution.</strong>', 'class' => 'recommended-option']); ?>
                 </td>
             </tr>
             <tr>
@@ -844,102 +844,102 @@ class AdminSubscriber {
      */
     private function render_bloat_settings(): void {
         ?>
-        <p><?php _e('Desactiva elementos innecesarios de WordPress que pueden ralentizar tu sitio. Todas las opciones son seguras y no afectan el SEO.', 'optimizador-pro'); ?></p>
+        <p><?php _e('Disable unnecessary WordPress features that can slow down your site. All options are safe and do not affect SEO.', 'optimizador-pro'); ?></p>
 
         <table class="form-table">
             <tbody>
                 <tr>
                     <th scope="row" colspan="2">
-                        <h3><?php _e('Optimizaciones Seguras (Recomendadas)', 'optimizador-pro'); ?></h3>
-                        <p class="description"><?php _e('Estas optimizaciones son seguras y no afectan la funcionalidad ni el SEO:', 'optimizador-pro'); ?></p>
+                        <h3><?php _e('Safe Optimizations (Recommended)', 'optimizador-pro'); ?></h3>
+                        <p class="description"><?php _e('These optimizations are safe and do not affect functionality or SEO:', 'optimizador-pro'); ?></p>
                     </th>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar Dashicons en frontend', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable Dashicons on frontend', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_dashicons" name="optimizador_pro_disable_dashicons" value="1" <?php checked(1, get_option('optimizador_pro_disable_dashicons', false)); ?>>
-                        <label for="disable_dashicons"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description"><?php _e('Elimina ~20KB de CSS innecesario para usuarios no logueados', 'optimizador-pro'); ?></p>
+                        <label for="disable_dashicons"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description"><?php _e('Removes ~20KB of unnecessary CSS for non-logged users', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar jQuery Migrate', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable jQuery Migrate', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_jquery_migrate" name="optimizador_pro_disable_jquery_migrate" value="1" <?php checked(1, get_option('optimizador_pro_disable_jquery_migrate', false)); ?>>
-                        <label for="disable_jquery_migrate"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description"><?php _e('Elimina script legado solo necesario para temas/plugins muy antiguos', 'optimizador-pro'); ?></p>
+                        <label for="disable_jquery_migrate"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description"><?php _e('Removes legacy script only needed for very old themes/plugins', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar estilos de bloques Gutenberg', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable Gutenberg block styles', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_block_styles" name="optimizador_pro_disable_block_styles" value="1" <?php checked(1, get_option('optimizador_pro_disable_block_styles', false)); ?>>
-                        <label for="disable_block_styles"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description"><?php _e('Solo desactivar si tu tema no usa bloques de Gutenberg en el frontend', 'optimizador-pro'); ?></p>
+                        <label for="disable_block_styles"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description"><?php _e('Only disable if your theme does not use Gutenberg blocks on frontend', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar WooCommerce en páginas no-tienda', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable WooCommerce on non-shop pages', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_woocommerce_bloat" name="optimizador_pro_disable_woocommerce_bloat" value="1" <?php checked(1, get_option('optimizador_pro_disable_woocommerce_bloat', false)); ?>>
-                        <label for="disable_woocommerce_bloat"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description"><?php _e('Elimina ~80KB de CSS/JS de WooCommerce en páginas que no lo necesitan', 'optimizador-pro'); ?></p>
+                        <label for="disable_woocommerce_bloat"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description"><?php _e('Removes ~80KB of WooCommerce CSS/JS on pages that do not need it', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
                     <th scope="row" colspan="2">
-                        <h3><?php _e('Optimizaciones Opcionales (Con Implicaciones)', 'optimizador-pro'); ?></h3>
-                        <p class="description"><?php _e('Estas optimizaciones pueden afectar algunas funcionalidades. Lee las descripciones cuidadosamente:', 'optimizador-pro'); ?></p>
+                        <h3><?php _e('Optional Optimizations (With Implications)', 'optimizador-pro'); ?></h3>
+                        <p class="description"><?php _e('These optimizations may affect some functionalities. Read descriptions carefully:', 'optimizador-pro'); ?></p>
                     </th>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar XML-RPC', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable XML-RPC', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_xmlrpc" name="optimizador_pro_disable_xmlrpc" value="1" <?php checked(1, get_option('optimizador_pro_disable_xmlrpc', false)); ?>>
-                        <label for="disable_xmlrpc"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description" style="color: #d63638;"><?php _e('⚠️ Bloqueará apps móviles de WordPress, Jetpack y algunos servicios externos', 'optimizador-pro'); ?></p>
+                        <label for="disable_xmlrpc"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description" style="color: #d63638;"><?php _e('⚠️ Will block WordPress mobile apps, Jetpack and some external services', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar WordPress Embeds', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable WordPress Embeds', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_embeds" name="optimizador_pro_disable_embeds" value="1" <?php checked(1, get_option('optimizador_pro_disable_embeds', false)); ?>>
-                        <label for="disable_embeds"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description" style="color: #d63638;"><?php _e('⚠️ Otros sitios no podrán incrustar tus posts automáticamente', 'optimizador-pro'); ?></p>
+                        <label for="disable_embeds"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description" style="color: #d63638;"><?php _e('⚠️ Other sites will not be able to embed your posts automatically', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Limpiar &lt;head&gt; de WordPress', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Clean WordPress &lt;head&gt;', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="clean_head" name="optimizador_pro_clean_head" value="1" <?php checked(1, get_option('optimizador_pro_clean_head', false)); ?>>
-                        <label for="clean_head"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description"><?php _e('Elimina generator, RSD link, shortlink y otros elementos innecesarios', 'optimizador-pro'); ?></p>
+                        <label for="clean_head"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description"><?php _e('Removes generator, RSD link, shortlink and other unnecessary elements', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar enlaces REST API en &lt;head&gt;', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable REST API links in &lt;head&gt;', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_rest_api_links" name="optimizador_pro_disable_rest_api_links" value="1" <?php checked(1, get_option('optimizador_pro_disable_rest_api_links', false)); ?>>
-                        <label for="disable_rest_api_links"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description"><?php _e('Solo elimina los enlaces, no desactiva la REST API completamente', 'optimizador-pro'); ?></p>
+                        <label for="disable_rest_api_links"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description"><?php _e('Only removes the links, does not disable REST API completely', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row"><?php _e('Desactivar feeds RSS', 'optimizador-pro'); ?></th>
+                    <th scope="row"><?php _e('Disable RSS feeds', 'optimizador-pro'); ?></th>
                     <td>
                         <input type="checkbox" id="disable_feeds" name="optimizador_pro_disable_feeds" value="1" <?php checked(1, get_option('optimizador_pro_disable_feeds', false)); ?>>
-                        <label for="disable_feeds"><?php _e('Activar', 'optimizador-pro'); ?></label>
-                        <p class="description" style="color: #d63638;"><?php _e('⚠️ Perderás suscriptores RSS y posibles backlinks. No recomendado para blogs', 'optimizador-pro'); ?></p>
+                        <label for="disable_feeds"><?php _e('Enable', 'optimizador-pro'); ?></label>
+                        <p class="description" style="color: #d63638;"><?php _e('⚠️ You will lose RSS subscribers and possible backlinks. Not recommended for blogs', 'optimizador-pro'); ?></p>
                     </td>
                 </tr>
             </tbody>
