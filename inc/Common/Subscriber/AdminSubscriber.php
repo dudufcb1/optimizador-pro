@@ -413,6 +413,9 @@ class AdminSubscriber {
 
         $value = \get_option($option_name, '');
 
+        // FIX: Unslash the value before displaying it to prevent accumulating slashes
+        $value = \wp_unslash($value);
+
         echo '<textarea name="' . esc_attr($option_name) . '" rows="5" cols="50" class="large-text" placeholder="' . esc_attr($placeholder) . '">';
         echo esc_textarea($value);
         echo '</textarea>';

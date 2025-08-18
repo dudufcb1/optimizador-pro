@@ -44,8 +44,10 @@ class CriticalCSSSubscriber {
             return;
         }
 
-        // Remove WordPress slashes that might have been added
-        $critical_css = wp_unslash($critical_css);
+        // FIX: Repeatedly unslash to remove multiple layers of slashes from the database
+        while (strpos($critical_css, '\"') !== false || strpos($critical_css, "\'") !== false) {
+            $critical_css = wp_unslash($critical_css);
+        }
 
         // Clean and minify the CSS
         $critical_css = $this->minify_css($critical_css);
