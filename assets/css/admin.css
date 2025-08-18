@@ -1,0 +1,114 @@
+/**
+ * OptimizadorPro Admin Styles
+ */
+
+/* Tab Navigation */
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.nav-tab {
+    cursor: pointer;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    border-top: none;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Form Styling */
+.form-table th {
+    width: 200px;
+    font-weight: 600;
+}
+
+.form-table td {
+    padding: 15px 10px;
+}
+
+.form-table textarea {
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+}
+
+/* Advanced Options */
+.advanced-option {
+    border: 2px solid #ff6900 !important;
+}
+
+.advanced-option:checked {
+    background-color: #ff6900 !important;
+}
+
+/* Status Indicators */
+.status-enabled {
+    color: #46b450;
+    font-weight: 600;
+}
+
+.status-disabled {
+    color: #dc3232;
+    font-weight: 600;
+}
+
+.status-warning {
+    color: #ffb900;
+    font-weight: 600;
+}
+
+/* Cache Status */
+.cache-status {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+}
+
+/* Buttons */
+.button-clear-cache {
+    background: #dc3232 !important;
+    border-color: #dc3232 !important;
+    color: #fff !important;
+}
+
+.button-clear-cache:hover {
+    background: #a00 !important;
+    border-color: #a00 !important;
+}
+
+/* Descriptions */
+.description {
+    font-style: italic;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .form-table th,
+    .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+    }
+    
+    .form-table th {
+        border-bottom: none;
+        padding-bottom: 5px;
+    }
+}

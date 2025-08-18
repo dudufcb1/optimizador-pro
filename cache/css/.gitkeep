@@ -1,0 +1,2 @@
+# This file ensures the cache/css directory is tracked by git
+# CSS cache files will be generated here during optimization
