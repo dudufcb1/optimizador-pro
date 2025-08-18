@@ -144,6 +144,7 @@ class Plugin {
             'delay_js_execution_subscriber',
             'google_fonts_subscriber',
             'gzip_subscriber',
+            'wordpress_bloat_subscriber',
             // Add more admin subscribers as we build them
         ];
     }
@@ -161,6 +162,7 @@ class Plugin {
             'critical_css_subscriber',
             'delay_js_execution_subscriber',
             'google_fonts_subscriber',
+            'wordpress_bloat_subscriber',
             // Add more frontend subscribers as we build them
         ];
     }

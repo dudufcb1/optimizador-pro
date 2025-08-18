@@ -11,6 +11,7 @@ use OptimizadorPro\Common\Subscriber\DeferJSSubscriber;
 use OptimizadorPro\Common\Subscriber\CriticalCSSSubscriber;
 use OptimizadorPro\Common\Subscriber\DelayJSExecutionSubscriber;
 use OptimizadorPro\Common\Subscriber\GoogleFontsSubscriber;
+use OptimizadorPro\Common\Subscriber\WordPressBloatSubscriber;
 
 /**
  * Optimization Service Provider
@@ -36,6 +37,7 @@ class OptimizationServiceProvider extends AbstractServiceProvider {
         'critical_css_subscriber',
         'delay_js_execution_subscriber',
         'google_fonts_subscriber',
+        'wordpress_bloat_subscriber',
     ];
 
     /**
@@ -86,5 +88,8 @@ class OptimizationServiceProvider extends AbstractServiceProvider {
 
         // Register Google Fonts Subscriber
         $this->getContainer()->add('google_fonts_subscriber', GoogleFontsSubscriber::class);
+
+        // Register WordPress Bloat Subscriber
+        $this->getContainer()->add('wordpress_bloat_subscriber', WordPressBloatSubscriber::class);
     }
 }

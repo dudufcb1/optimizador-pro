@@ -8,6 +8,7 @@ use OptimizadorPro\Common\Subscriber\CriticalCSSSubscriber;
 use OptimizadorPro\Common\Subscriber\DelayJSExecutionSubscriber;
 use OptimizadorPro\Common\Subscriber\GoogleFontsSubscriber;
 use OptimizadorPro\Common\Subscriber\GzipSubscriber;
+use OptimizadorPro\Common\Subscriber\WordPressBloatSubscriber;
 
 /**
  * Admin Service Provider
@@ -30,6 +31,7 @@ class AdminServiceProvider extends AbstractServiceProvider {
         'delay_js_execution_subscriber',
         'google_fonts_subscriber',
         'gzip_subscriber',
+        'wordpress_bloat_subscriber',
     ];
 
     /**
@@ -62,5 +64,8 @@ class AdminServiceProvider extends AbstractServiceProvider {
 
         // Register GZIP subscriber
         $this->getContainer()->add('gzip_subscriber', GzipSubscriber::class);
+
+        // Register WordPress Bloat subscriber
+        $this->getContainer()->add('wordpress_bloat_subscriber', WordPressBloatSubscriber::class);
     }
 }
