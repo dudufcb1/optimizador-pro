@@ -41,9 +41,9 @@ A comprehensive WordPress performance optimization plugin designed to enhance we
 
 For technical support and inquiries:
 
-**Luis Eduardo G. González**  
-Especialista en WordPress y desarrollo de plugins  
-Website: [especialistaenwp.com/especialista-en-wordpress-chat](https://especialistaenwp.com/especialista-en-wordpress-chat)
+**Luis Eduardo G. González**
+Especialista en WordPress y desarrollo de plugins
+Website: [especialistaenwp.com/optimizador-pro](https://especialistaenwp.com/optimizador-pro)
 
 ## License
 

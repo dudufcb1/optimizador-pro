@@ -5,7 +5,7 @@
  * Description: Comprehensive WordPress performance optimization plugin with CSS/JS minification, critical CSS, lazy loading, and advanced caching system.
  * Version: 1.0.0
  * Author: Luis Eduardo G. González
- * Author URI: https://especialistaenwp.com/especialista-en-wordpress-chat
+ * Author URI: https://especialistaenwp.com/optimizador-pro
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: optimizador-pro
