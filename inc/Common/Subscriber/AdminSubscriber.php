@@ -509,6 +509,7 @@ class AdminSubscriber {
             'optimizador_pro_enable_gzip' => 'checkbox',
             'optimizador_pro_optimize_logged_users' => 'checkbox',
             'optimizador_pro_defer_logged_users' => 'checkbox',
+            'optimizador_pro_restore_console' => 'checkbox',
         ];
 
         // Process each option
@@ -752,7 +753,8 @@ class AdminSubscriber {
      * Get cache status
      */
     private function get_cache_status(): string {
-        $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
+        // Use the same cache directory as the optimizers
+        $cache_dir = WP_CONTENT_DIR . '/plugins/optimizador-pro/cache/';
 
         if (!is_dir($cache_dir)) {
             return '<span style="color: #666;">No cache directory found</span>';

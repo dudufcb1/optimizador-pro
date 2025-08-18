@@ -43,57 +43,43 @@ class OptimizationSubscriber {
      * @param JSOptimizer $js_optimizer JS optimizer instance
      */
     public function __construct(CSSOptimizer $css_optimizer, JSOptimizer $js_optimizer) {
-        error_log('OptimizadorPro: OptimizationSubscriber constructor ejecutado');
-
         $this->css_optimizer = $css_optimizer;
         $this->js_optimizer = $js_optimizer;
 
         // Register WordPress hooks
         $this->register_hooks();
-
-        error_log('OptimizadorPro: OptimizationSubscriber hooks registrados');
     }
 
     /**
      * Register WordPress hooks
      */
     private function register_hooks(): void {
-        error_log('OptimizadorPro: Registrando hooks de OptimizationSubscriber');
-
         // Start output buffer early
         add_action('template_redirect', [$this, 'start_buffer'], 2);
 
         // Alternative hook for edge cases
         add_action('wp_head', [$this, 'start_buffer_fallback'], 0);
-
-        error_log('OptimizadorPro: Hooks registrados - template_redirect y wp_head');
     }
 
     /**
      * Start output buffer to capture HTML
      */
     public function start_buffer(): void {
-        error_log('OptimizadorPro: start_buffer llamado');
-
         // Don't optimize in admin, during AJAX, or if already started
         if (is_admin() || wp_doing_ajax() || $this->buffer_started) {
-            error_log('OptimizadorPro: Saltando - admin: ' . (is_admin() ? 'true' : 'false') . ', ajax: ' . (wp_doing_ajax() ? 'true' : 'false') . ', buffer_started: ' . ($this->buffer_started ? 'true' : 'false'));
             return;
         }
 
         // Don't optimize if user is logged in and preview mode is disabled
         if (is_user_logged_in() && !$this->should_optimize_for_logged_users()) {
-            error_log('OptimizadorPro: Usuario logueado y optimización deshabilitada para usuarios logueados');
             return;
         }
 
         // Don't optimize specific pages
         if ($this->should_skip_optimization()) {
-            error_log('OptimizadorPro: Página excluida de optimización');
             return;
         }
 
-        error_log('OptimizadorPro: Iniciando output buffer');
         // Start the buffer
         ob_start([$this, 'process_buffer']);
         $this->buffer_started = true;
@@ -115,21 +101,15 @@ class OptimizationSubscriber {
      * @return string Optimized HTML content
      */
     public function process_buffer(string $html): string {
-        error_log('OptimizadorPro: process_buffer ejecutado, HTML length: ' . strlen($html));
-
         // Skip processing if HTML is too small (likely not a full page)
         if (strlen($html) < 255) {
-            error_log('OptimizadorPro: HTML muy pequeño, saltando');
             return $html;
         }
 
         // Skip if no HTML structure detected
         if (strpos($html, '<html') === false && strpos($html, '<!DOCTYPE') === false) {
-            error_log('OptimizadorPro: No se detectó estructura HTML, saltando');
             return $html;
         }
-
-        error_log('OptimizadorPro: Procesando buffer HTML válido');
 
         try {
             // Apply CSS optimization if enabled

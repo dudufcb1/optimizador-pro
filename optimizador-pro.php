@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: OptimizadorPro
- * Plugin URI: https://example.com/optimizador-pro
- * Description: Plugin de optimización avanzada para WordPress - Minificación, combinación y optimización de assets.
+ * Plugin URI: https://github.com/dudufcb1/optimizador-pro
+ * Description: Comprehensive WordPress performance optimization plugin with CSS/JS minification, critical CSS, lazy loading, and advanced caching system.
  * Version: 1.0.0
- * Author: Eduardo
- * Author URI: https://example.com
+ * Author: Luis Eduardo G. González
+ * Author URI: https://especialistaenwp.com/especialista-en-wordpress-chat
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: optimizador-pro
@@ -49,21 +49,15 @@ use OptimizadorPro\Core\Plugin;
  * Following WP Rocket pattern - load everything on plugins_loaded
  */
 function optimizador_pro_init(): void {
-    error_log('OptimizadorPro: optimizador_pro_init() ejecutado');
-
     // Nothing to do if autosave
     if (defined('DOING_AUTOSAVE')) {
-        error_log('OptimizadorPro: DOING_AUTOSAVE detectado, saltando');
         return;
     }
 
     // Check minimum requirements
     if (!optimizador_pro_check_requirements()) {
-        error_log('OptimizadorPro: Requisitos mínimos no cumplidos');
         return;
     }
-
-    error_log('OptimizadorPro: Inicializando plugin');
 
     // Create and load plugin instance
     $plugin = new OptimizadorPro\Core\Plugin(
@@ -73,8 +67,6 @@ function optimizador_pro_init(): void {
 
     // Load the plugin
     $plugin->load();
-
-    error_log('OptimizadorPro: Plugin cargado completamente');
 }
 add_action('plugins_loaded', 'optimizador_pro_init');
 

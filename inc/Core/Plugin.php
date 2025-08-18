@@ -67,8 +67,6 @@ class Plugin {
      * and let them handle the rest
      */
     public function load(): void {
-        error_log('OptimizadorPro: Plugin load() iniciado');
-
         // Make container available globally through filter (only when WordPress is loaded)
         if (function_exists('add_filter')) {
             add_filter('optimizador_pro_container', [$this, 'get_container']);
@@ -82,8 +80,6 @@ class Plugin {
 
         // Initialize subscribers based on context (admin vs frontend)
         $this->initialize_subscribers();
-
-        error_log('OptimizadorPro: Plugin load() completado');
     }
 
     /**
@@ -129,13 +125,9 @@ class Plugin {
         
         // Initialize all subscribers
         foreach ($subscribers as $subscriber_id) {
-            error_log("OptimizadorPro: Inicializando subscriber: $subscriber_id");
             if ($this->container->has($subscriber_id)) {
                 $subscriber = $this->container->get($subscriber_id);
-                error_log("OptimizadorPro: Subscriber $subscriber_id inicializado correctamente");
                 // Subscribers will auto-register their hooks in their constructors
-            } else {
-                error_log("OptimizadorPro: ERROR - Subscriber $subscriber_id no encontrado en container");
             }
         }
     }

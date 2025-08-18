@@ -46,22 +46,11 @@ class LazyloadOptimizer {
      * @return string Optimized HTML
      */
     public function optimize(string $html): string {
-        error_log("OptimizadorPro LazyLoad: Iniciando optimización LazyLoad");
-        error_log("OptimizadorPro LazyLoad: HTML length: " . strlen($html));
-
-        // Count images before processing
-        $img_count = preg_match_all('/<img[^>]*>/i', $html);
-        error_log("OptimizadorPro LazyLoad: Encontradas $img_count imágenes en el HTML");
-
         // Apply LazyLoad to images
         $html = $this->lazyload_images($html);
 
         // Apply LazyLoad to iframes
         $html = $this->lazyload_iframes($html);
-
-        // Count lazy elements after processing
-        $lazy_count = preg_match_all('/class="[^"]*lazyload[^"]*"/', $html);
-        error_log("OptimizadorPro LazyLoad: Creados $lazy_count elementos lazy");
 
         // Enqueue console restore script if enabled
         $html = $this->enqueue_console_restore_script($html);
@@ -69,7 +58,6 @@ class LazyloadOptimizer {
         // Enqueue LazyLoad script
         $html = $this->enqueue_lazyload_script($html);
 
-        error_log("OptimizadorPro LazyLoad: Optimización completada");
         return $html;
     }
 
@@ -88,24 +76,18 @@ class LazyloadOptimizer {
             $src = $matches[2];
             $after_src = $matches[3];
 
-            // Log para debug
-            error_log("OptimizadorPro LazyLoad: Procesando imagen: " . $src);
-
             // Skip if excluded
             if ($this->is_excluded($src) || $this->is_excluded($matches[0])) {
-                error_log("OptimizadorPro LazyLoad: Imagen excluida: " . $src);
                 return $matches[0];
             }
 
             // Skip if already has data-src (already processed)
             if (strpos($matches[0], 'data-src') !== false) {
-                error_log("OptimizadorPro LazyLoad: Imagen ya procesada: " . $src);
                 return $matches[0];
             }
 
             // Skip if has loading="eager" or similar
             if (preg_match('/loading=["\']eager["\']/', $matches[0])) {
-                error_log("OptimizadorPro LazyLoad: Imagen con loading=eager: " . $src);
                 return $matches[0];
             }
 
@@ -140,11 +122,9 @@ class LazyloadOptimizer {
                 $existing_classes = trim($class_match[1]);
                 $new_classes = $existing_classes ? $existing_classes . ' lazyload' : 'lazyload';
                 $new_img = str_replace($class_match[0], 'class="' . $new_classes . '"', $new_img);
-                error_log('OptimizadorPro LazyLoad: Agregando lazyload a clases existentes: ' . $existing_classes . ' -> ' . $new_classes);
             } else {
                 // Add new class attribute
                 $new_img .= ' class="lazyload"';
-                error_log('OptimizadorPro LazyLoad: Agregando nueva clase lazyload');
             }
 
             // Replace src with data-src and add placeholder with proper dimensions
@@ -166,10 +146,6 @@ class LazyloadOptimizer {
             }
             
             $new_img .= $after_src . '>';
-
-            // Log del resultado final
-            error_log("OptimizadorPro LazyLoad: Imagen transformada de: " . substr($matches[0], 0, 100) . "...");
-            error_log("OptimizadorPro LazyLoad: Imagen transformada a: " . substr($new_img, 0, 100) . "...");
 
             return $new_img;
         }, $html);
@@ -225,85 +201,35 @@ class LazyloadOptimizer {
      * @return string Modified HTML
      */
     private function enqueue_lazyload_script(string $html): string {
-        // Script de LazyLoad con logging detallado para debug
         $script = '
 <script id="optimizador-pro-lazyload-script">
 (function() {
-    console.log("🚀 OptimizadorPro LazyLoad: Script iniciado");
-    console.log("📊 Document readyState:", document.readyState);
+    "use strict";
 
     function initLazyLoad() {
-        console.log("🔍 OptimizadorPro LazyLoad: Buscando elementos lazy...");
-
-        // Primero verificar cuántas imágenes hay en total
-        const allImages = document.querySelectorAll("img");
-        console.log("🖼️ Total de imágenes en la página:", allImages.length);
-
         const lazyElements = document.querySelectorAll(".lazyload");
-        console.log("📋 OptimizadorPro LazyLoad: Encontrados", lazyElements.length, "elementos lazy");
-
-        // Log de las primeras 3 imágenes para debug
-        allImages.forEach((img, index) => {
-            if (index < 3) {
-                console.log("🖼️ Imagen", index + 1, ":", {
-                    src: img.src,
-                    classes: img.className,
-                    hasDataSrc: !!img.dataset.src
-                });
-            }
-        });
-
-        // Log de cada elemento encontrado
-        lazyElements.forEach(function(element, index) {
-            console.log("🖼️ Elemento", index + 1, ":", {
-                tagName: element.tagName,
-                src: element.src,
-                dataSrc: element.dataset.src,
-                classes: element.className,
-                width: element.width,
-                height: element.height
-            });
-        });
 
         if (lazyElements.length === 0) {
-            console.log("⚠️ OptimizadorPro LazyLoad: No se encontraron elementos lazy, saliendo");
             return;
         }
 
         if ("IntersectionObserver" in window) {
-            console.log("✅ OptimizadorPro LazyLoad: IntersectionObserver disponible");
-
             const observer = new IntersectionObserver(function(entries) {
-                console.log("👁️ OptimizadorPro LazyLoad: IntersectionObserver callback ejecutado con", entries.length, "entradas");
-
-                entries.forEach(function(entry, index) {
-                    console.log("🔍 Entrada", index + 1, ":", {
-                        isIntersecting: entry.isIntersecting,
-                        intersectionRatio: entry.intersectionRatio,
-                        target: entry.target.tagName,
-                        dataSrc: entry.target.dataset.src
-                    });
-
+                entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
                         const element = entry.target;
-                        console.log("🎯 OptimizadorPro LazyLoad: Elemento visible, cargando:", element.dataset.src);
 
-                        // Cargar la imagen/elemento
+                        // Load the image/element
                         if (element.dataset.src) {
-                            console.log("📥 Cambiando src de", element.src, "a", element.dataset.src);
                             element.src = element.dataset.src;
                         }
                         if (element.dataset.srcset) {
-                            console.log("📥 Cambiando srcset a", element.dataset.srcset);
                             element.srcset = element.dataset.srcset;
                         }
 
-                        // Limpiar
-                        console.log("🧹 Removiendo clase lazyload y dejando de observar");
+                        // Clean up
                         element.classList.remove("lazyload");
                         observer.unobserve(element);
-
-                        console.log("✅ Elemento procesado completamente");
                     }
                 });
             }, {
@@ -311,18 +237,13 @@ class LazyloadOptimizer {
                 threshold: 0.01
             });
 
-            console.log("👀 OptimizadorPro LazyLoad: Iniciando observación de", lazyElements.length, "elementos");
-            lazyElements.forEach(function(element, index) {
-                console.log("👁️ Observando elemento", index + 1);
+            lazyElements.forEach(function(element) {
                 observer.observe(element);
             });
-            console.log("✅ OptimizadorPro LazyLoad: Todos los elementos están siendo observados");
 
         } else {
-            console.log("⚠️ OptimizadorPro LazyLoad: IntersectionObserver no disponible, usando fallback");
-            // Fallback para navegadores antiguos
-            lazyElements.forEach(function(element, index) {
-                console.log("🔄 Fallback: Procesando elemento", index + 1);
+            // Fallback for older browsers
+            lazyElements.forEach(function(element) {
                 if (element.dataset.src) {
                     element.src = element.dataset.src;
                 }
@@ -330,20 +251,14 @@ class LazyloadOptimizer {
                     element.srcset = element.dataset.srcset;
                 }
                 element.classList.remove("lazyload");
-                console.log("✅ Fallback: Elemento", index + 1, "procesado");
             });
         }
     }
 
-    // Ejecutar cuando el DOM esté listo
+    // Execute when DOM is ready
     if (document.readyState === "loading") {
-        console.log("⏳ OptimizadorPro LazyLoad: DOM cargando, esperando DOMContentLoaded");
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("🎉 OptimizadorPro LazyLoad: DOMContentLoaded disparado");
-            initLazyLoad();
-        });
+        document.addEventListener("DOMContentLoaded", initLazyLoad);
     } else {
-        console.log("✅ OptimizadorPro LazyLoad: DOM ya listo, ejecutando inmediatamente");
         initLazyLoad();
     }
 })();
@@ -445,7 +360,7 @@ class LazyloadOptimizer {
             console.info = window.especialistaWpChatOriginalConsole.info;
             console.debug = window.especialistaWpChatOriginalConsole.debug;
 
-            console.log("🔧 OptimizadorPro: Console restored from especialistaWpChat backup");
+
         } else {
             // Fallback: create basic console functions
             var iframe = document.createElement("iframe");
@@ -460,7 +375,7 @@ class LazyloadOptimizer {
                 console.debug = iframe.contentWindow.console.debug.bind(iframe.contentWindow.console);
 
                 document.body.removeChild(iframe);
-                console.log("🔧 OptimizadorPro: Console restored using iframe fallback");
+
             }
         }
     }
@@ -470,7 +385,7 @@ class LazyloadOptimizer {
 })();
 </script>';
 
-        // Add script before LazyLoad script (high priority)
-        return str_replace('</head>', $script . "\n</head>", $html);
+        // Add script before LazyLoad script but after other plugins have loaded
+        return str_replace('</body>', $script . "\n</body>", $html);
     }
 }

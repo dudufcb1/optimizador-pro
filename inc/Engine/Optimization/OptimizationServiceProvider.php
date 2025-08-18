@@ -9,6 +9,8 @@ use OptimizadorPro\Engine\Optimization\DeferJS\DeferJSOptimizer;
 use OptimizadorPro\Common\Subscriber\OptimizationSubscriber;
 use OptimizadorPro\Common\Subscriber\DeferJSSubscriber;
 use OptimizadorPro\Common\Subscriber\CriticalCSSSubscriber;
+use OptimizadorPro\Common\Subscriber\DelayJSExecutionSubscriber;
+use OptimizadorPro\Common\Subscriber\GoogleFontsSubscriber;
 
 /**
  * Optimization Service Provider
@@ -32,6 +34,8 @@ class OptimizationServiceProvider extends AbstractServiceProvider {
         'optimization_subscriber',
         'defer_js_subscriber',
         'critical_css_subscriber',
+        'delay_js_execution_subscriber',
+        'google_fonts_subscriber',
     ];
 
     /**
@@ -72,5 +76,11 @@ class OptimizationServiceProvider extends AbstractServiceProvider {
 
         // Register Critical CSS Subscriber
         $this->getContainer()->add('critical_css_subscriber', CriticalCSSSubscriber::class);
+
+        // Register Delay JS Execution Subscriber
+        $this->getContainer()->add('delay_js_execution_subscriber', DelayJSExecutionSubscriber::class);
+
+        // Register Google Fonts Subscriber
+        $this->getContainer()->add('google_fonts_subscriber', GoogleFontsSubscriber::class);
     }
 }
