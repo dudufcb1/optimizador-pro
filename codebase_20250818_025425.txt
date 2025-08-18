@@ -1,0 +1,5299 @@
+=== CODEBASE COMPLETO ===
+Fecha: lun 18 ago 2025 02:54:25 CST
+Repositorio: Local
+Rama actual: main
+Total de archivos: 30
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [1/30] RUTA RELATIVA: .gitignore
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: .gitignore
+█ TAMAÑO: 1463 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+# Build directories
+build/
+dist/
+
+# Composer
+vendor/
+composer.lock
+
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+
+# Development files
+node_modules/
+.npm
+.node_repl_history
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Bower dependency directory
+bower_components
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
+
+# Reference files (keep for development)
+wp-rocket/
+
+# Project specific cache
+/cache/css/*
+/cache/js/*
+!/cache/css/.gitkeep
+!/cache/js/.gitkeep
+!/cache/.htaccess
+
+# Debug and test files
+debug-*.php
+test-*.php
+
+# PHPStan
+/phpstan.phar
+/.phpstan/
+
+# Project documentation
+/memo/
+/plan.md
+
+# ZIP files
+*.zip
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [2/30] RUTA RELATIVA: INSTALL.md
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: INSTALL.md
+█ TAMAÑO: 4926 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+# 📦 Instalación de OptimizadorPro
+
+## 🚀 Instalación Rápida
+
+### Opción 1: Desde el ZIP Pre-compilado
+
+1. **Descargar el ZIP**
+   - Usa el archivo `dist/optimizador-pro-v1.0.0.zip` ya compilado
+
+2. **Instalar en WordPress**
+   - Ve a **WordPress Admin → Plugins → Añadir nuevo**
+   - Haz clic en **"Subir plugin"**
+   - Selecciona el archivo ZIP
+   - Haz clic en **"Instalar ahora"**
+   - **Activa el plugin**
+
+3. **Configurar**
+   - Ve a **Ajustes → OptimizadorPro**
+   - Configura las optimizaciones según tus necesidades
+
+### Opción 2: Compilar desde el Código Fuente
+
+1. **Clonar/Descargar el código**
+   ```bash
+   # Si tienes git
+   git clone [repository-url]
+   cd optimizador-pro
+   
+   # O descargar y extraer el ZIP del código fuente
+   ```
+
+2. **Compilar el plugin**
+   ```bash
+   # En Linux/Mac
+   ./build.sh
+   
+   # En Windows (PowerShell)
+   .\build.ps1
+   ```
+
+3. **Instalar el ZIP generado**
+   - Usa el archivo `dist/optimizador-pro-v1.0.0.zip` generado
+   - Sigue los pasos de la Opción 1
+
+## 🔧 Requisitos del Sistema
+
+### WordPress
+- **WordPress:** 5.0 o superior
+- **PHP:** 7.4 o superior
+- **Permisos:** Escritura en `/wp-content/cache/`
+
+### Para Compilación (solo si compilas desde código fuente)
+- **Composer:** Para gestión de dependencias
+- **PHP CLI:** Para verificación de sintaxis
+- **Bash/PowerShell:** Para ejecutar scripts de build
+
+## ⚙️ Configuración Inicial
+
+### 1. Verificar Permisos
+Asegúrate de que WordPress pueda escribir en:
+```
+/wp-content/cache/optimizador-pro/
+```
+
+### 2. Configuración Básica Recomendada
+
+#### CSS Optimization
+- ✅ **Minify & Combine CSS:** Activar
+- **CSS Exclusions:** Dejar vacío inicialmente
+
+#### JavaScript Optimization  
+- ✅ **Minify & Combine JS:** Activar
+- ✅ **Defer JavaScript:** Activar
+- ❌ **Smart jQuery Dequeue:** Desactivar inicialmente (avanzado)
+- **JS Exclusions:** Dejar vacío inicialmente
+
+#### Media Optimization
+- ✅ **Enable LazyLoad:** Activar
+- **LazyLoad Exclusions:** Añadir imágenes del logo/hero si es necesario
+
+#### General Settings
+- **Excluded Pages:** Añadir `/wp-admin`, `/wp-login.php`
+- ❌ **Optimize for Logged Users:** Desactivar para testing
+
+### 3. Testing Inicial
+
+1. **Activar una optimización a la vez**
+2. **Probar el sitio en frontend**
+3. **Verificar que no hay errores JavaScript**
+4. **Comprobar que las imágenes cargan correctamente**
+5. **Usar herramientas como GTmetrix/PageSpeed Insights**
+
+## 🐛 Solución de Problemas
+
+### El plugin no se activa
+- Verificar versión de PHP (mínimo 7.4)
+- Verificar que Composer instaló las dependencias
+- Revisar logs de error de WordPress
+
+### Errores JavaScript después de activar
+- Desactivar "Smart jQuery Dequeue"
+- Añadir scripts problemáticos a "JS Exclusions"
+- Desactivar "Defer JavaScript" temporalmente
+
+### Imágenes no cargan con LazyLoad
+- Añadir clases/IDs problemáticos a "LazyLoad Exclusions"
+- Verificar que no hay conflictos con otros plugins de LazyLoad
+
+### CSS roto después de minificación
+- Añadir archivos problemáticos a "CSS Exclusions"
+- Verificar que no hay @import en CSS externos
+
+### Cache no se genera
+- Verificar permisos de escritura en `/wp-content/cache/`
+- Crear manualmente el directorio si no existe
+- Verificar que no hay plugins de caché conflictivos
+
+## 📊 Verificación de Funcionamiento
+
+### 1. Verificar Cache
+- Ve a **OptimizadorPro → Tools**
+- Verifica que aparecen archivos CSS/JS en el estado del caché
+
+### 2. Inspeccionar HTML
+- Ver código fuente de la página
+- Buscar archivos combinados: `combined-[hash].css` y `combined-[hash].js`
+- Verificar atributos `defer` en scripts
+- Verificar `data-src` en imágenes (LazyLoad)
+
+### 3. Herramientas de Testing
+- **GTmetrix:** Verificar reducción de requests HTTP
+- **PageSpeed Insights:** Mejorar puntuaciones Core Web Vitals
+- **DevTools:** Verificar que no hay errores en consola
+
+## 🔄 Actualización
+
+### Desde ZIP Pre-compilado
+1. Desactivar el plugin actual
+2. Eliminar la carpeta del plugin
+3. Instalar la nueva versión
+4. Reactivar y verificar configuración
+
+### Desde Código Fuente
+1. Actualizar el código
+2. Ejecutar `./build.sh` para generar nuevo ZIP
+3. Seguir proceso de actualización normal
+
+## 📞 Soporte
+
+### Logs de Error
+Revisar logs en:
+- `/wp-content/debug.log` (si WP_DEBUG está activado)
+- Logs del servidor web
+- Consola del navegador (F12)
+
+### Información para Soporte
+Al reportar problemas, incluir:
+- Versión de WordPress
+- Versión de PHP  
+- Lista de plugins activos
+- Tema utilizado
+- Configuración de OptimizadorPro
+- Mensajes de error específicos
+
+## 🎯 Mejores Prácticas
+
+1. **Hacer backup** antes de activar optimizaciones
+2. **Probar en staging** antes de producción
+3. **Activar optimizaciones gradualmente**
+4. **Monitorear métricas** de rendimiento
+5. **Mantener exclusiones** actualizadas
+6. **Limpiar caché** después de cambios importantes
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [3/30] RUTA RELATIVA: README.md
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: README.md
+█ TAMAÑO: 5217 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+# OptimizadorPro
+
+Plugin de optimización avanzada para WordPress que mejora significativamente la velocidad de carga de tu sitio web.
+
+## 🚀 Características
+
+### CSS Optimization
+- **Minificación y Combinación**: Reduce el tamaño y número de archivos CSS
+- **Exclusiones Granulares**: Control total sobre qué archivos optimizar
+- **Cache Inteligente**: Sistema de caché basado en modificación de archivos
+
+### JavaScript Optimization
+- **Minificación y Combinación**: Reduce el tamaño y número de archivos JS
+- **Defer JavaScript**: Previene el bloqueo del renderizado
+- **Smart jQuery Dequeue**: Desencola jQuery de forma inteligente cuando es seguro
+- **Protección de Scripts Críticos**: Protege automáticamente jQuery y scripts del admin
+
+### Media Optimization
+- **LazyLoad Avanzado**: Carga diferida para imágenes e iframes
+- **IntersectionObserver**: Usa APIs modernas del navegador
+- **Fallback Automático**: Soporte para navegadores antiguos
+- **Placeholder SVG**: Evita saltos de layout
+
+### Características Avanzadas
+- **Detección Automática**: Analiza el HTML para detectar dependencias
+- **Exclusiones Inteligentes**: Sistema granular de exclusiones
+- **Configuración por Contexto**: Diferentes configuraciones para usuarios logueados
+- **Panel de Administración**: Interfaz intuitiva con pestañas
+- **Gestión de Caché**: Limpieza automática y manual de caché
+
+## 📋 Requisitos
+
+- WordPress 5.0+
+- PHP 7.4+
+- Permisos de escritura en `/wp-content/cache/`
+
+## 🛠 Instalación
+
+1. Sube el plugin a `/wp-content/plugins/optimizador-pro/`
+2. Ejecuta `composer install` en el directorio del plugin
+3. Activa el plugin desde el panel de WordPress
+4. Ve a **Ajustes > OptimizadorPro** para configurar
+
+## ⚙️ Configuración
+
+### CSS Settings
+- **Minify & Combine CSS**: Activa la optimización de CSS
+- **CSS Exclusions**: Lista de archivos a excluir (uno por línea)
+
+### JavaScript Settings
+- **Minify & Combine JS**: Activa la optimización de JavaScript
+- **Defer JavaScript**: Añade atributo defer a los scripts
+- **Smart jQuery Dequeue**: Permite desencolar jQuery de forma segura
+- **JS Exclusions**: Lista de archivos a excluir de minificación
+- **Defer JS Exclusions**: Lista de archivos a excluir de defer
+
+### Media Settings
+- **Enable LazyLoad**: Activa la carga diferida de medios
+- **LazyLoad Exclusions**: Lista de elementos a excluir
+
+### General Settings
+- **Excluded Pages**: URLs a excluir de todas las optimizaciones
+- **Optimize for Logged Users**: Aplica optimizaciones a usuarios logueados
+
+## 🏗 Arquitectura
+
+OptimizadorPro usa una arquitectura modular basada en:
+
+- **Service Providers**: Registran servicios en el contenedor DI
+- **Optimizers**: Contienen la lógica pura de optimización
+- **Subscribers**: Se conectan a los hooks de WordPress
+- **DI Container**: Gestiona las dependencias usando League Container
+
+### Estructura de Archivos
+
+```
+/optimizador-pro
+├── inc/
+│   ├── Core/                    # Núcleo del plugin
+│   ├── Engine/                  # Motores de optimización
+│   │   ├── Optimization/        # CSS, JS, Defer
+│   │   ├── Media/              # LazyLoad
+│   │   └── Cache/              # Gestión de caché
+│   ├── Admin/                  # Panel de administración
+│   └── Common/                 # Componentes compartidos
+├── assets/                     # CSS y JS del admin
+└── vendor/                     # Dependencias de Composer
+```
+
+## 🔧 Desarrollo
+
+### Dependencias
+- `league/container`: Inyección de dependencias
+- `matthiasmullie/minify`: Minificación de CSS y JS
+
+### Extensión
+El plugin está diseñado para ser fácilmente extensible:
+
+1. Crea un nuevo `Optimizer` con tu lógica
+2. Registra el servicio en un `ServiceProvider`
+3. Crea un `Subscriber` para conectar con WordPress
+4. Añade la configuración al panel de admin
+
+## 📊 Rendimiento
+
+OptimizadorPro puede mejorar significativamente el rendimiento:
+
+- **Reducción de HTTP requests**: Hasta 80% menos peticiones
+- **Reducción de tamaño**: 30-60% menos bytes transferidos
+- **Mejora en Core Web Vitals**: Especialmente LCP y FCP
+- **LazyLoad**: Reduce la carga inicial de la página
+
+## 🛡 Seguridad
+
+- Validación de todas las entradas del usuario
+- Sanitización de opciones
+- Verificación de permisos
+- Protección contra inyección de código
+
+## 🐛 Debugging
+
+Para debuggear problemas:
+
+1. Desactiva las optimizaciones una por una
+2. Revisa los logs de PHP para errores
+3. Usa las exclusiones para aislar problemas
+4. Limpia la caché después de cambios
+
+## 📝 Changelog
+
+### 1.0.0
+- Lanzamiento inicial
+- Optimización de CSS y JS
+- LazyLoad para medios
+- Defer JavaScript
+- Smart jQuery Dequeue
+- Panel de administración completo
+
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Fork el repositorio
+2. Crea una rama para tu feature
+3. Sigue los estándares de código de WordPress
+4. Añade tests si es posible
+5. Envía un pull request
+
+## 📄 Licencia
+
+GPL v2 or later
+
+## 🆘 Soporte
+
+Para soporte técnico:
+- Revisa la documentación
+- Busca en issues existentes
+- Crea un nuevo issue con detalles completos
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [4/30] RUTA RELATIVA: assets/css/admin.css
+█ DIRECTORIO: assets/css
+█ NOMBRE DEL ARCHIVO: admin.css
+█ TAMAÑO: 2117 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+/**
+ * OptimizadorPro Admin Styles
+ */
+
+/* Tab Navigation */
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.nav-tab {
+    cursor: pointer;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    border-top: none;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Form Styling */
+.form-table th {
+    width: 200px;
+    font-weight: 600;
+}
+
+.form-table td {
+    padding: 15px 10px;
+}
+
+.form-table textarea {
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+}
+
+/* Advanced Options */
+.advanced-option {
+    border: 2px solid #ff6900 !important;
+}
+
+.advanced-option:checked {
+    background-color: #ff6900 !important;
+}
+
+/* Experimental Options */
+.experimental-option {
+    border: 2px solid #f44336 !important;
+}
+
+.experimental-option:checked {
+    background-color: #f44336 !important;
+}
+
+/* Option descriptions with warnings */
+.experimental-option + .description strong {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* Status Indicators */
+.status-enabled {
+    color: #46b450;
+    font-weight: 600;
+}
+
+.status-disabled {
+    color: #dc3232;
+    font-weight: 600;
+}
+
+.status-warning {
+    color: #ffb900;
+    font-weight: 600;
+}
+
+/* Cache Status */
+.cache-status {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+}
+
+/* Buttons */
+.button-clear-cache {
+    background: #dc3232 !important;
+    border-color: #dc3232 !important;
+    color: #fff !important;
+}
+
+.button-clear-cache:hover {
+    background: #a00 !important;
+    border-color: #a00 !important;
+}
+
+/* Descriptions */
+.description {
+    font-style: italic;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .form-table th,
+    .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+    }
+    
+    .form-table th {
+        border-bottom: none;
+        padding-bottom: 5px;
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [5/30] RUTA RELATIVA: assets/js/admin.js
+█ DIRECTORIO: assets/js
+█ NOMBRE DEL ARCHIVO: admin.js
+█ TAMAÑO: 5374 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+/**
+ * OptimizadorPro Admin JavaScript
+ */
+
+jQuery(document).ready(function($) {
+    
+    // Tab functionality
+    $('.nav-tab').on('click', function(e) {
+        e.preventDefault();
+        
+        var targetTab = $(this).data('tab');
+        
+        // Update active tab
+        $('.nav-tab').removeClass('nav-tab-active');
+        $(this).addClass('nav-tab-active');
+        
+        // Show target content
+        $('.tab-content').removeClass('active');
+        $('#' + targetTab + '-tab').addClass('active');
+        
+        // Update URL hash
+        window.location.hash = targetTab;
+    });
+    
+    // Handle initial hash
+    if (window.location.hash) {
+        var hash = window.location.hash.substring(1);
+        var $targetTab = $('[data-tab="' + hash + '"]');
+        if ($targetTab.length) {
+            $targetTab.trigger('click');
+        }
+    }
+    
+    // Advanced option warnings
+    $('.advanced-option').on('change', function() {
+        if ($(this).is(':checked')) {
+            var confirmed = confirm(
+                'This is an advanced option that could potentially break your site if not configured properly. ' +
+                'Make sure you understand what this does and test thoroughly. Continue?'
+            );
+            
+            if (!confirmed) {
+                $(this).prop('checked', false);
+            }
+        }
+    });
+    
+    // Cache clear functionality
+    $('#clear-cache-btn').on('click', function(e) {
+        e.preventDefault();
+        
+        var $button = $(this);
+        var originalText = $button.text();
+        
+        $button.text('Clearing...').prop('disabled', true);
+        
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'optimizador_pro_clear_cache',
+                _ajax_nonce: optimizadorProAdmin.nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    $button.text('Cleared!').removeClass('button-secondary').addClass('button-primary');
+                    
+                    // Show success message
+                    $('<div class="notice notice-success is-dismissible"><p>' + response.data.message + '</p></div>')
+                        .insertAfter('.wrap h1');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(function() {
+                        $button.text(originalText).removeClass('button-primary').addClass('button-secondary').prop('disabled', false);
+                    }, 2000);
+                    
+                    // Refresh cache status
+                    refreshCacheStatus();
+                } else {
+                    $button.text('Error').prop('disabled', false);
+                    alert('Error clearing cache. Please try again.');
+                }
+            },
+            error: function() {
+                $button.text('Error').prop('disabled', false);
+                alert('Error clearing cache. Please try again.');
+            }
+        });
+    });
+    
+    // Refresh cache status
+    function refreshCacheStatus() {
+        // This would be implemented if we had a separate endpoint for cache status
+        // For now, we'll just reload the page section
+        setTimeout(function() {
+            location.reload();
+        }, 1000);
+    }
+    
+    // Form validation
+    $('form').on('submit', function(e) {
+        var hasErrors = false;
+        
+        // Validate exclusion fields (basic check for valid patterns)
+        $('textarea[name*="exclusions"]').each(function() {
+            var value = $(this).val().trim();
+            if (value) {
+                var lines = value.split('\n');
+                for (var i = 0; i < lines.length; i++) {
+                    var line = lines[i].trim();
+                    if (line && line.length < 2) {
+                        alert('Exclusion patterns should be at least 2 characters long: "' + line + '"');
+                        hasErrors = true;
+                        $(this).focus();
+                        break;
+                    }
+                }
+            }
+        });
+        
+        if (hasErrors) {
+            e.preventDefault();
+        }
+    });
+    
+    // Auto-save indication
+    var formChanged = false;
+    $('input, textarea, select').on('change', function() {
+        formChanged = true;
+        if (!$('.unsaved-changes').length) {
+            $('<div class="notice notice-warning unsaved-changes"><p>You have unsaved changes.</p></div>')
+                .insertAfter('.wrap h1');
+        }
+    });
+    
+    $('form').on('submit', function() {
+        formChanged = false;
+        $('.unsaved-changes').remove();
+    });
+    
+    // Warn before leaving with unsaved changes
+    $(window).on('beforeunload', function() {
+        if (formChanged) {
+            return 'You have unsaved changes. Are you sure you want to leave?';
+        }
+    });
+    
+    // Tooltips for advanced options
+    $('[data-tooltip]').each(function() {
+        $(this).attr('title', $(this).data('tooltip'));
+    });
+    
+    // Toggle sections
+    $('.section-toggle').on('click', function() {
+        var $section = $(this).next('.section-content');
+        $section.slideToggle();
+        $(this).find('.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
+    });
+    
+});
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [6/30] RUTA RELATIVA: build.ps1
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: build.ps1
+█ TAMAÑO: 4654 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+# OptimizadorPro Build Script for Windows PowerShell
+# Genera un ZIP listo para distribución e instalación
+
+param(
+    [switch]$Clean = $false
+)
+
+# Configuration
+$PluginName = "optimizador-pro"
+$Version = (Get-Content "optimizador-pro.php" | Select-String "Version:" | ForEach-Object { $_.Line -replace ".*Version:\s*", "" -replace "\s.*", "" })
+$BuildDir = "build"
+$DistDir = "dist"
+$ZipName = "$PluginName-v$Version.zip"
+
+Write-Host "🚀 OptimizadorPro Build Script" -ForegroundColor Blue
+Write-Host "================================" -ForegroundColor Blue
+Write-Host "Plugin: " -NoNewline; Write-Host $PluginName -ForegroundColor Green
+Write-Host "Version: " -NoNewline; Write-Host $Version -ForegroundColor Green
+Write-Host "Output: " -NoNewline; Write-Host $ZipName -ForegroundColor Green
+Write-Host ""
+
+# Clean previous builds
+Write-Host "🧹 Cleaning previous builds..." -ForegroundColor Yellow
+if (Test-Path $BuildDir) { Remove-Item -Recurse -Force $BuildDir }
+if (Test-Path $DistDir) { Remove-Item -Recurse -Force $DistDir }
+New-Item -ItemType Directory -Path $BuildDir -Force | Out-Null
+New-Item -ItemType Directory -Path $DistDir -Force | Out-Null
+
+# Copy plugin files to build directory
+Write-Host "📁 Copying plugin files..." -ForegroundColor Yellow
+$DestPath = Join-Path $BuildDir $PluginName
+Copy-Item -Path "." -Destination $DestPath -Recurse -Force
+
+# Enter build directory
+Push-Location (Join-Path $BuildDir $PluginName)
+
+# Install Composer dependencies for production
+Write-Host "📦 Installing Composer dependencies (production)..." -ForegroundColor Yellow
+if (Test-Path "composer.json") {
+    try {
+        & composer install --no-dev --optimize-autoloader --no-interaction
+        Write-Host "✅ Composer dependencies installed" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "❌ Error installing Composer dependencies" -ForegroundColor Red
+        Pop-Location
+        exit 1
+    }
+} else {
+    Write-Host "❌ composer.json not found" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
+
+# Remove development files and directories
+Write-Host "🗑️  Removing development files..." -ForegroundColor Yellow
+
+$DevFiles = @(
+    "build.sh",
+    "build.ps1",
+    "build",
+    "dist",
+    ".git",
+    ".gitignore",
+    ".gitattributes",
+    "composer.lock",
+    "phpunit.xml",
+    "phpcs.xml",
+    ".phpcs.xml.dist",
+    "tests",
+    "node_modules",
+    "package.json",
+    "package-lock.json",
+    "webpack.config.js",
+    "gulpfile.js",
+    ".editorconfig",
+    ".vscode",
+    ".idea",
+    "wp-rocket",
+    "plan.md"
+)
+
+foreach ($file in $DevFiles) {
+    if (Test-Path $file) {
+        Remove-Item -Recurse -Force $file
+        Write-Host "  ✓ Removed: $file" -ForegroundColor Green
+    }
+}
+
+# Remove log files
+Get-ChildItem -Filter "*.log" -Recurse | Remove-Item -Force
+
+# Go back to original directory
+Pop-Location
+
+# Create ZIP file
+Write-Host "📦 Creating ZIP file..." -ForegroundColor Yellow
+$SourcePath = Join-Path $BuildDir $PluginName
+$ZipPath = Join-Path $DistDir $ZipName
+
+try {
+    Compress-Archive -Path $SourcePath -DestinationPath $ZipPath -Force
+    Write-Host "✅ ZIP file created successfully" -ForegroundColor Green
+}
+catch {
+    Write-Host "❌ Error creating ZIP file" -ForegroundColor Red
+    exit 1
+}
+
+# Get file size
+$FileSize = [math]::Round((Get-Item $ZipPath).Length / 1MB, 2)
+
+# Verify ZIP contents
+Write-Host "🔍 Verifying ZIP contents..." -ForegroundColor Yellow
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$zip = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
+$zip.Entries | Select-Object -First 20 | ForEach-Object { Write-Host "  $($_.FullName)" }
+$zip.Dispose()
+
+Write-Host ""
+Write-Host "🎉 Build completed successfully!" -ForegroundColor Green
+Write-Host "================================" -ForegroundColor Green
+Write-Host "File: " -NoNewline; Write-Host $ZipPath -ForegroundColor Blue
+Write-Host "Size: " -NoNewline; Write-Host "$FileSize MB" -ForegroundColor Blue
+Write-Host "Ready for installation in WordPress!"
+Write-Host ""
+
+# Show installation instructions
+Write-Host "📋 Installation Instructions:" -ForegroundColor Blue
+Write-Host "1. Go to WordPress Admin → Plugins → Add New"
+Write-Host "2. Click 'Upload Plugin'"
+Write-Host "3. Choose: " -NoNewline; Write-Host $ZipPath -ForegroundColor Green
+Write-Host "4. Click 'Install Now'"
+Write-Host "5. Activate the plugin"
+Write-Host "6. Go to Settings → OptimizadorPro to configure"
+Write-Host ""
+
+# Cleanup build directory
+Write-Host "🧹 Cleaning up build directory..." -ForegroundColor Yellow
+Remove-Item -Recurse -Force $BuildDir
+
+Write-Host "✨ All done!" -ForegroundColor Green
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [7/30] RUTA RELATIVA: build.sh
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: build.sh
+█ TAMAÑO: 3831 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+#!/bin/bash
+
+# OptimizadorPro Build Script
+# Genera un ZIP listo para distribución e instalación
+
+set -e  # Exit on any error
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Configuration
+PLUGIN_NAME="optimizador-pro"
+VERSION=$(grep "Version:" optimizador-pro.php | sed 's/.*Version: *//' | sed 's/ .*//')
+BUILD_DIR="build"
+DIST_DIR="dist"
+ZIP_NAME="${PLUGIN_NAME}-v${VERSION}.zip"
+
+echo -e "${BLUE}🚀 OptimizadorPro Build Script${NC}"
+echo -e "${BLUE}================================${NC}"
+echo -e "Plugin: ${GREEN}${PLUGIN_NAME}${NC}"
+echo -e "Version: ${GREEN}${VERSION}${NC}"
+echo -e "Output: ${GREEN}${ZIP_NAME}${NC}"
+echo ""
+
+# Clean previous builds
+echo -e "${YELLOW}🧹 Cleaning previous builds...${NC}"
+rm -rf "$BUILD_DIR"
+rm -rf "$DIST_DIR"
+mkdir -p "$BUILD_DIR"
+mkdir -p "$DIST_DIR"
+
+# Copy plugin files to build directory
+echo -e "${YELLOW}📁 Copying plugin files...${NC}"
+rsync -av --exclude="$BUILD_DIR" --exclude="$DIST_DIR" --exclude=".git" . "$BUILD_DIR/$PLUGIN_NAME/"
+
+# Enter build directory
+cd "$BUILD_DIR/$PLUGIN_NAME"
+
+# Install Composer dependencies for production
+echo -e "${YELLOW}📦 Installing Composer dependencies (production)...${NC}"
+if [ -f "composer.json" ]; then
+    composer install --no-dev --optimize-autoloader --no-interaction
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✅ Composer dependencies installed${NC}"
+    else
+        echo -e "${RED}❌ Error installing Composer dependencies${NC}"
+        exit 1
+    fi
+else
+    echo -e "${RED}❌ composer.json not found${NC}"
+    exit 1
+fi
+
+# Remove development files and directories
+echo -e "${YELLOW}🗑️  Removing development files...${NC}"
+
+# Development files to remove
+DEV_FILES=(
+    "build.sh"
+    "build"
+    "dist"
+    ".git"
+    ".gitignore"
+    ".gitattributes"
+    "composer.lock"
+    "phpunit.xml"
+    "phpcs.xml"
+    ".phpcs.xml.dist"
+    "tests"
+    "node_modules"
+    "package.json"
+    "package-lock.json"
+    "webpack.config.js"
+    "gulpfile.js"
+    ".editorconfig"
+    ".vscode"
+    ".idea"
+    "*.log"
+    "wp-rocket"
+    "plan.md"
+)
+
+for file in "${DEV_FILES[@]}"; do
+    if [ -e "$file" ]; then
+        rm -rf "$file"
+        echo -e "  ${GREEN}✓${NC} Removed: $file"
+    fi
+done
+
+# Remove empty directories
+find . -type d -empty -delete 2>/dev/null || true
+
+# Optimize file permissions
+echo -e "${YELLOW}🔒 Setting file permissions...${NC}"
+find . -type f -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
+
+# Go back to original directory
+cd ../..
+
+# Create ZIP file
+echo -e "${YELLOW}📦 Creating ZIP file...${NC}"
+cd "$BUILD_DIR"
+zip -r "../$DIST_DIR/$ZIP_NAME" "$PLUGIN_NAME" -q
+
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✅ ZIP file created successfully${NC}"
+else
+    echo -e "${RED}❌ Error creating ZIP file${NC}"
+    exit 1
+fi
+
+cd ..
+
+# Get file size
+FILE_SIZE=$(du -h "$DIST_DIR/$ZIP_NAME" | cut -f1)
+
+# Verify ZIP contents
+echo -e "${YELLOW}🔍 Verifying ZIP contents...${NC}"
+unzip -l "$DIST_DIR/$ZIP_NAME" | head -20
+
+echo ""
+echo -e "${GREEN}🎉 Build completed successfully!${NC}"
+echo -e "${GREEN}================================${NC}"
+echo -e "File: ${BLUE}$DIST_DIR/$ZIP_NAME${NC}"
+echo -e "Size: ${BLUE}$FILE_SIZE${NC}"
+echo -e "Ready for installation in WordPress!"
+echo ""
+
+# Show installation instructions
+echo -e "${BLUE}📋 Installation Instructions:${NC}"
+echo -e "1. Go to WordPress Admin → Plugins → Add New"
+echo -e "2. Click 'Upload Plugin'"
+echo -e "3. Choose: ${GREEN}$DIST_DIR/$ZIP_NAME${NC}"
+echo -e "4. Click 'Install Now'"
+echo -e "5. Activate the plugin"
+echo -e "6. Go to Settings → OptimizadorPro to configure"
+echo ""
+
+# Cleanup build directory
+echo -e "${YELLOW}🧹 Cleaning up build directory...${NC}"
+rm -rf "$BUILD_DIR"
+
+echo -e "${GREEN}✨ All done!${NC}"
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [8/30] RUTA RELATIVA: cache/.htaccess
+█ DIRECTORIO: cache
+█ NOMBRE DEL ARCHIVO: .htaccess
+█ TAMAÑO: 737 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+# OptimizadorPro Cache Directory
+# Allow access to CSS and JS files
+
+<Files "*.css">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "*.js">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+</IfModule>
+
+# Enable compression if available
+<IfModule mod_deflate.c>
+    <FilesMatch "\.(css|js)$">
+        SetOutputFilter DEFLATE
+    </FilesMatch>
+</IfModule>
+
+# Set cache headers for better performance
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Prevent directory browsing
+Options -Indexes
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [9/30] RUTA RELATIVA: cache/css/.gitkeep
+█ DIRECTORIO: cache/css
+█ NOMBRE DEL ARCHIVO: .gitkeep
+█ TAMAÑO: 123 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+# This file ensures the cache/css directory is tracked by git
+# CSS cache files will be generated here during optimization
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [10/30] RUTA RELATIVA: cache/js/.gitkeep
+█ DIRECTORIO: cache/js
+█ NOMBRE DEL ARCHIVO: .gitkeep
+█ TAMAÑO: 129 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+# This file ensures the cache/js directory is tracked by git
+# JavaScript cache files will be generated here during optimization
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [11/30] RUTA RELATIVA: composer.json
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: composer.json
+█ TAMAÑO: 525 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+{
+    "name": "optimizador-pro/optimizador-pro",
+    "description": "Plugin de optimización avanzada para WordPress",
+    "type": "wordpress-plugin",
+    "require": {
+        "league/container": "^4.0",
+        "matthiasmullie/minify": "^1.3"
+    },
+    "authors": [
+        {
+            "name": "Eduardo",
+            "email": "eduardo@example.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "OptimizadorPro\\": "inc/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [12/30] RUTA RELATIVA: inc/Admin/AdminServiceProvider.php
+█ DIRECTORIO: inc/Admin
+█ NOMBRE DEL ARCHIVO: AdminServiceProvider.php
+█ TAMAÑO: 2001 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Admin;
+
+use League\Container\ServiceProvider\AbstractServiceProvider;
+use OptimizadorPro\Common\Subscriber\AdminSubscriber;
+use OptimizadorPro\Common\Subscriber\CriticalCSSSubscriber;
+use OptimizadorPro\Common\Subscriber\DelayJSExecutionSubscriber;
+use OptimizadorPro\Common\Subscriber\GoogleFontsSubscriber;
+use OptimizadorPro\Common\Subscriber\GzipSubscriber;
+
+/**
+ * Admin Service Provider
+ *
+ * Registers admin-related services:
+ * - Settings page
+ * - Admin UI components
+ * - Settings API integration
+ */
+class AdminServiceProvider extends AbstractServiceProvider {
+
+    /**
+     * Services provided by this provider
+     *
+     * @var array<string>
+     */
+    protected $provides = [
+        'admin_subscriber',
+        'critical_css_subscriber',
+        'delay_js_execution_subscriber',
+        'google_fonts_subscriber',
+        'gzip_subscriber',
+    ];
+
+    /**
+     * Check if service provider provides a specific service
+     *
+     * @param string $id Service identifier
+     * @return bool
+     */
+    public function provides(string $id): bool {
+        return in_array($id, $this->provides);
+    }
+
+    /**
+     * Register services in the container
+     */
+    public function register(): void {
+        // Register admin subscriber
+        $this->getContainer()->add('admin_subscriber', AdminSubscriber::class)
+            ->addArgument('plugin_version')
+            ->addArgument('plugin_url');
+
+        // Register critical CSS subscriber
+        $this->getContainer()->add('critical_css_subscriber', CriticalCSSSubscriber::class);
+
+        // Register delay JS execution subscriber
+        $this->getContainer()->add('delay_js_execution_subscriber', DelayJSExecutionSubscriber::class);
+
+        // Register Google Fonts subscriber
+        $this->getContainer()->add('google_fonts_subscriber', GoogleFontsSubscriber::class);
+
+        // Register GZIP subscriber
+        $this->getContainer()->add('gzip_subscriber', GzipSubscriber::class);
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [13/30] RUTA RELATIVA: inc/Common/Subscriber/AdminSubscriber.php
+█ DIRECTORIO: inc/Common/Subscriber
+█ NOMBRE DEL ARCHIVO: AdminSubscriber.php
+█ TAMAÑO: 31444 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Common\Subscriber;
+
+/**
+ * Admin Subscriber
+ * 
+ * This class connects to WordPress admin hooks and manages the settings page.
+ * It keeps WordPress admin logic separate from business logic.
+ */
+class AdminSubscriber {
+
+    /**
+     * Plugin version
+     *
+     * @var string
+     */
+    private $plugin_version;
+
+    /**
+     * Plugin URL
+     *
+     * @var string
+     */
+    private $plugin_url;
+
+    /**
+     * Constructor
+     *
+     * @param string $plugin_version Plugin version
+     * @param string $plugin_url Plugin URL
+     */
+    public function __construct(string $plugin_version, string $plugin_url) {
+        $this->plugin_version = $plugin_version;
+        $this->plugin_url = $plugin_url;
+        
+        // Register WordPress hooks
+        $this->register_hooks();
+    }
+
+    /**
+     * Register WordPress hooks
+     */
+    private function register_hooks(): void {
+        // Add admin menu
+        add_action('admin_menu', [$this, 'add_admin_menu']);
+        
+        // Register settings
+        add_action('admin_init', [$this, 'register_settings']);
+        
+        // Add settings link to plugins page
+        add_filter('plugin_action_links_' . plugin_basename(OPTIMIZADOR_PRO_PLUGIN_FILE), [$this, 'add_settings_link']);
+        
+        // Enqueue admin assets
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+        
+        // Add admin notices
+        add_action('admin_notices', [$this, 'admin_notices']);
+        
+        // Handle cache clearing
+        add_action('wp_ajax_optimizador_pro_clear_cache', [$this, 'handle_clear_cache']);
+    }
+
+    /**
+     * Add admin menu page
+     */
+    public function add_admin_menu(): void {
+        add_options_page(
+            'OptimizadorPro Settings',
+            'OptimizadorPro',
+            'manage_options',
+            'optimizador-pro',
+            [$this, 'render_settings_page']
+        );
+    }
+
+    /**
+     * Register settings using WordPress Settings API
+     */
+    public function register_settings(): void {
+        // Register setting groups
+        register_setting('optimizador_pro_css', 'optimizador_pro_minify_css');
+        register_setting('optimizador_pro_css', 'optimizador_pro_combine_inline_css');
+        register_setting('optimizador_pro_css', 'optimizador_pro_optimize_google_fonts');
+        register_setting('optimizador_pro_css', 'optimizador_pro_css_exclusions');
+        register_setting('optimizador_pro_css', 'optimizador_pro_critical_css');
+        register_setting('optimizador_pro_css', 'optimizador_pro_google_fonts_exclusions');
+        
+        register_setting('optimizador_pro_js', 'optimizador_pro_minify_js');
+        register_setting('optimizador_pro_js', 'optimizador_pro_js_exclusions');
+        register_setting('optimizador_pro_js', 'optimizador_pro_defer_js');
+        register_setting('optimizador_pro_js', 'optimizador_pro_defer_js_exclusions');
+        register_setting('optimizador_pro_js', 'optimizador_pro_delay_js');
+        register_setting('optimizador_pro_js', 'optimizador_pro_delay_js_exclusions');
+        register_setting('optimizador_pro_js', 'optimizador_pro_dequeue_jquery');
+        
+        register_setting('optimizador_pro_media', 'optimizador_pro_lazyload_enabled');
+        register_setting('optimizador_pro_media', 'optimizador_pro_lazyload_exclusions');
+        register_setting('optimizador_pro_media', 'optimizador_pro_lazyload_excluded_pages');
+        register_setting('optimizador_pro_media', 'optimizador_pro_lazyload_logged_users');
+        
+        register_setting('optimizador_pro_general', 'optimizador_pro_excluded_pages');
+        register_setting('optimizador_pro_general', 'optimizador_pro_optimize_logged_users');
+        register_setting('optimizador_pro_general', 'optimizador_pro_defer_logged_users');
+        register_setting('optimizador_pro_general', 'optimizador_pro_enable_gzip');
+
+        // Add settings sections
+        add_settings_section(
+            'optimizador_pro_css_section',
+            'CSS Optimization',
+            [$this, 'render_css_section_description'],
+            'optimizador_pro_css'
+        );
+
+        add_settings_section(
+            'optimizador_pro_js_section',
+            'JavaScript Optimization',
+            [$this, 'render_js_section_description'],
+            'optimizador_pro_js'
+        );
+
+        add_settings_section(
+            'optimizador_pro_media_section',
+            'Media Optimization',
+            [$this, 'render_media_section_description'],
+            'optimizador_pro_media'
+        );
+
+        add_settings_section(
+            'optimizador_pro_general_section',
+            'General Settings',
+            [$this, 'render_general_section_description'],
+            'optimizador_pro_general'
+        );
+
+        // Add settings fields
+        $this->add_settings_fields();
+    }
+
+    /**
+     * Add all settings fields
+     */
+    private function add_settings_fields(): void {
+        // CSS Settings
+        add_settings_field(
+            'optimizador_pro_minify_css',
+            'Minify & Combine CSS',
+            [$this, 'render_checkbox_field'],
+            'optimizador_pro_css',
+            'optimizador_pro_css_section',
+            [
+                'option_name' => 'optimizador_pro_minify_css',
+                'description' => 'Minify and combine CSS files to reduce HTTP requests and file sizes.'
+            ]
+        );
+
+        add_settings_field(
+            'optimizador_pro_css_exclusions',
+            'CSS Exclusions',
+            [$this, 'render_textarea_field'],
+            'optimizador_pro_css',
+            'optimizador_pro_css_section',
+            [
+                'option_name' => 'optimizador_pro_css_exclusions',
+                'description' => 'Enter CSS files to exclude from optimization (one per line). Use partial matches.',
+                'placeholder' => "admin-bar\nwp-admin\ncustomize-controls"
+            ]
+        );
+
+        // JS Settings
+        add_settings_field(
+            'optimizador_pro_minify_js',
+            'Minify & Combine JS',
+            [$this, 'render_checkbox_field'],
+            'optimizador_pro_js',
+            'optimizador_pro_js_section',
+            [
+                'option_name' => 'optimizador_pro_minify_js',
+                'description' => 'Minify and combine JavaScript files to reduce HTTP requests and file sizes.'
+            ]
+        );
+
+        add_settings_field(
+            'optimizador_pro_defer_js',
+            'Defer JavaScript',
+            [$this, 'render_checkbox_field'],
+            'optimizador_pro_js',
+            'optimizador_pro_js_section',
+            [
+                'option_name' => 'optimizador_pro_defer_js',
+                'description' => 'Add defer attribute to JavaScript files to prevent render blocking.'
+            ]
+        );
+
+        add_settings_field(
+            'optimizador_pro_dequeue_jquery',
+            'Smart jQuery Dequeue',
+            [$this, 'render_checkbox_field'],
+            'optimizador_pro_js',
+            'optimizador_pro_js_section',
+            [
+                'option_name' => 'optimizador_pro_dequeue_jquery',
+                'description' => '<strong>Advanced:</strong> Allow jQuery to be dequeued when safe. Automatically detects jQuery usage.',
+                'class' => 'advanced-option'
+            ]
+        );
+
+        add_settings_field(
+            'optimizador_pro_js_exclusions',
+            'JS Exclusions',
+            [$this, 'render_textarea_field'],
+            'optimizador_pro_js',
+            'optimizador_pro_js_section',
+            [
+                'option_name' => 'optimizador_pro_js_exclusions',
+                'description' => 'Enter JavaScript files to exclude from optimization (one per line).',
+                'placeholder' => "jquery\nadmin-bar\ncustomize-controls"
+            ]
+        );
+
+        add_settings_field(
+            'optimizador_pro_defer_js_exclusions',
+            'Defer JS Exclusions',
+            [$this, 'render_textarea_field'],
+            'optimizador_pro_js',
+            'optimizador_pro_js_section',
+            [
+                'option_name' => 'optimizador_pro_defer_js_exclusions',
+                'description' => 'Enter JavaScript files to exclude from defer (one per line).',
+                'placeholder' => "critical-script\ninline-script"
+            ]
+        );
+
+        // Media Settings
+        add_settings_field(
+            'optimizador_pro_lazyload_enabled',
+            'Enable LazyLoad',
+            [$this, 'render_checkbox_field'],
+            'optimizador_pro_media',
+            'optimizador_pro_media_section',
+            [
+                'option_name' => 'optimizador_pro_lazyload_enabled',
+                'description' => 'Enable lazy loading for images and iframes to improve page load speed.'
+            ]
+        );
+
+        add_settings_field(
+            'optimizador_pro_lazyload_exclusions',
+            'LazyLoad Exclusions',
+            [$this, 'render_textarea_field'],
+            'optimizador_pro_media',
+            'optimizador_pro_media_section',
+            [
+                'option_name' => 'optimizador_pro_lazyload_exclusions',
+                'description' => 'Enter images/iframes to exclude from lazy loading (one per line).',
+                'placeholder' => "logo.png\nhero-image\nno-lazy"
+            ]
+        );
+
+        // General Settings
+        add_settings_field(
+            'optimizador_pro_excluded_pages',
+            'Excluded Pages',
+            [$this, 'render_textarea_field'],
+            'optimizador_pro_general',
+            'optimizador_pro_general_section',
+            [
+                'option_name' => 'optimizador_pro_excluded_pages',
+                'description' => 'Enter URLs or URL patterns to exclude from all optimizations (one per line).',
+                'placeholder' => "/admin\n/wp-login\n/checkout"
+            ]
+        );
+
+        add_settings_field(
+            'optimizador_pro_optimize_logged_users',
+            'Optimize for Logged Users',
+            [$this, 'render_checkbox_field'],
+            'optimizador_pro_general',
+            'optimizador_pro_general_section',
+            [
+                'option_name' => 'optimizador_pro_optimize_logged_users',
+                'description' => 'Apply optimizations for logged-in users (useful for testing).'
+            ]
+        );
+    }
+
+    /**
+     * Render settings page
+     */
+    public function render_settings_page(): void {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        // Handle form submission
+        if (isset($_POST['submit'])) {
+            $this->handle_settings_save();
+        }
+
+        // Handle cache clear
+        if (isset($_POST['clear_cache'])) {
+            $this->clear_cache();
+            add_settings_error('optimizador_pro_messages', 'cache_cleared', 'Cache cleared successfully!', 'updated');
+        }
+
+        ?>
+        <div class="wrap">
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+
+            <?php settings_errors('optimizador_pro_messages'); ?>
+
+            <div class="nav-tab-wrapper">
+                <a href="#css" class="nav-tab nav-tab-active" data-tab="css">CSS</a>
+                <a href="#js" class="nav-tab" data-tab="js">JavaScript</a>
+                <a href="#media" class="nav-tab" data-tab="media">Media</a>
+                <a href="#general" class="nav-tab" data-tab="general">General</a>
+                <a href="#tools" class="nav-tab" data-tab="tools">Tools</a>
+            </div>
+
+            <form action="" method="post">
+                <?php wp_nonce_field('optimizador_pro_settings'); ?>
+                <div id="css-tab" class="tab-content active">
+                    <h2>CSS Optimization</h2>
+                    <?php $this->render_css_settings(); ?>
+                </div>
+
+                <div id="js-tab" class="tab-content">
+                    <h2>JavaScript Optimization</h2>
+                    <?php $this->render_js_settings(); ?>
+                </div>
+
+                <div id="media-tab" class="tab-content">
+                    <h2>Media Optimization</h2>
+                    <?php $this->render_media_settings(); ?>
+                </div>
+
+                <div id="general-tab" class="tab-content">
+                    <h2>General Settings</h2>
+                    <?php $this->render_general_settings(); ?>
+                </div>
+
+                <div id="tools-tab" class="tab-content">
+                    <h2>Tools</h2>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">Clear Cache</th>
+                            <td>
+                                <button type="submit" name="clear_cache" class="button button-secondary">
+                                    Clear All Cache
+                                </button>
+                                <p class="description">Clear all cached CSS and JS files.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Cache Status</th>
+                            <td>
+                                <?php echo $this->get_cache_status(); ?>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <?php submit_button(); ?>
+            </form>
+        </div>
+        <?php
+    }
+
+    /**
+     * Render checkbox field
+     */
+    public function render_checkbox_field(array $args): void {
+        $option_name = $args['option_name'];
+        $description = $args['description'] ?? '';
+        $class = $args['class'] ?? '';
+        $disabled = $args['disabled'] ?? false;
+
+        $value = \get_option($option_name, false);
+
+        echo '<label>';
+        echo '<input type="checkbox" name="' . esc_attr($option_name) . '" value="1" ' . checked(1, $value, false) . ' class="' . esc_attr($class) . '"' . ($disabled ? ' disabled' : '') . ' />';
+        echo ' ' . $description;
+        echo '</label>';
+    }
+
+    /**
+     * Render textarea field
+     */
+    public function render_textarea_field(array $args): void {
+        $option_name = $args['option_name'];
+        $description = $args['description'] ?? '';
+        $placeholder = $args['placeholder'] ?? '';
+
+        $value = \get_option($option_name, '');
+
+        echo '<textarea name="' . esc_attr($option_name) . '" rows="5" cols="50" class="large-text" placeholder="' . esc_attr($placeholder) . '">';
+        echo esc_textarea($value);
+        echo '</textarea>';
+
+        if ($description) {
+            echo '<p class="description">' . $description . '</p>';
+        }
+    }
+
+    /**
+     * Section descriptions
+     */
+    public function render_css_section_description(): void {
+        echo '<p>Configure CSS optimization settings to improve page load speed.</p>';
+    }
+
+    public function render_js_section_description(): void {
+        echo '<p>Configure JavaScript optimization settings. Be careful with advanced options.</p>';
+    }
+
+    public function render_media_section_description(): void {
+        echo '<p>Configure media optimization settings for images and iframes.</p>';
+    }
+
+    public function render_general_section_description(): void {
+        echo '<p>General plugin settings and exclusions.</p>';
+    }
+
+    /**
+     * Add settings link to plugins page
+     */
+    public function add_settings_link(array $links): array {
+        $settings_link = '<a href="' . admin_url('options-general.php?page=optimizador-pro') . '">Settings</a>';
+        array_unshift($links, $settings_link);
+        return $links;
+    }
+
+    /**
+     * Enqueue admin assets
+     */
+    public function enqueue_admin_assets(string $hook): void {
+        if ($hook !== 'settings_page_optimizador-pro') {
+            return;
+        }
+
+        // Enqueue admin CSS and JS
+        wp_enqueue_style(
+            'optimizador-pro-admin',
+            $this->plugin_url . 'assets/css/admin.css',
+            [],
+            $this->plugin_version
+        );
+
+        wp_enqueue_script(
+            'optimizador-pro-admin',
+            $this->plugin_url . 'assets/js/admin.js',
+            ['jquery'],
+            $this->plugin_version,
+            true
+        );
+    }
+
+    /**
+     * Handle settings save
+     */
+    private function handle_settings_save(): void {
+        // Verify nonce for security
+        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'optimizador_pro_settings')) {
+            add_settings_error('optimizador_pro_messages', 'nonce_failed', 'Security check failed!', 'error');
+            return;
+        }
+
+        // Define all our options
+        $options = [
+            // CSS Options
+            'optimizador_pro_minify_css' => 'checkbox',
+            'optimizador_pro_combine_inline_css' => 'checkbox',
+            'optimizador_pro_optimize_google_fonts' => 'checkbox',
+            'optimizador_pro_css_exclusions' => 'textarea',
+            'optimizador_pro_critical_css' => 'textarea',
+            'optimizador_pro_google_fonts_exclusions' => 'textarea',
+
+            // JS Options
+            'optimizador_pro_minify_js' => 'checkbox',
+            'optimizador_pro_defer_js' => 'checkbox',
+            'optimizador_pro_delay_js' => 'checkbox',
+            'optimizador_pro_dequeue_jquery' => 'checkbox',
+            'optimizador_pro_js_exclusions' => 'textarea',
+            'optimizador_pro_defer_js_exclusions' => 'textarea',
+            'optimizador_pro_delay_js_exclusions' => 'textarea',
+
+            // Media Options
+            'optimizador_pro_lazyload_enabled' => 'checkbox',
+            'optimizador_pro_lazyload_exclusions' => 'textarea',
+            'optimizador_pro_lazyload_excluded_pages' => 'textarea',
+            'optimizador_pro_lazyload_logged_users' => 'checkbox',
+
+            // General Options
+            'optimizador_pro_excluded_pages' => 'textarea',
+            'optimizador_pro_enable_gzip' => 'checkbox',
+            'optimizador_pro_optimize_logged_users' => 'checkbox',
+            'optimizador_pro_defer_logged_users' => 'checkbox',
+        ];
+
+        // Process each option
+        foreach ($options as $option_name => $type) {
+            if ($type === 'checkbox') {
+                // Checkboxes: 1 if checked, 0 if not
+                $value = isset($_POST[$option_name]) ? 1 : 0;
+                \update_option($option_name, $value);
+            } elseif ($type === 'textarea') {
+                // Textareas: sanitize and save
+                $value = isset($_POST[$option_name]) ? sanitize_textarea_field($_POST[$option_name]) : '';
+                \update_option($option_name, $value);
+            }
+        }
+
+        add_settings_error('optimizador_pro_messages', 'settings_saved', 'Settings saved successfully!', 'updated');
+    }
+
+    /**
+     * Render CSS settings manually
+     */
+    private function render_css_settings(): void {
+        ?>
+        <table class="form-table">
+            <tr>
+                <th scope="row">Minify & Combine CSS</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_minify_css', 'description' => 'Minify and combine CSS files to reduce HTTP requests and file sizes.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Combine Inline Styles</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_combine_inline_css', 'description' => '<strong>⚠️ Experimental:</strong> Extract CSS from &lt;style&gt; tags in the head and add it to the combined CSS file. This cleans up the HTML but <strong>may affect your design</strong>. Enable and check visually that everything still works correctly.', 'class' => 'experimental-option']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Optimize Google Fonts</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_optimize_google_fonts', 'description' => 'Combine multiple Google Fonts requests into one, add preconnect hints, and optimize loading with font-display: swap.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">CSS Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_css_exclusions', 'description' => 'Enter CSS files to exclude from optimization (one per line). Use partial matches.', 'placeholder' => "admin-bar\nwp-admin\ncustomize-controls"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Critical CSS (Manual)</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_critical_css', 'description' => '<strong>Advanced:</strong> Paste your critical CSS here. This will be inserted inline in the &lt;head&gt; for optimal visual loading. The rest of the CSS will be loaded asynchronously. <br><br><strong>How to generate:</strong> Use tools like <a href="https://www.sitelocity.com/critical-path-css-generator" target="_blank">Critical Path CSS Generator</a> or <a href="https://jonassebastianohlsson.com/criticalpathcssgenerator/" target="_blank">Critical CSS Generator</a>.', 'placeholder' => "/* Paste your critical CSS here */\nbody { margin: 0; }\n.header { background: #fff; }\n/* Only include CSS for above-the-fold content */"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Google Fonts Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_google_fonts_exclusions', 'description' => 'Enter Google Fonts URLs or font names to exclude from optimization (one per line).', 'placeholder' => "Open Sans\nRoboto\nfonts.googleapis.com/css?family=Custom"]); ?>
+                </td>
+            </tr>
+        </table>
+        <?php
+    }
+
+    /**
+     * Render JS settings manually
+     */
+    private function render_js_settings(): void {
+        ?>
+        <table class="form-table">
+            <tr>
+                <th scope="row">Minify & Combine JS</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_minify_js', 'description' => 'Minify and combine JavaScript files to reduce HTTP requests and file sizes.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Defer JavaScript</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_defer_js', 'description' => 'Add defer attribute to JavaScript files to prevent render blocking.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Delay JavaScript Execution</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_delay_js', 'description' => '<strong>Advanced:</strong> Delay JavaScript execution until user interaction (click, scroll, keydown). This can significantly improve initial page load speed.', 'class' => 'advanced-option']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Smart jQuery Dequeue</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_dequeue_jquery', 'description' => '<strong>Advanced:</strong> Allow jQuery to be dequeued when safe. Automatically detects jQuery usage.', 'class' => 'advanced-option']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">JS Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_js_exclusions', 'description' => 'Enter JavaScript files to exclude from optimization (one per line).', 'placeholder' => "jquery\nadmin-bar\ncustomize-controls"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Defer JS Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_defer_js_exclusions', 'description' => 'Enter JavaScript files to exclude from defer (one per line).', 'placeholder' => "critical-script\ninline-script"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Delay JS Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_delay_js_exclusions', 'description' => 'Enter JavaScript files to exclude from delay execution (one per line). These scripts will load normally.', 'placeholder' => "critical-script\nanalytics\ngtag"]); ?>
+                </td>
+            </tr>
+        </table>
+        <?php
+    }
+
+    /**
+     * Render Media settings manually
+     */
+    private function render_media_settings(): void {
+        ?>
+        <table class="form-table">
+            <tr>
+                <th scope="row">Enable LazyLoad</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_lazyload_enabled', 'description' => 'Enable lazy loading for images and iframes to improve page load speed.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">LazyLoad Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_lazyload_exclusions', 'description' => 'Enter images to exclude from lazy loading (one per line). Use partial matches.', 'placeholder' => "logo.png\nhero-image\nno-lazy"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">LazyLoad for Logged Users</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_lazyload_logged_users', 'description' => 'Enable lazy loading for logged-in users.']); ?>
+                </td>
+            </tr>
+        </table>
+        <?php
+    }
+
+    /**
+     * Render General settings manually
+     */
+    private function render_general_settings(): void {
+        ?>
+        <table class="form-table">
+            <tr>
+                <th scope="row">Excluded Pages</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_excluded_pages', 'description' => 'Enter URLs or URL patterns to exclude from all optimizations (one per line).', 'placeholder' => "/admin\n/wp-login\n/checkout"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Optimize for Logged Users</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_optimize_logged_users', 'description' => 'Enable optimizations for logged-in users.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Defer JS for Logged Users</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_defer_logged_users', 'description' => 'Enable JavaScript defer for logged-in users.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Enable GZIP Compression</th>
+                <td>
+                    <?php
+                    $gzip_subscriber = new \OptimizadorPro\Common\Subscriber\GzipSubscriber();
+                    $server_type = $gzip_subscriber->get_server_type();
+                    $is_supported = $gzip_subscriber->is_gzip_supported();
+
+                    if ($is_supported) {
+                        $description = 'Add GZIP compression rules to your .htaccess file to reduce file sizes and improve loading speed. <strong>Server:</strong> ' . $server_type;
+                    } else {
+                        $description = '<strong>⚠️ Not supported:</strong> Your server (' . $server_type . ') doesn\'t support automatic GZIP configuration.';
+                        if ($server_type === 'Nginx') {
+                            $description .= '<br><br><strong>Manual Configuration Required:</strong><br><pre style="background:#f1f1f1;padding:10px;font-size:12px;">' . $gzip_subscriber->get_nginx_instructions() . '</pre>';
+                        }
+                    }
+
+                    $this->render_checkbox_field([
+                        'option_name' => 'optimizador_pro_enable_gzip',
+                        'description' => $description,
+                        'disabled' => !$is_supported
+                    ]);
+                    ?>
+                </td>
+            </tr>
+        </table>
+        <?php
+    }
+
+    /**
+     * Clear cache
+     */
+    private function clear_cache(): void {
+        $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
+        if (is_dir($cache_dir)) {
+            $this->delete_directory_contents($cache_dir);
+        }
+    }
+
+    /**
+     * Delete directory contents recursively
+     */
+    private function delete_directory_contents(string $dir): void {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $files = glob($dir . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                $this->delete_directory_contents($file);
+                rmdir($file);
+            } else {
+                unlink($file);
+            }
+        }
+    }
+
+    /**
+     * Get cache status
+     */
+    private function get_cache_status(): string {
+        $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
+
+        if (!is_dir($cache_dir)) {
+            return '<span style="color: #666;">No cache directory found</span>';
+        }
+
+        $css_files = glob($cache_dir . 'css/*.css');
+        $js_files = glob($cache_dir . 'js/*.js');
+
+        $css_count = $css_files ? count($css_files) : 0;
+        $js_count = $js_files ? count($js_files) : 0;
+
+        $total_size = 0;
+        foreach (array_merge($css_files ?: [], $js_files ?: []) as $file) {
+            $total_size += filesize($file);
+        }
+
+        $size_formatted = size_format($total_size);
+
+        return sprintf(
+            '<span style="color: #0073aa;">%d CSS files, %d JS files (%s total)</span>',
+            $css_count,
+            $js_count,
+            $size_formatted
+        );
+    }
+
+    /**
+     * Handle AJAX cache clear
+     */
+    public function handle_clear_cache(): void {
+        if (!current_user_can('manage_options')) {
+            wp_die('Unauthorized');
+        }
+
+        check_ajax_referer('optimizador_pro_nonce');
+
+        $this->clear_cache();
+
+        wp_send_json_success(['message' => 'Cache cleared successfully!']);
+    }
+
+    /**
+     * Admin notices
+     */
+    public function admin_notices(): void {
+        // Check if cache directory is writable
+        $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
+        if (!is_writable(dirname($cache_dir))) {
+            echo '<div class="notice notice-error"><p>';
+            echo '<strong>OptimizadorPro:</strong> Cache directory is not writable. ';
+            echo 'Please check permissions for: ' . esc_html($cache_dir);
+            echo '</p></div>';
+        }
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [14/30] RUTA RELATIVA: inc/Common/Subscriber/DeferJSSubscriber.php
+█ DIRECTORIO: inc/Common/Subscriber
+█ NOMBRE DEL ARCHIVO: DeferJSSubscriber.php
+█ TAMAÑO: 5680 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Common\Subscriber;
+
+use OptimizadorPro\Engine\Optimization\DeferJS\DeferJSOptimizer;
+
+/**
+ * Defer JS Subscriber
+ * 
+ * This class connects to WordPress hooks and manages Defer JS functionality.
+ * Uses the script_loader_tag filter for more precise control.
+ */
+class DeferJSSubscriber {
+
+    /**
+     * Defer JS Optimizer instance
+     *
+     * @var DeferJSOptimizer
+     */
+    private $defer_js_optimizer;
+
+    /**
+     * Constructor
+     *
+     * @param DeferJSOptimizer $defer_js_optimizer Defer JS optimizer instance
+     */
+    public function __construct(DeferJSOptimizer $defer_js_optimizer) {
+        $this->defer_js_optimizer = $defer_js_optimizer;
+        
+        // Register WordPress hooks
+        $this->register_hooks();
+    }
+
+    /**
+     * Register WordPress hooks
+     */
+    private function register_hooks(): void {
+        // Use script_loader_tag filter for more precise control
+        add_filter('script_loader_tag', [$this, 'add_defer_attribute'], 10, 3);
+        
+        // Alternative: use output buffer for full HTML processing
+        add_action('template_redirect', [$this, 'start_buffer'], 4);
+    }
+
+    /**
+     * Add defer attribute to individual script tags
+     *
+     * @param string $tag Script tag HTML
+     * @param string $handle Script handle
+     * @param string $src Script source URL
+     * @return string Modified script tag
+     */
+    public function add_defer_attribute(string $tag, string $handle, string $src): string {
+        // Don't process in admin or if defer is disabled
+        if (is_admin() || !$this->is_defer_js_enabled()) {
+            return $tag;
+        }
+
+        // Skip if already has defer or async
+        if (strpos($tag, 'defer') !== false || strpos($tag, 'async') !== false) {
+            return $tag;
+        }
+
+        // Skip if excluded by handle or src
+        if ($this->is_excluded($handle) || $this->is_excluded($src)) {
+            return $tag;
+        }
+
+        // Skip critical scripts
+        if ($this->is_critical_script($handle) || $this->is_critical_script($src)) {
+            return $tag;
+        }
+
+        // Add defer attribute
+        return str_replace('<script ', '<script defer ', $tag);
+    }
+
+    /**
+     * Start output buffer for full HTML processing (fallback)
+     */
+    public function start_buffer(): void {
+        // Don't process in admin, during AJAX
+        if (is_admin() || wp_doing_ajax()) {
+            return;
+        }
+
+        // Don't process if defer is disabled
+        if (!$this->is_defer_js_enabled()) {
+            return;
+        }
+
+        // Don't process if user is logged in and preview mode is disabled
+        if (is_user_logged_in() && !$this->should_process_for_logged_users()) {
+            return;
+        }
+
+        // Don't process specific pages
+        if ($this->should_skip_processing()) {
+            return;
+        }
+
+        // Start the buffer (lower priority than optimization buffer)
+        ob_start([$this, 'process_buffer']);
+    }
+
+    /**
+     * Process the captured HTML buffer (fallback method)
+     *
+     * @param string $html Captured HTML content
+     * @return string Processed HTML content
+     */
+    public function process_buffer(string $html): string {
+        // Skip processing if HTML is too small
+        if (strlen($html) < 255) {
+            return $html;
+        }
+
+        try {
+            // Apply defer optimization
+            $html = $this->defer_js_optimizer->optimize($html);
+
+        } catch (\Exception $e) {
+            // Log error but don't break the site
+            error_log('OptimizadorPro Defer JS error: ' . $e->getMessage());
+        }
+
+        return $html;
+    }
+
+    /**
+     * Check if defer JS is enabled
+     *
+     * @return bool
+     */
+    private function is_defer_js_enabled(): bool {
+        return get_option('optimizador_pro_defer_js', false);
+    }
+
+    /**
+     * Check if script is excluded
+     *
+     * @param string $script Script handle, src, or tag
+     * @return bool
+     */
+    private function is_excluded(string $script): bool {
+        $exclusions = get_option('optimizador_pro_defer_js_exclusions', '');
+        if (empty($exclusions)) {
+            return false;
+        }
+
+        $excluded_list = array_map('trim', explode("\n", $exclusions));
+        
+        foreach ($excluded_list as $excluded) {
+            if (!empty($excluded) && strpos($script, $excluded) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if script is critical
+     *
+     * @param string $script Script handle or src
+     * @return bool
+     */
+    private function is_critical_script(string $script): bool {
+        $critical_scripts = [
+            'jquery',
+            'jquery-core',
+            'jquery-migrate',
+            'wp-admin',
+            'customize-controls',
+            'admin-bar',
+        ];
+        
+        foreach ($critical_scripts as $critical) {
+            if (strpos($script, $critical) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if processing should run for logged-in users
+     *
+     * @return bool
+     */
+    private function should_process_for_logged_users(): bool {
+        return get_option('optimizador_pro_defer_logged_users', false);
+    }
+
+    /**
+     * Check if current page should skip processing
+     *
+     * @return bool
+     */
+    private function should_skip_processing(): bool {
+        // Skip for specific pages
+        if (is_feed() || is_preview() || is_customize_preview()) {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [15/30] RUTA RELATIVA: inc/Common/Subscriber/LazyloadSubscriber.php
+█ DIRECTORIO: inc/Common/Subscriber
+█ NOMBRE DEL ARCHIVO: LazyloadSubscriber.php
+█ TAMAÑO: 4853 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Common\Subscriber;
+
+use OptimizadorPro\Engine\Media\Lazyload\LazyloadOptimizer;
+
+/**
+ * LazyLoad Subscriber
+ * 
+ * This class connects to WordPress hooks and manages LazyLoad functionality.
+ * It uses the same output buffer pattern as OptimizationSubscriber.
+ */
+class LazyloadSubscriber {
+
+    /**
+     * LazyLoad Optimizer instance
+     *
+     * @var LazyloadOptimizer
+     */
+    private $lazyload_optimizer;
+
+    /**
+     * Flag to track if buffer is started
+     *
+     * @var bool
+     */
+    private $buffer_started = false;
+
+    /**
+     * Constructor
+     *
+     * @param LazyloadOptimizer $lazyload_optimizer LazyLoad optimizer instance
+     */
+    public function __construct(LazyloadOptimizer $lazyload_optimizer) {
+        error_log('OptimizadorPro: LazyloadSubscriber constructor ejecutado');
+
+        $this->lazyload_optimizer = $lazyload_optimizer;
+
+        // Register WordPress hooks
+        $this->register_hooks();
+
+        error_log('OptimizadorPro: LazyloadSubscriber hooks registrados');
+    }
+
+    /**
+     * Register WordPress hooks
+     */
+    private function register_hooks(): void {
+        // Start output buffer early
+        add_action('template_redirect', [$this, 'start_buffer'], 3);
+    }
+
+    /**
+     * Start output buffer to capture HTML
+     */
+    public function start_buffer(): void {
+        error_log('OptimizadorPro: LazyloadSubscriber start_buffer llamado');
+
+        // Don't process in admin, during AJAX, or if already started
+        if (is_admin() || wp_doing_ajax() || $this->buffer_started) {
+            error_log('OptimizadorPro: LazyloadSubscriber saltando - admin: ' . (is_admin() ? 'true' : 'false') . ', ajax: ' . (wp_doing_ajax() ? 'true' : 'false') . ', buffer_started: ' . ($this->buffer_started ? 'true' : 'false'));
+            return;
+        }
+
+        // Don't process if LazyLoad is disabled
+        if (!$this->is_lazyload_enabled()) {
+            error_log('OptimizadorPro: LazyloadSubscriber saltando - LazyLoad deshabilitado');
+            return;
+        }
+
+        error_log('OptimizadorPro: LazyloadSubscriber iniciando buffer');
+
+        // Don't process if user is logged in and preview mode is disabled
+        if (is_user_logged_in() && !$this->should_process_for_logged_users()) {
+            return;
+        }
+
+        // Don't process specific pages
+        if ($this->should_skip_processing()) {
+            return;
+        }
+
+        // Start the buffer
+        ob_start([$this, 'process_buffer']);
+        $this->buffer_started = true;
+    }
+
+    /**
+     * Process the captured HTML buffer
+     *
+     * @param string $html Captured HTML content
+     * @return string Processed HTML content
+     */
+    public function process_buffer(string $html): string {
+        // Skip processing if HTML is too small
+        if (strlen($html) < 255) {
+            return $html;
+        }
+
+        // Skip if no HTML structure detected
+        if (strpos($html, '<html') === false && strpos($html, '<!DOCTYPE') === false) {
+            return $html;
+        }
+
+        try {
+            // Apply LazyLoad optimization
+            $html = $this->lazyload_optimizer->optimize($html);
+
+        } catch (\Exception $e) {
+            // Log error but don't break the site
+            error_log('OptimizadorPro LazyLoad error: ' . $e->getMessage());
+        }
+
+        return $html;
+    }
+
+    /**
+     * Check if LazyLoad is enabled
+     *
+     * @return bool
+     */
+    private function is_lazyload_enabled(): bool {
+        return get_option('optimizador_pro_lazyload_enabled', false);
+    }
+
+    /**
+     * Check if processing should run for logged-in users
+     *
+     * @return bool
+     */
+    private function should_process_for_logged_users(): bool {
+        return get_option('optimizador_pro_lazyload_logged_users', false);
+    }
+
+    /**
+     * Check if current page should skip processing
+     *
+     * @return bool
+     */
+    private function should_skip_processing(): bool {
+        // Skip for specific pages
+        if (is_feed() || is_preview() || is_customize_preview()) {
+            return true;
+        }
+
+        // Skip for AMP pages
+        if (function_exists('is_amp_endpoint') && is_amp_endpoint()) {
+            return true;
+        }
+
+        // Skip for specific post types or pages based on settings
+        $excluded_pages = get_option('optimizador_pro_lazyload_excluded_pages', '');
+        if (!empty($excluded_pages)) {
+            $current_url = $_SERVER['REQUEST_URI'] ?? '';
+            $excluded_list = array_map('trim', explode("\n", $excluded_pages));
+            
+            foreach ($excluded_list as $excluded) {
+                if (!empty($excluded) && strpos($current_url, $excluded) !== false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [16/30] RUTA RELATIVA: inc/Common/Subscriber/OptimizationSubscriber.php
+█ DIRECTORIO: inc/Common/Subscriber
+█ NOMBRE DEL ARCHIVO: OptimizationSubscriber.php
+█ TAMAÑO: 6263 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Common\Subscriber;
+
+use OptimizadorPro\Engine\Optimization\CSS\CSSOptimizer;
+use OptimizadorPro\Engine\Optimization\JS\JSOptimizer;
+
+/**
+ * Optimization Subscriber
+ * 
+ * This class connects to WordPress hooks and manages the output buffer
+ * to process HTML and apply optimizations.
+ * 
+ * It keeps WordPress logic separate from business logic.
+ */
+class OptimizationSubscriber {
+
+    /**
+     * CSS Optimizer instance
+     *
+     * @var CSSOptimizer
+     */
+    private $css_optimizer;
+
+    /**
+     * JS Optimizer instance
+     *
+     * @var JSOptimizer
+     */
+    private $js_optimizer;
+
+    /**
+     * Flag to track if buffer is started
+     *
+     * @var bool
+     */
+    private $buffer_started = false;
+
+    /**
+     * Constructor
+     *
+     * @param CSSOptimizer $css_optimizer CSS optimizer instance
+     * @param JSOptimizer $js_optimizer JS optimizer instance
+     */
+    public function __construct(CSSOptimizer $css_optimizer, JSOptimizer $js_optimizer) {
+        error_log('OptimizadorPro: OptimizationSubscriber constructor ejecutado');
+
+        $this->css_optimizer = $css_optimizer;
+        $this->js_optimizer = $js_optimizer;
+
+        // Register WordPress hooks
+        $this->register_hooks();
+
+        error_log('OptimizadorPro: OptimizationSubscriber hooks registrados');
+    }
+
+    /**
+     * Register WordPress hooks
+     */
+    private function register_hooks(): void {
+        error_log('OptimizadorPro: Registrando hooks de OptimizationSubscriber');
+
+        // Start output buffer early
+        add_action('template_redirect', [$this, 'start_buffer'], 2);
+
+        // Alternative hook for edge cases
+        add_action('wp_head', [$this, 'start_buffer_fallback'], 0);
+
+        error_log('OptimizadorPro: Hooks registrados - template_redirect y wp_head');
+    }
+
+    /**
+     * Start output buffer to capture HTML
+     */
+    public function start_buffer(): void {
+        error_log('OptimizadorPro: start_buffer llamado');
+
+        // Don't optimize in admin, during AJAX, or if already started
+        if (is_admin() || wp_doing_ajax() || $this->buffer_started) {
+            error_log('OptimizadorPro: Saltando - admin: ' . (is_admin() ? 'true' : 'false') . ', ajax: ' . (wp_doing_ajax() ? 'true' : 'false') . ', buffer_started: ' . ($this->buffer_started ? 'true' : 'false'));
+            return;
+        }
+
+        // Don't optimize if user is logged in and preview mode is disabled
+        if (is_user_logged_in() && !$this->should_optimize_for_logged_users()) {
+            error_log('OptimizadorPro: Usuario logueado y optimización deshabilitada para usuarios logueados');
+            return;
+        }
+
+        // Don't optimize specific pages
+        if ($this->should_skip_optimization()) {
+            error_log('OptimizadorPro: Página excluida de optimización');
+            return;
+        }
+
+        error_log('OptimizadorPro: Iniciando output buffer');
+        // Start the buffer
+        ob_start([$this, 'process_buffer']);
+        $this->buffer_started = true;
+    }
+
+    /**
+     * Fallback method to start buffer if template_redirect didn't work
+     */
+    public function start_buffer_fallback(): void {
+        if (!$this->buffer_started) {
+            $this->start_buffer();
+        }
+    }
+
+    /**
+     * Process the captured HTML buffer
+     *
+     * @param string $html Captured HTML content
+     * @return string Optimized HTML content
+     */
+    public function process_buffer(string $html): string {
+        error_log('OptimizadorPro: process_buffer ejecutado, HTML length: ' . strlen($html));
+
+        // Skip processing if HTML is too small (likely not a full page)
+        if (strlen($html) < 255) {
+            error_log('OptimizadorPro: HTML muy pequeño, saltando');
+            return $html;
+        }
+
+        // Skip if no HTML structure detected
+        if (strpos($html, '<html') === false && strpos($html, '<!DOCTYPE') === false) {
+            error_log('OptimizadorPro: No se detectó estructura HTML, saltando');
+            return $html;
+        }
+
+        error_log('OptimizadorPro: Procesando buffer HTML válido');
+
+        try {
+            // Apply CSS optimization if enabled
+            if ($this->is_css_optimization_enabled()) {
+                $html = $this->css_optimizer->optimize($html);
+            }
+
+            // Apply JS optimization if enabled
+            if ($this->is_js_optimization_enabled()) {
+                $html = $this->js_optimizer->optimize($html);
+            }
+
+        } catch (\Exception $e) {
+            // Log error but don't break the site
+            error_log('OptimizadorPro optimization error: ' . $e->getMessage());
+        }
+
+        return $html;
+    }
+
+    /**
+     * Check if CSS optimization is enabled
+     *
+     * @return bool
+     */
+    private function is_css_optimization_enabled(): bool {
+        return get_option('optimizador_pro_minify_css', false);
+    }
+
+    /**
+     * Check if JS optimization is enabled
+     *
+     * @return bool
+     */
+    private function is_js_optimization_enabled(): bool {
+        return get_option('optimizador_pro_minify_js', false);
+    }
+
+    /**
+     * Check if optimization should run for logged-in users
+     *
+     * @return bool
+     */
+    private function should_optimize_for_logged_users(): bool {
+        return get_option('optimizador_pro_optimize_logged_users', false);
+    }
+
+    /**
+     * Check if current page should skip optimization
+     *
+     * @return bool
+     */
+    private function should_skip_optimization(): bool {
+        // Skip for specific pages
+        if (is_feed() || is_preview() || is_customize_preview()) {
+            return true;
+        }
+
+        // Skip for specific post types or pages based on settings
+        $excluded_pages = get_option('optimizador_pro_excluded_pages', '');
+        if (!empty($excluded_pages)) {
+            $current_url = $_SERVER['REQUEST_URI'] ?? '';
+            $excluded_list = array_map('trim', explode("\n", $excluded_pages));
+            
+            foreach ($excluded_list as $excluded) {
+                if (!empty($excluded) && strpos($current_url, $excluded) !== false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [17/30] RUTA RELATIVA: inc/Core/DI_Container.php
+█ DIRECTORIO: inc/Core
+█ NOMBRE DEL ARCHIVO: DI_Container.php
+█ TAMAÑO: 2182 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Core;
+
+use League\Container\Container;
+use League\Container\ReflectionContainer;
+
+/**
+ * Dependency Injection Container for OptimizadorPro
+ * 
+ * Wrapper around League Container to provide centralized dependency management
+ */
+class DI_Container {
+
+    /**
+     * Instance of League Container
+     *
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->container = new Container();
+        
+        // Enable auto-wiring for automatic dependency resolution
+        $this->container->delegate(
+            new ReflectionContainer()
+        );
+    }
+
+    /**
+     * Get the underlying League Container instance
+     *
+     * @return Container
+     */
+    public function get_container(): Container {
+        return $this->container;
+    }
+
+    /**
+     * Add a service to the container
+     *
+     * @param string $id Service identifier
+     * @param mixed $concrete Service implementation
+     * @return void
+     */
+    public function add(string $id, $concrete): void {
+        $this->container->add($id, $concrete);
+    }
+
+    /**
+     * Add a shared service to the container (singleton)
+     *
+     * @param string $id Service identifier
+     * @param mixed $concrete Service implementation
+     * @return void
+     */
+    public function add_shared(string $id, $concrete): void {
+        $this->container->addShared($id, $concrete);
+    }
+
+    /**
+     * Get a service from the container
+     *
+     * @param string $id Service identifier
+     * @return mixed
+     */
+    public function get(string $id) {
+        return $this->container->get($id);
+    }
+
+    /**
+     * Check if a service exists in the container
+     *
+     * @param string $id Service identifier
+     * @return bool
+     */
+    public function has(string $id): bool {
+        return $this->container->has($id);
+    }
+
+    /**
+     * Add a service provider to the container
+     *
+     * @param mixed $provider Service provider instance
+     * @return void
+     */
+    public function add_service_provider($provider): void {
+        $this->container->addServiceProvider($provider);
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [18/30] RUTA RELATIVA: inc/Core/Plugin.php
+█ DIRECTORIO: inc/Core
+█ NOMBRE DEL ARCHIVO: Plugin.php
+█ TAMAÑO: 5193 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Core;
+
+use OptimizadorPro\Core\DI_Container;
+use OptimizadorPro\Engine\Optimization\OptimizationServiceProvider;
+use OptimizadorPro\Engine\Media\MediaServiceProvider;
+use OptimizadorPro\Engine\Cache\CacheServiceProvider;
+use OptimizadorPro\Admin\AdminServiceProvider;
+
+/**
+ * Main Plugin Class - The Orchestrator
+ * 
+ * This class is responsible for:
+ * 1. Initializing the DI Container
+ * 2. Loading Service Providers
+ * 3. Starting everything up
+ */
+class Plugin {
+
+    /**
+     * Instance of our DI Container
+     *
+     * @var DI_Container
+     */
+    private $container;
+
+    /**
+     * Plugin version
+     *
+     * @var string
+     */
+    private $version;
+
+    /**
+     * Plugin path
+     *
+     * @var string
+     */
+    private $plugin_path;
+
+    /**
+     * Constructor
+     *
+     * @param string $version Plugin version
+     * @param string $plugin_path Plugin path
+     */
+    public function __construct(string $version, string $plugin_path) {
+        $this->version = $version;
+        $this->plugin_path = $plugin_path;
+        $this->container = new DI_Container();
+    }
+
+    /**
+     * Get the container instance
+     *
+     * @return DI_Container
+     */
+    public function get_container(): DI_Container {
+        return $this->container;
+    }
+
+    /**
+     * Load the plugin into WordPress
+     *
+     * This is where the magic happens - we register all our service providers
+     * and let them handle the rest
+     */
+    public function load(): void {
+        error_log('OptimizadorPro: Plugin load() iniciado');
+
+        // Make container available globally through filter (only when WordPress is loaded)
+        if (function_exists('add_filter')) {
+            add_filter('optimizador_pro_container', [$this, 'get_container']);
+        }
+
+        // Add basic services to container
+        $this->register_basic_services();
+
+        // Register all service providers
+        $this->register_service_providers();
+
+        // Initialize subscribers based on context (admin vs frontend)
+        $this->initialize_subscribers();
+
+        error_log('OptimizadorPro: Plugin load() completado');
+    }
+
+    /**
+     * Register basic services in the container
+     */
+    private function register_basic_services(): void {
+        $this->container->add('plugin_version', $this->version);
+        $this->container->add('plugin_path', $this->plugin_path);
+        $this->container->add('plugin_url', \plugin_dir_url($this->plugin_path . 'optimizador-pro.php'));
+        $this->container->add('cache_dir', $this->plugin_path . 'cache/');
+    }
+
+    /**
+     * Register all service providers
+     */
+    private function register_service_providers(): void {
+        // Core optimization services
+        $this->container->add_service_provider(new OptimizationServiceProvider());
+        
+        // Media optimization services (LazyLoad, etc.)
+        $this->container->add_service_provider(new MediaServiceProvider());
+        
+        // Cache management services
+        $this->container->add_service_provider(new CacheServiceProvider());
+        
+        // Admin panel services (only if in admin)
+        if (function_exists('is_admin') && is_admin()) {
+            $this->container->add_service_provider(new AdminServiceProvider());
+        }
+    }
+
+    /**
+     * Initialize subscribers based on context
+     */
+    private function initialize_subscribers(): void {
+        $subscribers = [];
+        
+        if (function_exists('is_admin') && is_admin()) {
+            $subscribers = $this->get_admin_subscribers();
+        } else {
+            $subscribers = $this->get_frontend_subscribers();
+        }
+        
+        // Initialize all subscribers
+        foreach ($subscribers as $subscriber_id) {
+            error_log("OptimizadorPro: Inicializando subscriber: $subscriber_id");
+            if ($this->container->has($subscriber_id)) {
+                $subscriber = $this->container->get($subscriber_id);
+                error_log("OptimizadorPro: Subscriber $subscriber_id inicializado correctamente");
+                // Subscribers will auto-register their hooks in their constructors
+            } else {
+                error_log("OptimizadorPro: ERROR - Subscriber $subscriber_id no encontrado en container");
+            }
+        }
+    }
+
+    /**
+     * Get admin subscribers
+     *
+     * @return array<string>
+     */
+    private function get_admin_subscribers(): array {
+        return [
+            'admin_subscriber',
+            'critical_css_subscriber',
+            'delay_js_execution_subscriber',
+            'google_fonts_subscriber',
+            'gzip_subscriber',
+            // Add more admin subscribers as we build them
+        ];
+    }
+
+    /**
+     * Get frontend subscribers
+     *
+     * @return array<string>
+     */
+    private function get_frontend_subscribers(): array {
+        return [
+            'optimization_subscriber',
+            'defer_js_subscriber',
+            'media_subscriber',
+            'critical_css_subscriber',
+            'delay_js_execution_subscriber',
+            'google_fonts_subscriber',
+            // Add more frontend subscribers as we build them
+        ];
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [19/30] RUTA RELATIVA: inc/Engine/Cache/CacheServiceProvider.php
+█ DIRECTORIO: inc/Engine/Cache
+█ NOMBRE DEL ARCHIVO: CacheServiceProvider.php
+█ TAMAÑO: 1133 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Engine\Cache;
+
+use League\Container\ServiceProvider\AbstractServiceProvider;
+
+/**
+ * Cache Service Provider
+ * 
+ * Registers cache management services:
+ * - Cache cleanup
+ * - Cache validation
+ * - Future: Advanced caching strategies
+ */
+class CacheServiceProvider extends AbstractServiceProvider {
+
+    /**
+     * Services provided by this provider
+     *
+     * @var array<string>
+     */
+    protected $provides = [
+        'cache_manager',
+    ];
+
+    /**
+     * Check if service provider provides a specific service
+     *
+     * @param string $id Service identifier
+     * @return bool
+     */
+    public function provides(string $id): bool {
+        return in_array($id, $this->provides);
+    }
+
+    /**
+     * Register services in the container
+     */
+    public function register(): void {
+        // Register cache manager
+        $this->getContainer()->add('cache_manager', function() {
+            return new class {
+                public function __construct() {
+                    // Placeholder for cache management functionality
+                }
+            };
+        });
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [20/30] RUTA RELATIVA: inc/Engine/Media/Lazyload/LazyloadOptimizer.php
+█ DIRECTORIO: inc/Engine/Media/Lazyload
+█ NOMBRE DEL ARCHIVO: LazyloadOptimizer.php
+█ TAMAÑO: 13886 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Engine\Media\Lazyload;
+
+/**
+ * LazyLoad Optimizer
+ * 
+ * Pure logic class for LazyLoad optimization:
+ * - Finds images and iframes in HTML
+ * - Replaces src with data-src
+ * - Adds lazyload class
+ * - Handles exclusions
+ */
+class LazyloadOptimizer {
+
+    /**
+     * Plugin URL for serving assets
+     *
+     * @var string
+     */
+    private $plugin_url;
+
+    /**
+     * Elements to exclude from lazyload
+     *
+     * @var array
+     */
+    private $excluded_elements = [];
+
+    /**
+     * Constructor
+     *
+     * @param string $plugin_url Plugin URL
+     */
+    public function __construct(string $plugin_url) {
+        $this->plugin_url = $plugin_url;
+        
+        // Load exclusions from WordPress options
+        $this->load_exclusions();
+    }
+
+    /**
+     * Process HTML and apply LazyLoad
+     *
+     * @param string $html HTML content
+     * @return string Optimized HTML
+     */
+    public function optimize(string $html): string {
+        error_log("OptimizadorPro LazyLoad: Iniciando optimización LazyLoad");
+        error_log("OptimizadorPro LazyLoad: HTML length: " . strlen($html));
+
+        // Count images before processing
+        $img_count = preg_match_all('/<img[^>]*>/i', $html);
+        error_log("OptimizadorPro LazyLoad: Encontradas $img_count imágenes en el HTML");
+
+        // Apply LazyLoad to images
+        $html = $this->lazyload_images($html);
+
+        // Apply LazyLoad to iframes
+        $html = $this->lazyload_iframes($html);
+
+        // Count lazy elements after processing
+        $lazy_count = preg_match_all('/class="[^"]*lazyload[^"]*"/', $html);
+        error_log("OptimizadorPro LazyLoad: Creados $lazy_count elementos lazy");
+
+        // Enqueue LazyLoad script
+        $html = $this->enqueue_lazyload_script($html);
+
+        error_log("OptimizadorPro LazyLoad: Optimización completada");
+        return $html;
+    }
+
+    /**
+     * Apply LazyLoad to images
+     *
+     * @param string $html HTML content
+     * @return string Modified HTML
+     */
+    private function lazyload_images(string $html): string {
+        // Regex to find img tags
+        $pattern = '/<img([^>]*?)src=["\']([^"\']+)["\']([^>]*?)>/i';
+        
+        return preg_replace_callback($pattern, function($matches) {
+            $before_src = $matches[1];
+            $src = $matches[2];
+            $after_src = $matches[3];
+
+            // Log para debug
+            error_log("OptimizadorPro LazyLoad: Procesando imagen: " . $src);
+
+            // Skip if excluded
+            if ($this->is_excluded($src) || $this->is_excluded($matches[0])) {
+                error_log("OptimizadorPro LazyLoad: Imagen excluida: " . $src);
+                return $matches[0];
+            }
+
+            // Skip if already has data-src (already processed)
+            if (strpos($matches[0], 'data-src') !== false) {
+                error_log("OptimizadorPro LazyLoad: Imagen ya procesada: " . $src);
+                return $matches[0];
+            }
+
+            // Skip if has loading="eager" or similar
+            if (preg_match('/loading=["\']eager["\']/', $matches[0])) {
+                error_log("OptimizadorPro LazyLoad: Imagen con loading=eager: " . $src);
+                return $matches[0];
+            }
+
+            // Obtener dimensiones para evitar CLS
+            $width = '';
+            $height = '';
+            if (preg_match('/width=["\'](\d+)["\']/', $matches[0], $width_match)) {
+                $width = $width_match[1];
+            }
+            if (preg_match('/height=["\'](\d+)["\']/', $matches[0], $height_match)) {
+                $height = $height_match[1];
+            }
+
+            // Si no hay dimensiones, intentar obtenerlas del archivo
+            if (empty($width) || empty($height)) {
+                $image_path = $this->url_to_path($src);
+                if ($image_path && file_exists($image_path)) {
+                    $dims = getimagesize($image_path);
+                    if ($dims) {
+                        $width = $dims[0];
+                        $height = $dims[1];
+                    }
+                }
+            }
+
+            // Build new img tag
+            $new_img = '<img' . $before_src;
+
+            // Add lazyload class
+            if (strpos($matches[0], 'class=') !== false) {
+                $new_img = preg_replace('/class=["\']([^"\']*)["\']/', 'class="$1 lazyload"', $new_img);
+            } else {
+                $new_img .= ' class="lazyload"';
+            }
+
+            // Replace src with data-src and add placeholder with proper dimensions
+            $new_img .= ' src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 ' . ($width ?: '1') . ' ' . ($height ?: '1') . '\'%3E%3C/svg%3E"';
+            $new_img .= ' data-src="' . $src . '"';
+
+            // Añadir width y height si no estaban
+            if ($width && !strpos($matches[0], 'width=')) {
+                $new_img .= ' width="' . $width . '"';
+            }
+            if ($height && !strpos($matches[0], 'height=')) {
+                $new_img .= ' height="' . $height . '"';
+            }
+            
+            // Handle srcset if present
+            if (preg_match('/srcset=["\']([^"\']+)["\']/', $matches[0], $srcset_match)) {
+                $new_img .= ' data-srcset="' . $srcset_match[1] . '"';
+                $after_src = str_replace($srcset_match[0], '', $after_src);
+            }
+            
+            $new_img .= $after_src . '>';
+
+            // Log del resultado final
+            error_log("OptimizadorPro LazyLoad: Imagen transformada de: " . substr($matches[0], 0, 100) . "...");
+            error_log("OptimizadorPro LazyLoad: Imagen transformada a: " . substr($new_img, 0, 100) . "...");
+
+            return $new_img;
+        }, $html);
+    }
+
+    /**
+     * Apply LazyLoad to iframes
+     *
+     * @param string $html HTML content
+     * @return string Modified HTML
+     */
+    private function lazyload_iframes(string $html): string {
+        // Regex to find iframe tags
+        $pattern = '/<iframe([^>]*?)src=["\']([^"\']+)["\']([^>]*?)>/i';
+        
+        return preg_replace_callback($pattern, function($matches) {
+            $before_src = $matches[1];
+            $src = $matches[2];
+            $after_src = $matches[3];
+            
+            // Skip if excluded
+            if ($this->is_excluded($src) || $this->is_excluded($matches[0])) {
+                return $matches[0];
+            }
+            
+            // Skip if already has data-src
+            if (strpos($matches[0], 'data-src') !== false) {
+                return $matches[0];
+            }
+            
+            // Build new iframe tag
+            $new_iframe = '<iframe' . $before_src;
+            
+            // Add lazyload class
+            if (strpos($matches[0], 'class=') !== false) {
+                $new_iframe = preg_replace('/class=["\']([^"\']*)["\']/', 'class="$1 lazyload"', $new_iframe);
+            } else {
+                $new_iframe .= ' class="lazyload"';
+            }
+            
+            // Replace src with data-src
+            $new_iframe .= ' data-src="' . $src . '"';
+            $new_iframe .= $after_src . '>';
+            
+            return $new_iframe;
+        }, $html);
+    }
+
+    /**
+     * Enqueue LazyLoad script in footer
+     *
+     * @param string $html HTML content
+     * @return string Modified HTML
+     */
+    private function enqueue_lazyload_script(string $html): string {
+        // Script de LazyLoad con logging detallado para debug
+        $script = '
+<script id="optimizador-pro-lazyload-script">
+(function() {
+    console.log("🚀 OptimizadorPro LazyLoad: Script iniciado");
+    console.log("📊 Document readyState:", document.readyState);
+
+    function initLazyLoad() {
+        console.log("🔍 OptimizadorPro LazyLoad: Buscando elementos lazy...");
+        const lazyElements = document.querySelectorAll(".lazyload");
+        console.log("📋 OptimizadorPro LazyLoad: Encontrados", lazyElements.length, "elementos lazy");
+
+        // Log de cada elemento encontrado
+        lazyElements.forEach(function(element, index) {
+            console.log("🖼️ Elemento", index + 1, ":", {
+                tagName: element.tagName,
+                src: element.src,
+                dataSrc: element.dataset.src,
+                classes: element.className,
+                width: element.width,
+                height: element.height
+            });
+        });
+
+        if (lazyElements.length === 0) {
+            console.log("⚠️ OptimizadorPro LazyLoad: No se encontraron elementos lazy, saliendo");
+            return;
+        }
+
+        if ("IntersectionObserver" in window) {
+            console.log("✅ OptimizadorPro LazyLoad: IntersectionObserver disponible");
+
+            const observer = new IntersectionObserver(function(entries) {
+                console.log("👁️ OptimizadorPro LazyLoad: IntersectionObserver callback ejecutado con", entries.length, "entradas");
+
+                entries.forEach(function(entry, index) {
+                    console.log("🔍 Entrada", index + 1, ":", {
+                        isIntersecting: entry.isIntersecting,
+                        intersectionRatio: entry.intersectionRatio,
+                        target: entry.target.tagName,
+                        dataSrc: entry.target.dataset.src
+                    });
+
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        console.log("🎯 OptimizadorPro LazyLoad: Elemento visible, cargando:", element.dataset.src);
+
+                        // Cargar la imagen/elemento
+                        if (element.dataset.src) {
+                            console.log("📥 Cambiando src de", element.src, "a", element.dataset.src);
+                            element.src = element.dataset.src;
+                        }
+                        if (element.dataset.srcset) {
+                            console.log("📥 Cambiando srcset a", element.dataset.srcset);
+                            element.srcset = element.dataset.srcset;
+                        }
+
+                        // Limpiar
+                        console.log("🧹 Removiendo clase lazyload y dejando de observar");
+                        element.classList.remove("lazyload");
+                        observer.unobserve(element);
+
+                        console.log("✅ Elemento procesado completamente");
+                    }
+                });
+            }, {
+                rootMargin: "50px 0px",
+                threshold: 0.01
+            });
+
+            console.log("👀 OptimizadorPro LazyLoad: Iniciando observación de", lazyElements.length, "elementos");
+            lazyElements.forEach(function(element, index) {
+                console.log("👁️ Observando elemento", index + 1);
+                observer.observe(element);
+            });
+            console.log("✅ OptimizadorPro LazyLoad: Todos los elementos están siendo observados");
+
+        } else {
+            console.log("⚠️ OptimizadorPro LazyLoad: IntersectionObserver no disponible, usando fallback");
+            // Fallback para navegadores antiguos
+            lazyElements.forEach(function(element, index) {
+                console.log("🔄 Fallback: Procesando elemento", index + 1);
+                if (element.dataset.src) {
+                    element.src = element.dataset.src;
+                }
+                if (element.dataset.srcset) {
+                    element.srcset = element.dataset.srcset;
+                }
+                element.classList.remove("lazyload");
+                console.log("✅ Fallback: Elemento", index + 1, "procesado");
+            });
+        }
+    }
+
+    // Ejecutar cuando el DOM esté listo
+    if (document.readyState === "loading") {
+        console.log("⏳ OptimizadorPro LazyLoad: DOM cargando, esperando DOMContentLoaded");
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("🎉 OptimizadorPro LazyLoad: DOMContentLoaded disparado");
+            initLazyLoad();
+        });
+    } else {
+        console.log("✅ OptimizadorPro LazyLoad: DOM ya listo, ejecutando inmediatamente");
+        initLazyLoad();
+    }
+})();
+</script>';
+
+        // Add script before closing body tag
+        return str_replace('</body>', $script . "\n</body>", $html);
+    }
+
+    /**
+     * Check if element is excluded
+     *
+     * @param string $element Element src or full tag
+     * @return bool
+     */
+    private function is_excluded(string $element): bool {
+        foreach ($this->excluded_elements as $excluded) {
+            if (strpos($element, $excluded) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Load exclusions from WordPress options
+     */
+    private function load_exclusions(): void {
+        $exclusions = get_option('optimizador_pro_lazyload_exclusions', '');
+        if (!empty($exclusions)) {
+            $this->excluded_elements = array_map('trim', explode("\n", $exclusions));
+        }
+        
+        // Add default exclusions
+        $default_exclusions = [
+            'data-skip-lazy',
+            'skip-lazy',
+            'no-lazy',
+        ];
+        
+        $this->excluded_elements = array_merge($this->excluded_elements, $default_exclusions);
+    }
+
+    /**
+     * Convert URL to file system path
+     *
+     * @param string $url URL to convert
+     * @return string|false File path or false if not local
+     */
+    private function url_to_path(string $url) {
+        $url = strtok($url, '?');
+        $site_url = \site_url();
+        if (strpos($url, $site_url) === 0) {
+            return ABSPATH . substr($url, strlen($site_url));
+        }
+        if (strpos($url, '/') === 0) {
+            return ABSPATH . ltrim($url, '/');
+        }
+        return false;
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [21/30] RUTA RELATIVA: inc/Engine/Media/MediaServiceProvider.php
+█ DIRECTORIO: inc/Engine/Media
+█ NOMBRE DEL ARCHIVO: MediaServiceProvider.php
+█ TAMAÑO: 1344 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Engine\Media;
+
+use League\Container\ServiceProvider\AbstractServiceProvider;
+use OptimizadorPro\Engine\Media\Lazyload\LazyloadOptimizer;
+use OptimizadorPro\Common\Subscriber\LazyloadSubscriber;
+
+/**
+ * Media Service Provider
+ *
+ * Registers media optimization services:
+ * - LazyLoad for images and iframes
+ * - Future: WebP conversion, image optimization, etc.
+ */
+class MediaServiceProvider extends AbstractServiceProvider {
+
+    /**
+     * Services provided by this provider
+     *
+     * @var array<string>
+     */
+    protected $provides = [
+        'lazyload_optimizer',
+        'media_subscriber',
+    ];
+
+    /**
+     * Check if service provider provides a specific service
+     *
+     * @param string $id Service identifier
+     * @return bool
+     */
+    public function provides(string $id): bool {
+        return in_array($id, $this->provides);
+    }
+
+    /**
+     * Register services in the container
+     */
+    public function register(): void {
+        // Register LazyLoad Optimizer
+        $this->getContainer()->add('lazyload_optimizer', LazyloadOptimizer::class)
+            ->addArgument('plugin_url');
+
+        // Register Media Subscriber (LazyLoad)
+        $this->getContainer()->add('media_subscriber', LazyloadSubscriber::class)
+            ->addArgument('lazyload_optimizer');
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [22/30] RUTA RELATIVA: inc/Engine/Optimization/CSS/CSSOptimizer.php
+█ DIRECTORIO: inc/Engine/Optimization/CSS
+█ NOMBRE DEL ARCHIVO: CSSOptimizer.php
+█ TAMAÑO: 13701 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Engine\Optimization\CSS;
+
+use MatthiasMullie\Minify\CSS as CSSMinifier;
+
+/**
+ * CSS Optimizer
+ * 
+ * Pure logic class for CSS optimization:
+ * - Finds CSS files in HTML
+ * - Reads and minifies CSS content
+ * - Combines multiple files into one
+ * - Handles exclusions
+ * - Manages cache
+ */
+class CSSOptimizer {
+
+    /**
+     * Cache directory path
+     *
+     * @var string
+     */
+    private $cache_dir;
+
+    /**
+     * Plugin URL for serving cached files
+     *
+     * @var string
+     */
+    private $plugin_url;
+
+    /**
+     * CSS files to exclude from optimization
+     *
+     * @var array
+     */
+    private $excluded_files = [];
+
+    /**
+     * Flag to indicate if critical CSS is active for this request
+     *
+     * @var bool
+     */
+    private $is_critical_css_active = false;
+
+    /**
+     * Constructor
+     *
+     * @param string $cache_dir Cache directory path
+     * @param string $plugin_url Plugin URL
+     */
+    public function __construct(string $cache_dir, string $plugin_url) {
+        $this->cache_dir = $cache_dir;
+        $this->plugin_url = $plugin_url;
+
+        // Load exclusions from WordPress options
+        $this->load_exclusions();
+
+        // Ensure cache directory exists
+        $this->ensure_cache_directory();
+    }
+
+    /**
+     * Lazy initialization - load exclusions and ensure cache directory
+     */
+    private function lazy_init(): void {
+        static $initialized = false;
+
+        if (!$initialized) {
+            $this->load_exclusions();
+            $this->ensure_cache_directory();
+            $initialized = true;
+        }
+    }
+
+    /**
+     * Process HTML and optimize CSS files
+     *
+     * @param string $html HTML content
+     * @return string Optimized HTML
+     */
+    public function optimize(string $html): string {
+        // Check if critical CSS is active for this request
+        $this->is_critical_css_active = !empty(\get_option('optimizador_pro_critical_css'));
+
+        // Find all CSS link tags
+        $css_links = $this->extract_css_links($html);
+
+        // Extract inline styles if option is enabled
+        $inline_styles = [];
+        if (\get_option('optimizador_pro_combine_inline_css', false)) {
+            $inline_styles = $this->extract_inline_styles($html);
+        }
+
+        if (empty($css_links) && empty($inline_styles)) {
+            return $html;
+        }
+
+        // Filter out excluded files and external files
+        $optimizable_links = $this->filter_optimizable_links($css_links);
+
+        if (empty($optimizable_links) && empty($inline_styles)) {
+            return $html;
+        }
+
+        // Generate cache key based on files, their modification times, and inline styles
+        $cache_key = $this->generate_cache_key($optimizable_links, $inline_styles);
+        $cached_file = $this->cache_dir . 'css/combined-' . $cache_key . '.css';
+        $cached_url = $this->plugin_url . 'cache/css/combined-' . $cache_key . '.css';
+
+        // Create combined CSS if not cached
+        if (!file_exists($cached_file)) {
+            $this->create_combined_css($optimizable_links, $cached_file, $inline_styles);
+        }
+
+        // Replace original CSS links with combined one
+        $html = $this->replace_css_links($html, $css_links, $cached_url);
+
+        // Remove inline styles if they were combined
+        if (!empty($inline_styles)) {
+            $html = $this->remove_inline_styles($html, $inline_styles);
+        }
+
+        return $html;
+    }
+
+    /**
+     * Extract CSS link tags from HTML
+     *
+     * @param string $html HTML content
+     * @return array Array of CSS link information
+     */
+    private function extract_css_links(string $html): array {
+        $links = [];
+        
+        // Regex to find CSS link tags
+        $pattern = '/<link[^>]*rel=["\']stylesheet["\'][^>]*>/i';
+        
+        if (preg_match_all($pattern, $html, $matches)) {
+            foreach ($matches[0] as $link_tag) {
+                // Extract href attribute
+                if (preg_match('/href=["\']([^"\']+)["\']/', $link_tag, $href_match)) {
+                    $links[] = [
+                        'tag' => $link_tag,
+                        'href' => $href_match[1],
+                    ];
+                }
+            }
+        }
+        
+        return $links;
+    }
+
+    /**
+     * Filter links to only include optimizable ones
+     *
+     * @param array $links CSS links
+     * @return array Filtered links
+     */
+    private function filter_optimizable_links(array $links): array {
+        $optimizable = [];
+        
+        foreach ($links as $link) {
+            $href = $link['href'];
+            
+            // Skip external files
+            if ($this->is_external_url($href)) {
+                continue;
+            }
+            
+            // Skip excluded files
+            if ($this->is_excluded($href)) {
+                continue;
+            }
+            
+            // Convert relative URLs to absolute paths
+            $file_path = $this->url_to_path($href);
+            
+            if ($file_path && file_exists($file_path)) {
+                $link['path'] = $file_path;
+                $optimizable[] = $link;
+            }
+        }
+        
+        return $optimizable;
+    }
+
+    /**
+     * Generate cache key based on files, modification times, and inline styles
+     *
+     * @param array $links CSS links
+     * @param array $inline_styles Inline styles (optional)
+     * @return string Cache key
+     */
+    private function generate_cache_key(array $links, array $inline_styles = []): string {
+        $key_data = [];
+
+        foreach ($links as $link) {
+            $key_data[] = $link['href'] . filemtime($link['path']);
+        }
+
+        // Add inline styles to cache key
+        foreach ($inline_styles as $style) {
+            $key_data[] = 'inline:' . md5($style['content']);
+        }
+
+        return md5(implode('|', $key_data));
+    }
+
+    /**
+     * Create combined and minified CSS file
+     *
+     * @param array $links CSS links
+     * @param string $output_file Output file path
+     * @param array $inline_styles Inline styles to include (optional)
+     */
+    private function create_combined_css(array $links, string $output_file, array $inline_styles = []): void {
+        $minifier = new CSSMinifier();
+
+        // Add CSS files first
+        foreach ($links as $link) {
+            $css_content = file_get_contents($link['path']);
+            if ($css_content !== false) {
+                $minifier->add($css_content);
+            }
+        }
+
+        // Add inline styles at the end to preserve cascade order
+        if (!empty($inline_styles)) {
+            $inline_css = "\n\n/* === Inline styles from <style> tags === */\n";
+            foreach ($inline_styles as $style) {
+                $inline_css .= "\n/* Inline style block */\n" . $style['content'] . "\n";
+            }
+            $minifier->add($inline_css);
+        }
+
+        // Ensure output directory exists
+        $output_dir = dirname($output_file);
+        if (!is_dir($output_dir)) {
+            \wp_mkdir_p($output_dir);
+        }
+
+        // Save minified CSS
+        file_put_contents($output_file, $minifier->minify());
+    }
+
+    /**
+     * Replace original CSS links with combined one
+     *
+     * @param string $html Original HTML
+     * @param array $all_links All CSS links found
+     * @param string $combined_url URL to combined CSS
+     * @return string Modified HTML
+     */
+    private function replace_css_links(string $html, array $all_links, string $combined_url): string {
+        // Remove all optimizable CSS links
+        foreach ($all_links as $link) {
+            if (!$this->is_external_url($link['href']) && !$this->is_excluded($link['href'])) {
+                $html = str_replace($link['tag'], '', $html);
+            }
+        }
+        
+        // Add combined CSS link at the end of head
+        $combined_tag = '';
+        if ($this->is_critical_css_active) {
+            // Si el CSS crítico está activo, cargamos el combinado de forma asíncrona
+            $escaped_url = \esc_url($combined_url);
+            $combined_tag = "<link rel='preload' href='{$escaped_url}' as='style' onload=\"this.rel='stylesheet'\">";
+            $combined_tag .= "<noscript><link rel='stylesheet' href='{$escaped_url}'></noscript>";
+        } else {
+            // Si no, lo cargamos de forma normal (bloqueante)
+            $combined_tag = '<link rel="stylesheet" href="' . \esc_url($combined_url) . '" />';
+        }
+
+        $html = str_replace('</head>', $combined_tag . "\n</head>", $html);
+
+        return $html;
+    }
+
+    /**
+     * Check if URL is external
+     *
+     * @param string $url URL to check
+     * @return bool
+     */
+    private function is_external_url(string $url): bool {
+        $site_url = \site_url();
+        return strpos($url, 'http') === 0 && strpos($url, $site_url) !== 0;
+    }
+
+    /**
+     * Check if file is excluded
+     *
+     * @param string $href File href
+     * @return bool
+     */
+    private function is_excluded(string $href): bool {
+        foreach ($this->excluded_files as $excluded) {
+            if (strpos($href, $excluded) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Convert URL to file path
+     *
+     * @param string $url URL
+     * @return string|false File path or false
+     */
+    private function url_to_path(string $url) {
+        // Remove query parameters
+        $url = strtok($url, '?');
+        
+        // Convert site URL to ABSPATH
+        $site_url = \site_url();
+        if (strpos($url, $site_url) === 0) {
+            return ABSPATH . substr($url, strlen($site_url) + 1);
+        }
+
+        // Handle relative URLs
+        if (strpos($url, '/') === 0) {
+            return ABSPATH . ltrim($url, '/');
+        }
+        
+        return false;
+    }
+
+    /**
+     * Load exclusions from WordPress options
+     */
+    private function load_exclusions(): void {
+        $exclusions = \get_option('optimizador_pro_css_exclusions', '');
+        if (!empty($exclusions)) {
+            $this->excluded_files = array_map('trim', explode("\n", $exclusions));
+        }
+    }
+
+    /**
+     * Ensure cache directory exists
+     */
+    private function ensure_cache_directory(): void {
+        $css_cache_dir = $this->cache_dir . 'css/';
+        if (!is_dir($css_cache_dir)) {
+            \wp_mkdir_p($css_cache_dir);
+        }
+    }
+
+    /**
+     * Extract inline styles from <style> tags in the head
+     *
+     * @param string $html HTML content
+     * @return array Array of inline style information
+     */
+    private function extract_inline_styles(string $html): array {
+        $styles = [];
+
+        // Only extract styles from the <head> section
+        if (preg_match('/<head[^>]*>(.*?)<\/head>/is', $html, $head_match)) {
+            $head_content = $head_match[1];
+
+            // Find all <style> tags in the head
+            $pattern = '/<style[^>]*>(.*?)<\/style>/is';
+
+            if (preg_match_all($pattern, $head_content, $matches, PREG_SET_ORDER)) {
+                foreach ($matches as $match) {
+                    $full_tag = $match[0];
+                    $css_content = $match[1];
+
+                    // Skip empty styles
+                    if (empty(trim($css_content))) {
+                        continue;
+                    }
+
+                    // Skip styles that should be excluded
+                    if ($this->should_exclude_inline_style($full_tag, $css_content)) {
+                        continue;
+                    }
+
+                    $styles[] = [
+                        'tag' => $full_tag,
+                        'content' => $css_content
+                    ];
+                }
+            }
+        }
+
+        return $styles;
+    }
+
+    /**
+     * Check if inline style should be excluded
+     *
+     * @param string $style_tag Full style tag
+     * @param string $css_content CSS content
+     * @return bool
+     */
+    private function should_exclude_inline_style(string $style_tag, string $css_content): bool {
+        // Exclude styles with specific attributes that indicate they're critical
+        $critical_patterns = [
+            'id=["\']wp-custom-css["\']',  // WordPress Customizer CSS
+            'id=["\']customizer-css["\']', // Theme customizer
+            'data-ampdevmode',             // AMP development mode
+            'data-no-optimize',            // Manual exclusion
+        ];
+
+        foreach ($critical_patterns as $pattern) {
+            if (preg_match('/' . $pattern . '/i', $style_tag)) {
+                return true;
+            }
+        }
+
+        // Exclude very small CSS (likely critical)
+        if (strlen(trim($css_content)) < 50) {
+            return true;
+        }
+
+        // Exclude CSS that contains critical selectors
+        $critical_css_patterns = [
+            '@media\s+print',           // Print styles
+            '@keyframes',               // Animations
+            'body\s*{[^}]*display\s*:\s*none', // Hidden body
+        ];
+
+        foreach ($critical_css_patterns as $pattern) {
+            if (preg_match('/' . $pattern . '/i', $css_content)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove inline styles from HTML
+     *
+     * @param string $html HTML content
+     * @param array $inline_styles Array of inline styles to remove
+     * @return string Modified HTML
+     */
+    private function remove_inline_styles(string $html, array $inline_styles): string {
+        foreach ($inline_styles as $style) {
+            $html = str_replace($style['tag'], '', $html);
+        }
+
+        return $html;
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [23/30] RUTA RELATIVA: inc/Engine/Optimization/DeferJS/DeferJSOptimizer.php
+█ DIRECTORIO: inc/Engine/Optimization/DeferJS
+█ NOMBRE DEL ARCHIVO: DeferJSOptimizer.php
+█ TAMAÑO: 3841 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Engine\Optimization\DeferJS;
+
+/**
+ * Defer JS Optimizer
+ * 
+ * Pure logic class for deferring JavaScript execution:
+ * - Adds defer attribute to script tags
+ * - Handles exclusions
+ * - Maintains execution order
+ */
+class DeferJSOptimizer {
+
+    /**
+     * Scripts to exclude from defer
+     *
+     * @var array
+     */
+    private $excluded_scripts = [];
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        // Load exclusions from WordPress options
+        $this->load_exclusions();
+    }
+
+    /**
+     * Process HTML and add defer attributes
+     *
+     * @param string $html HTML content
+     * @return string Optimized HTML
+     */
+    public function optimize(string $html): string {
+        // Find all script tags with src attribute
+        $pattern = '/<script([^>]*?)src=["\']([^"\']+)["\']([^>]*?)>/i';
+        
+        return preg_replace_callback($pattern, function($matches) {
+            $before_src = $matches[1];
+            $src = $matches[2];
+            $after_src = $matches[3];
+            $full_tag = $matches[0];
+            
+            // Skip if already has defer or async
+            if (preg_match('/\b(defer|async)\b/', $full_tag)) {
+                return $full_tag;
+            }
+            
+            // Skip if excluded
+            if ($this->is_excluded($src) || $this->is_excluded($full_tag)) {
+                return $full_tag;
+            }
+            
+            // Skip external scripts (they might break)
+            if ($this->is_external_url($src)) {
+                return $full_tag;
+            }
+            
+            // Skip critical scripts
+            if ($this->is_critical_script($src)) {
+                return $full_tag;
+            }
+            
+            // Add defer attribute
+            return '<script' . $before_src . ' defer src="' . $src . '"' . $after_src . '>';
+            
+        }, $html);
+    }
+
+    /**
+     * Check if URL is external
+     *
+     * @param string $url URL to check
+     * @return bool
+     */
+    private function is_external_url(string $url): bool {
+        $site_url = site_url();
+        return strpos($url, 'http') === 0 && strpos($url, $site_url) !== 0;
+    }
+
+    /**
+     * Check if script is excluded
+     *
+     * @param string $script Script src or full tag
+     * @return bool
+     */
+    private function is_excluded(string $script): bool {
+        foreach ($this->excluded_scripts as $excluded) {
+            if (strpos($script, $excluded) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if script is critical and shouldn't be deferred
+     *
+     * @param string $src Script src
+     * @return bool
+     */
+    private function is_critical_script(string $src): bool {
+        $critical_scripts = [
+            'jquery',
+            'jquery-core',
+            'jquery-migrate',
+            'wp-includes/js/jquery',
+            'wp-admin',
+            'customize-controls',
+            'admin-bar',
+        ];
+        
+        foreach ($critical_scripts as $critical) {
+            if (strpos($src, $critical) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * Load exclusions from WordPress options
+     */
+    private function load_exclusions(): void {
+        $exclusions = get_option('optimizador_pro_defer_js_exclusions', '');
+        if (!empty($exclusions)) {
+            $this->excluded_scripts = array_map('trim', explode("\n", $exclusions));
+        }
+        
+        // Add default exclusions
+        $default_exclusions = [
+            'no-defer',
+            'skip-defer',
+            'data-no-defer',
+        ];
+        
+        $this->excluded_scripts = array_merge($this->excluded_scripts, $default_exclusions);
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [24/30] RUTA RELATIVA: inc/Engine/Optimization/JS/JSOptimizer.php
+█ DIRECTORIO: inc/Engine/Optimization/JS
+█ NOMBRE DEL ARCHIVO: JSOptimizer.php
+█ TAMAÑO: 12759 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Engine\Optimization\JS;
+
+use MatthiasMullie\Minify\JS as JSMinifier;
+
+/**
+ * JS Optimizer
+ *
+ * Pure logic class for JavaScript optimization:
+ * - Finds JS files in HTML
+ * - Reads and minifies JS content
+ * - Combines multiple files into one
+ * - Handles exclusions
+ * - Manages cache
+ */
+class JSOptimizer {
+
+    /**
+     * Cache directory path
+     *
+     * @var string
+     */
+    private $cache_dir;
+
+    /**
+     * Plugin URL for serving cached files
+     *
+     * @var string
+     */
+    private $plugin_url;
+
+    /**
+     * JS files to exclude from optimization
+     *
+     * @var array
+     */
+    private $excluded_files = [];
+
+    /**
+     * Whether to allow jQuery dequeuing
+     *
+     * @var bool
+     */
+    private $allow_jquery_dequeue = false;
+
+    /**
+     * Constructor
+     *
+     * @param string $cache_dir Cache directory path
+     * @param string $plugin_url Plugin URL
+     */
+    public function __construct(string $cache_dir, string $plugin_url) {
+        $this->cache_dir = $cache_dir;
+        $this->plugin_url = $plugin_url;
+
+        // Load exclusions from WordPress options
+        $this->load_exclusions();
+
+        // Load jQuery dequeue setting
+        $this->allow_jquery_dequeue = \get_option('optimizador_pro_dequeue_jquery', false);
+
+        // Ensure cache directory exists
+        $this->ensure_cache_directory();
+    }
+
+    /**
+     * Process HTML and optimize JS files
+     *
+     * @param string $html HTML content
+     * @return string Optimized HTML
+     */
+    public function optimize(string $html): string {
+        // Find all JS script tags
+        $js_scripts = $this->extract_js_scripts($html);
+
+        if (empty($js_scripts)) {
+            return $html;
+        }
+
+        // If jQuery dequeuing is enabled, check if it's safe to do so
+        if ($this->allow_jquery_dequeue && !$this->is_jquery_safe_to_dequeue($html)) {
+            // Temporarily disable jQuery dequeuing for this request
+            $this->allow_jquery_dequeue = false;
+        }
+
+        // Filter out excluded files and external files
+        $optimizable_scripts = $this->filter_optimizable_scripts($js_scripts);
+
+        if (empty($optimizable_scripts)) {
+            return $html;
+        }
+
+        // Generate cache key based on files and their modification times
+        $cache_key = $this->generate_cache_key($optimizable_scripts);
+        $cached_file = $this->cache_dir . 'js/combined-' . $cache_key . '.js';
+        $cached_url = $this->plugin_url . 'cache/js/combined-' . $cache_key . '.js';
+
+        // Create combined JS if not cached
+        if (!file_exists($cached_file)) {
+            $this->create_combined_js($optimizable_scripts, $cached_file);
+        }
+
+        // Replace original JS scripts with combined one
+        return $this->replace_js_scripts($html, $js_scripts, $cached_url);
+    }
+
+    /**
+     * Extract JS script tags from HTML
+     *
+     * @param string $html HTML content
+     * @return array Array of JS script information
+     */
+    private function extract_js_scripts(string $html): array {
+        $scripts = [];
+
+        // Regex to find JS script tags with src attribute
+        $pattern = '/<script[^>]*src=["\']([^"\']+)["\'][^>]*><\/script>/i';
+
+        if (preg_match_all($pattern, $html, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                $scripts[] = [
+                    'tag' => $match[0],
+                    'src' => $match[1],
+                ];
+            }
+        }
+
+        return $scripts;
+    }
+
+    /**
+     * Filter scripts to only include optimizable ones
+     *
+     * @param array $scripts JS scripts
+     * @return array Filtered scripts
+     */
+    private function filter_optimizable_scripts(array $scripts): array {
+        $optimizable = [];
+
+        foreach ($scripts as $script) {
+            $src = $script['src'];
+
+            // Skip external files
+            if ($this->is_external_url($src)) {
+                continue;
+            }
+
+            // Skip excluded files
+            if ($this->is_excluded($src)) {
+                continue;
+            }
+
+            // Skip ES6 modules (cannot be safely combined)
+            if ($this->is_es6_module($script['tag'], $src)) {
+                continue;
+            }
+
+            // Skip jQuery and other critical scripts by default
+            if ($this->is_critical_script($src)) {
+                continue;
+            }
+
+            // Convert relative URLs to absolute paths
+            $file_path = $this->url_to_path($src);
+
+            if ($file_path && file_exists($file_path)) {
+                $script['path'] = $file_path;
+                $optimizable[] = $script;
+            }
+        }
+
+        return $optimizable;
+    }
+
+    /**
+     * Generate cache key based on files and modification times
+     *
+     * @param array $scripts JS scripts
+     * @return string Cache key
+     */
+    private function generate_cache_key(array $scripts): string {
+        $key_data = [];
+
+        foreach ($scripts as $script) {
+            $key_data[] = $script['src'] . filemtime($script['path']);
+        }
+
+        return md5(implode('|', $key_data));
+    }
+
+    /**
+     * Create combined and minified JS file
+     *
+     * @param array $scripts JS scripts
+     * @param string $output_file Output file path
+     */
+    private function create_combined_js(array $scripts, string $output_file): void {
+        $minifier = new JSMinifier();
+
+        foreach ($scripts as $script) {
+            $js_content = file_get_contents($script['path']);
+            if ($js_content !== false) {
+                $minifier->add($js_content);
+            }
+        }
+
+        // Ensure output directory exists
+        $output_dir = dirname($output_file);
+        if (!is_dir($output_dir)) {
+            \wp_mkdir_p($output_dir);
+        }
+
+        // Save minified JS
+        file_put_contents($output_file, $minifier->minify());
+    }
+
+    /**
+     * Replace original JS scripts with combined one
+     *
+     * @param string $html Original HTML
+     * @param array $all_scripts All JS scripts found
+     * @param string $combined_url URL to combined JS
+     * @return string Modified HTML
+     */
+    private function replace_js_scripts(string $html, array $all_scripts, string $combined_url): string {
+        // Remove all optimizable JS scripts
+        foreach ($all_scripts as $script) {
+            if (!$this->is_external_url($script['src']) &&
+                !$this->is_excluded($script['src']) &&
+                !$this->is_es6_module($script['tag'], $script['src']) &&
+                !$this->is_critical_script($script['src'])) {
+                $html = str_replace($script['tag'], '', $html);
+            }
+        }
+
+        // Add combined JS script before closing body tag
+        $combined_tag = '<script src="' . \esc_url($combined_url) . '"></script>';
+        $html = str_replace('</body>', $combined_tag . "\n</body>", $html);
+
+        return $html;
+    }
+
+    /**
+     * Check if URL is external
+     *
+     * @param string $url URL to check
+     * @return bool
+     */
+    private function is_external_url(string $url): bool {
+        $site_url = \site_url();
+        return strpos($url, 'http') === 0 && strpos($url, $site_url) !== 0;
+    }
+
+    /**
+     * Check if file is excluded
+     *
+     * @param string $src File src
+     * @return bool
+     */
+    private function is_excluded(string $src): bool {
+        foreach ($this->excluded_files as $excluded) {
+            if (strpos($src, $excluded) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if script is an ES6 module that cannot be safely combined
+     *
+     * @param string $script_tag Full script tag
+     * @param string $src Script src
+     * @return bool
+     */
+    private function is_es6_module(string $script_tag, string $src): bool {
+        // Check if script tag has type="module"
+        if (preg_match('/type=["\']module["\']/', $script_tag)) {
+            return true;
+        }
+
+        // Check for WordPress Interactivity API (always ES6 modules)
+        if (strpos($src, '@wordpress/interactivity') !== false ||
+            strpos($src, 'wp-includes/js/dist/') !== false) {
+            return true;
+        }
+
+        // Try to read file content to detect ES6 syntax
+        $file_path = $this->get_local_file_path($src);
+        if ($file_path && file_exists($file_path)) {
+            $content = file_get_contents($file_path);
+            if ($content !== false) {
+                // Check for ES6 import/export statements
+                if (preg_match('/\b(import\s+.*from|export\s+)/i', $content)) {
+                    return true;
+                }
+
+                // Check for dynamic imports
+                if (preg_match('/import\s*\(/i', $content)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get local file path from URL
+     *
+     * @param string $src Script URL
+     * @return string|null
+     */
+    private function get_local_file_path(string $src): ?string {
+        // Remove query parameters
+        $src = strtok($src, '?');
+
+        // Convert URL to local path
+        $site_url = \get_site_url();
+        if (strpos($src, $site_url) === 0) {
+            $relative_path = str_replace($site_url, '', $src);
+            return \ABSPATH . ltrim($relative_path, '/');
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if script is critical (jQuery, etc.)
+     *
+     * @param string $src File src
+     * @return bool
+     */
+    private function is_critical_script(string $src): bool {
+        // jQuery scripts - check if dequeuing is allowed
+        $jquery_scripts = [
+            'jquery',
+            'jquery-core',
+            'jquery-migrate',
+            'wp-includes/js/jquery',
+        ];
+
+        foreach ($jquery_scripts as $jquery_script) {
+            if (strpos($src, $jquery_script) !== false) {
+                // If jQuery dequeuing is allowed, don't treat as critical
+                return !$this->allow_jquery_dequeue;
+            }
+        }
+
+        // Other always-critical scripts
+        $always_critical = [
+            'wp-admin',
+            'wp-login',
+            'customize-controls',
+            'admin-bar',
+        ];
+
+        foreach ($always_critical as $critical) {
+            if (strpos($src, $critical) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if it's safe to dequeue jQuery
+     *
+     * @param string $html HTML content to analyze
+     * @return bool
+     */
+    private function is_jquery_safe_to_dequeue(string $html): bool {
+        // Don't dequeue jQuery if we detect jQuery usage in inline scripts
+        if (preg_match('/\$\(|\bjQuery\(|\.ready\(|\.click\(|\.on\(/', $html)) {
+            return false;
+        }
+
+        // Don't dequeue if we detect common jQuery-dependent plugins
+        $jquery_dependent_patterns = [
+            'wp-admin',
+            'customize-preview',
+            'woocommerce',
+            'contact-form-7',
+            'elementor',
+            'wpforms',
+            'gravity',
+        ];
+
+        foreach ($jquery_dependent_patterns as $pattern) {
+            if (strpos($html, $pattern) !== false) {
+                return false;
+            }
+        }
+
+        // Check if current page is admin or customizer
+        if (\is_admin() || \is_customize_preview()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Convert URL to file path
+     *
+     * @param string $url URL
+     * @return string|false File path or false
+     */
+    private function url_to_path(string $url) {
+        // Remove query parameters
+        $url = strtok($url, '?');
+
+        // Convert site URL to ABSPATH
+        $site_url = \site_url();
+        if (strpos($url, $site_url) === 0) {
+            return ABSPATH . substr($url, strlen($site_url) + 1);
+        }
+
+        // Handle relative URLs
+        if (strpos($url, '/') === 0) {
+            return ABSPATH . ltrim($url, '/');
+        }
+
+        return false;
+    }
+
+    /**
+     * Load exclusions from WordPress options
+     */
+    private function load_exclusions(): void {
+        $exclusions = \get_option('optimizador_pro_js_exclusions', '');
+        if (!empty($exclusions)) {
+            $this->excluded_files = array_map('trim', explode("\n", $exclusions));
+        }
+    }
+
+    /**
+     * Ensure cache directory exists
+     */
+    private function ensure_cache_directory(): void {
+        $js_cache_dir = $this->cache_dir . 'js/';
+        if (!is_dir($js_cache_dir)) {
+            \wp_mkdir_p($js_cache_dir);
+        }
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [25/30] RUTA RELATIVA: inc/Engine/Optimization/OptimizationServiceProvider.php
+█ DIRECTORIO: inc/Engine/Optimization
+█ NOMBRE DEL ARCHIVO: OptimizationServiceProvider.php
+█ TAMAÑO: 2502 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+
+namespace OptimizadorPro\Engine\Optimization;
+
+use League\Container\ServiceProvider\AbstractServiceProvider;
+use OptimizadorPro\Engine\Optimization\CSS\CSSOptimizer;
+use OptimizadorPro\Engine\Optimization\JS\JSOptimizer;
+use OptimizadorPro\Engine\Optimization\DeferJS\DeferJSOptimizer;
+use OptimizadorPro\Common\Subscriber\OptimizationSubscriber;
+use OptimizadorPro\Common\Subscriber\DeferJSSubscriber;
+use OptimizadorPro\Common\Subscriber\CriticalCSSSubscriber;
+
+/**
+ * Optimization Service Provider
+ * 
+ * Registers all optimization-related services in the container:
+ * - CSS Optimizer (minification and combination)
+ * - JS Optimizer (minification and combination)
+ * - Optimization Subscriber (connects to WordPress hooks)
+ */
+class OptimizationServiceProvider extends AbstractServiceProvider {
+
+    /**
+     * Services provided by this provider
+     *
+     * @var array<string>
+     */
+    protected $provides = [
+        'css_optimizer',
+        'js_optimizer',
+        'defer_js_optimizer',
+        'optimization_subscriber',
+        'defer_js_subscriber',
+        'critical_css_subscriber',
+    ];
+
+    /**
+     * Check if service provider provides a specific service
+     *
+     * @param string $id Service identifier
+     * @return bool
+     */
+    public function provides(string $id): bool {
+        return in_array($id, $this->provides);
+    }
+
+    /**
+     * Register services in the container
+     */
+    public function register(): void {
+        // Register CSS Optimizer
+        $this->getContainer()->add('css_optimizer', CSSOptimizer::class)
+            ->addArgument('cache_dir')
+            ->addArgument('plugin_url');
+
+        // Register JS Optimizer
+        $this->getContainer()->add('js_optimizer', JSOptimizer::class)
+            ->addArgument('cache_dir')
+            ->addArgument('plugin_url');
+
+        // Register Defer JS Optimizer
+        $this->getContainer()->add('defer_js_optimizer', DeferJSOptimizer::class);
+
+        // Register Optimization Subscriber
+        $this->getContainer()->add('optimization_subscriber', OptimizationSubscriber::class)
+            ->addArgument('css_optimizer')
+            ->addArgument('js_optimizer');
+
+        // Register Defer JS Subscriber
+        $this->getContainer()->add('defer_js_subscriber', DeferJSSubscriber::class)
+            ->addArgument('defer_js_optimizer');
+
+        // Register Critical CSS Subscriber
+        $this->getContainer()->add('critical_css_subscriber', CriticalCSSSubscriber::class);
+    }
+}
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [26/30] RUTA RELATIVA: optimizador-pro.php
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: optimizador-pro.php
+█ TAMAÑO: 5291 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+/**
+ * Plugin Name: OptimizadorPro
+ * Plugin URI: https://example.com/optimizador-pro
+ * Description: Plugin de optimización avanzada para WordPress - Minificación, combinación y optimización de assets.
+ * Version: 1.0.0
+ * Author: Eduardo
+ * Author URI: https://example.com
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: optimizador-pro
+ * Domain Path: /languages
+ * Requires at least: 5.0
+ * Tested up to: 6.4
+ * Requires PHP: 7.4
+ * Network: false
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Define plugin constants
+define('OPTIMIZADOR_PRO_VERSION', '1.0.0');
+define('OPTIMIZADOR_PRO_PLUGIN_FILE', __FILE__);
+define('OPTIMIZADOR_PRO_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('OPTIMIZADOR_PRO_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('OPTIMIZADOR_PRO_PLUGIN_BASENAME', plugin_basename(__FILE__));
+
+// Require Composer autoloader
+if (!file_exists(OPTIMIZADOR_PRO_PLUGIN_DIR . 'vendor/autoload.php')) {
+    add_action('admin_notices', function() {
+        echo '<div class="notice notice-error"><p>';
+        echo '<strong>OptimizadorPro:</strong> Las dependencias de Composer no están instaladas. ';
+        echo 'Por favor ejecuta <code>composer install</code> en el directorio del plugin.';
+        echo '</p></div>';
+    });
+    return;
+}
+
+require_once OPTIMIZADOR_PRO_PLUGIN_DIR . 'vendor/autoload.php';
+
+use OptimizadorPro\Core\Plugin;
+
+/**
+ * Initialize OptimizadorPro
+ *
+ * Following WP Rocket pattern - load everything on plugins_loaded
+ */
+function optimizador_pro_init(): void {
+    error_log('OptimizadorPro: optimizador_pro_init() ejecutado');
+
+    // Nothing to do if autosave
+    if (defined('DOING_AUTOSAVE')) {
+        error_log('OptimizadorPro: DOING_AUTOSAVE detectado, saltando');
+        return;
+    }
+
+    // Check minimum requirements
+    if (!optimizador_pro_check_requirements()) {
+        error_log('OptimizadorPro: Requisitos mínimos no cumplidos');
+        return;
+    }
+
+    error_log('OptimizadorPro: Inicializando plugin');
+
+    // Create and load plugin instance
+    $plugin = new OptimizadorPro\Core\Plugin(
+        OPTIMIZADOR_PRO_VERSION,
+        OPTIMIZADOR_PRO_PLUGIN_DIR
+    );
+
+    // Load the plugin
+    $plugin->load();
+
+    error_log('OptimizadorPro: Plugin cargado completamente');
+}
+add_action('plugins_loaded', 'optimizador_pro_init');
+
+/**
+ * Check minimum requirements
+ *
+ * @return bool
+ */
+function optimizador_pro_check_requirements(): bool {
+    // Check PHP version
+    if (version_compare(PHP_VERSION, '7.4', '<')) {
+        add_action('admin_notices', function() {
+            echo '<div class="notice notice-error"><p>';
+            echo '<strong>OptimizadorPro:</strong> Requiere PHP 7.4 o superior. ';
+            echo 'Versión actual: ' . PHP_VERSION;
+            echo '</p></div>';
+        });
+        return false;
+    }
+
+    // Check WordPress version
+    global $wp_version;
+    if (version_compare($wp_version, '5.0', '<')) {
+        add_action('admin_notices', function() {
+            global $wp_version;
+            echo '<div class="notice notice-error"><p>';
+            echo '<strong>OptimizadorPro:</strong> Requiere WordPress 5.0 o superior. ';
+            echo 'Versión actual: ' . $wp_version;
+            echo '</p></div>';
+        });
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Plugin activation
+ */
+function optimizador_pro_activate(): void {
+    // Create cache directory
+    $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
+    if (!is_dir($cache_dir)) {
+        wp_mkdir_p($cache_dir);
+        wp_mkdir_p($cache_dir . 'css/');
+        wp_mkdir_p($cache_dir . 'js/');
+    }
+
+    // Set default options
+    add_option('optimizador_pro_minify_css', false);
+    add_option('optimizador_pro_minify_js', false);
+    add_option('optimizador_pro_lazyload_enabled', false);
+    add_option('optimizador_pro_defer_js', false);
+    add_option('optimizador_pro_dequeue_jquery', false);
+    add_option('optimizador_pro_css_exclusions', '');
+    add_option('optimizador_pro_js_exclusions', '');
+    add_option('optimizador_pro_lazyload_exclusions', '');
+    add_option('optimizador_pro_defer_js_exclusions', '');
+    add_option('optimizador_pro_excluded_pages', '');
+    add_option('optimizador_pro_lazyload_excluded_pages', '');
+    add_option('optimizador_pro_optimize_logged_users', false);
+    add_option('optimizador_pro_lazyload_logged_users', false);
+    add_option('optimizador_pro_defer_logged_users', false);
+    add_option('optimizador_pro_critical_css', '');
+
+    // Flush rewrite rules
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'optimizador_pro_activate');
+
+/**
+ * Plugin deactivation
+ */
+function optimizador_pro_deactivate(): void {
+    // Clean up cache
+    optimizador_pro_clear_cache();
+
+    // Flush rewrite rules
+    flush_rewrite_rules();
+}
+register_deactivation_hook(__FILE__, 'optimizador_pro_deactivate');
+
+/**
+ * Clear plugin cache
+ */
+function optimizador_pro_clear_cache(): void {
+    $cache_dir = WP_CONTENT_DIR . '/cache/optimizador-pro/';
+    if (is_dir($cache_dir)) {
+        $files = glob($cache_dir . '*');
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+    }
+}
+
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [27/30] RUTA RELATIVA: phpstan-bootstrap.php
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: phpstan-bootstrap.php
+█ TAMAÑO: 6759 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+<?php
+/**
+ * PHPStan Bootstrap File
+ * Define WordPress functions and constants for static analysis
+ */
+
+// WordPress constants
+if (!defined('ABSPATH')) {
+    define('ABSPATH', '/var/www/html/');
+}
+
+if (!defined('WP_CONTENT_DIR')) {
+    define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
+}
+
+// WordPress functions stubs
+if (!function_exists('add_action')) {
+    function add_action(string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1): bool { return true; }
+}
+
+if (!function_exists('add_filter')) {
+    function add_filter(string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1): bool { return true; }
+}
+
+if (!function_exists('add_menu_page')) {
+    function add_menu_page(string $page_title, string $menu_title, string $capability, string $menu_slug, callable $callback = null): string { return ''; }
+}
+
+if (!function_exists('add_options_page')) {
+    function add_options_page(string $page_title, string $menu_title, string $capability, string $menu_slug, callable $callback = null): string { return ''; }
+}
+
+if (!function_exists('add_settings_error')) {
+    function add_settings_error(string $setting, string $code, string $message, string $type = 'error'): void {}
+}
+
+if (!function_exists('add_option')) {
+    function add_option(string $option, $value = '', string $deprecated = '', string $autoload = 'yes'): bool { return true; }
+}
+
+if (!function_exists('add_settings_field')) {
+    function add_settings_field(string $id, string $title, callable $callback, string $page, string $section = 'default', array $args = []): void {}
+}
+
+if (!function_exists('add_settings_section')) {
+    function add_settings_section(string $id, string $title, callable $callback, string $page): void {}
+}
+
+if (!function_exists('admin_url')) {
+    function admin_url(string $path = '', string $scheme = 'admin'): string { return 'http://example.com/wp-admin/' . $path; }
+}
+
+if (!function_exists('checked')) {
+    function checked($checked, $current = true, bool $echo = true): string { return $checked == $current ? 'checked="checked"' : ''; }
+}
+
+if (!function_exists('current_user_can')) {
+    function current_user_can(string $capability): bool { return true; }
+}
+
+if (!function_exists('do_settings_sections')) {
+    function do_settings_sections(string $page): void {}
+}
+
+if (!function_exists('esc_attr')) {
+    function esc_attr(string $text): string { return htmlspecialchars($text, ENT_QUOTES, 'UTF-8'); }
+}
+
+if (!function_exists('esc_html')) {
+    function esc_html(string $text): string { return htmlspecialchars($text, ENT_QUOTES, 'UTF-8'); }
+}
+
+if (!function_exists('esc_textarea')) {
+    function esc_textarea(string $text): string { return htmlspecialchars($text, ENT_QUOTES, 'UTF-8'); }
+}
+
+if (!function_exists('esc_url')) {
+    function esc_url(string $url): string { return htmlspecialchars($url, ENT_QUOTES, 'UTF-8'); }
+}
+
+if (!function_exists('get_admin_page_title')) {
+    function get_admin_page_title(): string { return 'Admin Page'; }
+}
+
+if (!function_exists('get_option')) {
+    function get_option(string $option, $default = false) { return $default; }
+}
+
+if (!function_exists('is_admin')) {
+    function is_admin(): bool { return false; }
+}
+
+if (!function_exists('is_customize_preview')) {
+    function is_customize_preview(): bool { return false; }
+}
+
+if (!function_exists('is_feed')) {
+    function is_feed(): bool { return false; }
+}
+
+if (!function_exists('is_preview')) {
+    function is_preview(): bool { return false; }
+}
+
+if (!function_exists('is_user_logged_in')) {
+    function is_user_logged_in(): bool { return false; }
+}
+
+if (!function_exists('plugin_basename')) {
+    function plugin_basename(string $file): string { return basename(dirname($file)) . '/' . basename($file); }
+}
+
+if (!function_exists('plugin_dir_path')) {
+    function plugin_dir_path(string $file): string { return dirname($file) . '/'; }
+}
+
+if (!function_exists('plugin_dir_url')) {
+    function plugin_dir_url(string $file): string { return 'http://example.com/wp-content/plugins/' . basename(dirname($file)) . '/'; }
+}
+
+if (!function_exists('register_activation_hook')) {
+    function register_activation_hook(string $file, callable $callback): void {}
+}
+
+if (!function_exists('register_deactivation_hook')) {
+    function register_deactivation_hook(string $file, callable $callback): void {}
+}
+
+if (!function_exists('register_setting')) {
+    function register_setting(string $option_group, string $option_name, array $args = []): void {}
+}
+
+if (!function_exists('settings_errors')) {
+    function settings_errors(string $setting = '', bool $sanitize = false, bool $hide_on_update = false): void {}
+}
+
+if (!function_exists('settings_fields')) {
+    function settings_fields(string $option_group): void {}
+}
+
+if (!function_exists('site_url')) {
+    function site_url(string $path = '', string $scheme = null): string { return 'http://example.com' . $path; }
+}
+
+if (!function_exists('size_format')) {
+    function size_format(int $bytes, int $decimals = 0): string { return $bytes . ' bytes'; }
+}
+
+if (!function_exists('submit_button')) {
+    function submit_button(string $text = null, string $type = 'primary', string $name = 'submit', bool $wrap = true, array $other_attributes = []): void {}
+}
+
+if (!function_exists('wp_doing_ajax')) {
+    function wp_doing_ajax(): bool { return false; }
+}
+
+if (!function_exists('wp_enqueue_script')) {
+    function wp_enqueue_script(string $handle, string $src = '', array $deps = [], $ver = false, bool $in_footer = false): void {}
+}
+
+if (!function_exists('wp_enqueue_style')) {
+    function wp_enqueue_style(string $handle, string $src = '', array $deps = [], $ver = false, string $media = 'all'): void {}
+}
+
+if (!function_exists('wp_mkdir_p')) {
+    function wp_mkdir_p(string $target): bool { return mkdir($target, 0755, true); }
+}
+
+if (!function_exists('wp_send_json_success')) {
+    function wp_send_json_success($data = null, int $status_code = null): void {}
+}
+
+if (!function_exists('check_ajax_referer')) {
+    function check_ajax_referer($action = -1, string $query_arg = '_ajax_nonce', bool $die = true): bool { return true; }
+}
+
+if (!function_exists('wp_die')) {
+    function wp_die(string $message = '', string $title = '', array $args = []): void { die($message); }
+}
+
+if (!function_exists('flush_rewrite_rules')) {
+    function flush_rewrite_rules(bool $hard = true): void {}
+}
+
+if (!function_exists('error_log')) {
+    function error_log(string $message, int $message_type = 0, string $destination = null, string $extra_headers = null): bool { return true; }
+}
+
+// Global variables
+global $wp_version;
+$wp_version = '6.4.0';
+
+// Superglobals for PHPStan
+$_SERVER = [];
+$_POST = [];
+$_GET = [];
+$_REQUEST = [];
+$_SESSION = [];
+$_COOKIE = [];
+$_FILES = [];
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [28/30] RUTA RELATIVA: phpstan.neon
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: phpstan.neon
+█ TAMAÑO: 3897 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+parameters:
+    level: 6
+    paths:
+        - inc
+        - optimizador-pro.php
+    
+    # Ignore WordPress functions that don't exist in CLI
+    ignoreErrors:
+        - '#Function add_action not found#'
+        - '#Function add_filter not found#'
+        - '#Function add_menu_page not found#'
+        - '#Function add_settings_field not found#'
+        - '#Function add_settings_section not found#'
+        - '#Function admin_url not found#'
+        - '#Function checked not found#'
+        - '#Function current_user_can not found#'
+        - '#Function do_settings_sections not found#'
+        - '#Function esc_attr not found#'
+        - '#Function esc_html not found#'
+        - '#Function esc_textarea not found#'
+        - '#Function esc_url not found#'
+        - '#Function get_admin_page_title not found#'
+        - '#Function get_option not found#'
+        - '#Function is_admin not found#'
+        - '#Function is_customize_preview not found#'
+        - '#Function is_feed not found#'
+        - '#Function is_preview not found#'
+        - '#Function is_user_logged_in not found#'
+        - '#Function plugin_basename not found#'
+        - '#Function plugin_dir_path not found#'
+        - '#Function plugin_dir_url not found#'
+        - '#Function register_activation_hook not found#'
+        - '#Function register_deactivation_hook not found#'
+        - '#Function register_setting not found#'
+        - '#Function settings_errors not found#'
+        - '#Function settings_fields not found#'
+        - '#Function site_url not found#'
+        - '#Function size_format not found#'
+        - '#Function submit_button not found#'
+        - '#Function wp_doing_ajax not found#'
+        - '#Function wp_enqueue_script not found#'
+        - '#Function wp_enqueue_style not found#'
+        - '#Function wp_mkdir_p not found#'
+        - '#Function wp_send_json_success not found#'
+        - '#Function check_ajax_referer not found#'
+        - '#Function wp_die not found#'
+        - '#Function error_log not found#'
+        - '#Function flush_rewrite_rules not found#'
+        - '#Function add_option not found#'
+        - '#Function strtok not found#'
+        - '#Function glob not found#'
+        - '#Function preg_match not found#'
+        - '#Function preg_match_all not found#'
+        - '#Function preg_replace not found#'
+        - '#Function preg_replace_callback not found#'
+        - '#Function str_replace not found#'
+        - '#Function strpos not found#'
+        - '#Function substr not found#'
+        - '#Function ltrim not found#'
+        - '#Function trim not found#'
+        - '#Function explode not found#'
+        - '#Function implode not found#'
+        - '#Function array_map not found#'
+        - '#Function array_merge not found#'
+        - '#Function in_array not found#'
+        - '#Function count not found#'
+        - '#Function empty not found#'
+        - '#Function file_exists not found#'
+        - '#Function file_get_contents not found#'
+        - '#Function file_put_contents not found#'
+        - '#Function filemtime not found#'
+        - '#Function filesize not found#'
+        - '#Function dirname not found#'
+        - '#Function basename not found#'
+        - '#Function is_dir not found#'
+        - '#Function is_file not found#'
+        - '#Function is_writable not found#'
+        - '#Function mkdir not found#'
+        - '#Function rmdir not found#'
+        - '#Function unlink not found#'
+        - '#Function md5 not found#'
+        - '#Function strlen not found#'
+        - '#Constant ABSPATH not found#'
+        - '#Constant WP_CONTENT_DIR not found#'
+        - '#Variable \$_SERVER might not be defined#'
+        - '#Variable \$_POST might not be defined#'
+        
+    # Bootstrap file to define WordPress functions
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+        
+    # Exclude vendor directory
+    excludePaths:
+        - vendor/*
+
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [29/30] RUTA RELATIVA: plan-phase-2.md
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: plan-phase-2.md
+█ TAMAÑO: 5349 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+Plan de Próximos Pasos para OptimizadorPro¡Felicidades por el increíble progreso con OptimizadorPro! Has implementado el núcleo de las optimizaciones con una arquitectura limpia y profesional. Ahora vamos a añadir algunas de las funcionalidades más potentes que faltan.1. Implementación de "Eliminar CSS no Utilizado" (Método Manual)Esta es la funcionalidad conocida como RUCSS en WP Rocket. Como discutimos, replicar su sistema automatizado es extremadamente complejo y costoso. En su lugar, implementaremos la versión manual, que ofrece el mismo beneficio de rendimiento y es perfecta para un plugin open source.El concepto es simple:El usuario genera su "CSS Crítico" (el CSS mínimo para la parte visible de la página) usando una herramienta online.Pega ese CSS en nuestro plugin.Nosotros lo insertamos "inline" en el HTML y cargamos el resto de las hojas de estilo de forma asíncrona.Plan de Acción:Paso 1: Modificar la Interfaz de Usuario (UI)En la pestaña de optimización de CSS, añade un textarea con el título: "CSS Crítico (Manual)".Añade una descripción clara: "Pega aquí el CSS crítico para tus páginas. Esto se insertará en el <head> para optimizar la carga visual. El resto del CSS se cargará de forma asíncrona."Paso 2: Crear el CriticalCSSSubscriberDentro de inc/Common/Subscriber/, crea una nueva clase CriticalCSSSubscriber.php.Esta clase se encargará de dos cosas:Inyectar el CSS Crítico:Engánchate a wp_head con una prioridad alta (ej. 1).En el callback, obtén el contenido del textarea de los ajustes.Si no está vacío, imprímelo dentro de una etiqueta <style id="optimizador-pro-critical-css"> ... </style>.Cargar el resto del CSS de forma asíncrona:Engánchate al filtro style_loader_tag.En el callback, comprueba de nuevo si el CSS crítico está activo.Si lo está, modifica la etiqueta <link> de cada hoja de estilo (que no esté en la lista de exclusiones) para que no bloquee el renderizado. La forma más robusta de hacerlo es:// Dentro del filtro 'style_loader_tag'
+if ( ! is_admin() && ! empty( $opciones['critical_css'] ) ) {
+    $tag = str_replace( "rel='stylesheet'", "rel='preload' as='style' onload=\"this.rel='stylesheet'\"", $tag );
+    $tag .= "<noscript><link rel='stylesheet' href='" . esc_url( $href ) . "'></noscript>";
+}
+return $tag;
+Nota: El método rel='preload' es más moderno que media='print'. Usa este.¡Y listo! Con esto, has implementado una de las optimizaciones más avanzadas de una manera pragmática y eficiente.2. Siguientes Funcionalidades (Victorias Fáciles de Alto Impacto)Aquí tienes un plan para tres funcionalidades más que llevarán a OptimizadorPro al siguiente nivel. Sigue la arquitectura que ya has establecido.Funcionalidad 1: Retrasar Ejecución de JavaScript (Delay JS)Esta es, junto con RUCSS, la optimización más potente para las Core Web Vitals. Ya tienes la base, solo hay que activarla.Estrategia:UI: Añade un textarea en la pestaña de JS para "Exclusiones del Retraso de JS".Lógica (DelayJSSubscriber):Usa el búfer de salida (ob_start) para capturar el HTML final.Crea una clase HTMLRewriter que busque todas las etiquetas <script> (tanto inline como con src).Reescribe las etiquetas que no estén en la lista de exclusión:Para <script src="...">, cambia src a data-src.Cambia el type a uno no ejecutable, como type="text/lazy-script".Script Cargador:Inyecta un pequeño script JavaScript inline justo antes de </body>.Este script debe tener un EventListener para la primera interacción del usuario (scroll, mousemove, touchstart, keydown).Cuando se active, el script buscará todas las etiquetas con type="text/lazy-script", les devolverá su type y src originales, lo que provocará su carga y ejecución.Referencia WP Rocket: inc/Engine/Optimization/DelayJS/HTML.php es una excelente inspiración para la lógica de reescritura.Funcionalidad 2: Optimización de Google FontsEsto es relativamente sencillo y soluciona una recomendación muy común de PageSpeed.Estrategia:UI: Añade un simple checkbox: "Optimizar Google Fonts".Lógica (GoogleFontsSubscriber):Usa el búfer de salida.Busca todas las etiquetas <link> que apunten a fonts.googleapis.com/css.Extrae los parámetros family de cada una.Combina todos los parámetros family en una única URL.Asegúrate de que la URL final contenga &display=swap para mejorar el rendimiento.Reemplaza todas las etiquetas originales de Google Fonts por la nueva y única etiqueta <link>.Referencia WP Rocket: inc/Engine/Optimization/GoogleFonts/Combine.php.Funcionalidad 3: Integración con CDNPermitir a los usuarios servir sus assets desde un CDN es una funcionalidad estándar y fácil de implementar.Estrategia:UI: Añade un campo de texto para que el usuario introduzca la URL de su CDN (ej. cdn.misitio.com).Lógica (CDNSubscriber):Usa el búfer de salida.Realiza una simple sustitución de strings en el HTML final. Reemplaza la URL base del sitio (https://misitio.com/wp-content/...) por la URL del CDN (https://cdn.misitio.com/wp-content/...).Asegúrate de reescribir las URLs de los archivos CSS, JS e imágenes.Referencia WP Rocket: inc/Engine/CDN/Subscriber.php.Con estas adiciones, OptimizadorPro no solo replicará las funciones básicas, sino que también ofrecerá las optimizaciones avanzadas que los usuarios más valoran. ¡Excelente trabajo y a seguir adelante!
+
+
+█████████████████████████████████████████████████████████████████████████████████████████████
+█ [30/30] RUTA RELATIVA: test-build.sh
+█ DIRECTORIO: .
+█ NOMBRE DEL ARCHIVO: test-build.sh
+█ TAMAÑO: 3138 bytes
+█████████████████████████████████████████████████████████████████████████████████████████████
+
+#!/bin/bash
+
+# OptimizadorPro Test Build Script
+# Prueba rápida del ZIP generado
+
+set -e
+
+# Colors
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+ZIP_FILE="dist/optimizador-pro-v1.0.0.zip"
+TEST_DIR="test-install"
+
+echo -e "${BLUE}🧪 OptimizadorPro Test Build${NC}"
+echo -e "${BLUE}=============================${NC}"
+
+# Check if ZIP exists
+if [ ! -f "$ZIP_FILE" ]; then
+    echo -e "${YELLOW}⚠️  ZIP file not found. Running build first...${NC}"
+    ./build.sh
+fi
+
+# Clean test directory
+echo -e "${YELLOW}🧹 Preparing test environment...${NC}"
+rm -rf "$TEST_DIR"
+mkdir -p "$TEST_DIR"
+
+# Extract ZIP
+echo -e "${YELLOW}📦 Extracting ZIP for testing...${NC}"
+cd "$TEST_DIR"
+unzip -q "../$ZIP_FILE"
+
+# Verify structure
+echo -e "${YELLOW}🔍 Verifying plugin structure...${NC}"
+cd optimizador-pro
+
+# Check main file
+if [ -f "optimizador-pro.php" ]; then
+    echo -e "${GREEN}✅ Main plugin file found${NC}"
+else
+    echo -e "${RED}❌ Main plugin file missing${NC}"
+    exit 1
+fi
+
+# Check composer autoload
+if [ -f "vendor/autoload.php" ]; then
+    echo -e "${GREEN}✅ Composer autoload found${NC}"
+else
+    echo -e "${RED}❌ Composer autoload missing${NC}"
+    exit 1
+fi
+
+# Check core files
+CORE_FILES=(
+    "inc/Core/Plugin.php"
+    "inc/Core/DI_Container.php"
+    "inc/Engine/Optimization/CSS/CSSOptimizer.php"
+    "inc/Engine/Optimization/JS/JSOptimizer.php"
+    "inc/Engine/Media/Lazyload/LazyloadOptimizer.php"
+    "inc/Common/Subscriber/AdminSubscriber.php"
+    "assets/css/admin.css"
+    "assets/js/admin.js"
+)
+
+for file in "${CORE_FILES[@]}"; do
+    if [ -f "$file" ]; then
+        echo -e "${GREEN}✅ $file${NC}"
+    else
+        echo -e "${RED}❌ $file missing${NC}"
+        exit 1
+    fi
+done
+
+# Test PHP syntax
+echo -e "${YELLOW}🔍 Testing PHP syntax...${NC}"
+find inc -name "*.php" -exec php -l {} \; > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✅ All PHP files have valid syntax${NC}"
+else
+    echo -e "${RED}❌ PHP syntax errors found${NC}"
+    exit 1
+fi
+
+# Test main plugin file
+php -l optimizador-pro.php > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✅ Main plugin file syntax OK${NC}"
+else
+    echo -e "${RED}❌ Main plugin file has syntax errors${NC}"
+    exit 1
+fi
+
+# Check file sizes
+echo -e "${YELLOW}📊 File size analysis...${NC}"
+TOTAL_SIZE=$(du -sh . | cut -f1)
+CSS_SIZE=$(find inc -name "*.php" | xargs wc -l | tail -1 | awk '{print $1}')
+echo -e "Total size: ${BLUE}$TOTAL_SIZE${NC}"
+echo -e "Total PHP lines: ${BLUE}$CSS_SIZE${NC}"
+
+# Go back to original directory
+cd ../..
+
+echo ""
+echo -e "${GREEN}🎉 Test completed successfully!${NC}"
+echo -e "${GREEN}================================${NC}"
+echo -e "The ZIP file is ready for WordPress installation."
+echo ""
+echo -e "${BLUE}📋 Next Steps:${NC}"
+echo -e "1. Upload ${BLUE}$ZIP_FILE${NC} to a WordPress site"
+echo -e "2. Install and activate the plugin"
+echo -e "3. Go to Settings → OptimizadorPro"
+echo -e "4. Configure and test optimizations"
+echo ""
+
+# Cleanup
+echo -e "${YELLOW}🧹 Cleaning up test files...${NC}"
+rm -rf "$TEST_DIR"
+
+echo -e "${GREEN}✨ All done!${NC}"
+
+
+

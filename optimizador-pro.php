@@ -49,15 +49,21 @@ use OptimizadorPro\Core\Plugin;
  * Following WP Rocket pattern - load everything on plugins_loaded
  */
 function optimizador_pro_init(): void {
+    error_log('OptimizadorPro: optimizador_pro_init() ejecutado');
+
     // Nothing to do if autosave
     if (defined('DOING_AUTOSAVE')) {
+        error_log('OptimizadorPro: DOING_AUTOSAVE detectado, saltando');
         return;
     }
 
     // Check minimum requirements
     if (!optimizador_pro_check_requirements()) {
+        error_log('OptimizadorPro: Requisitos mínimos no cumplidos');
         return;
     }
+
+    error_log('OptimizadorPro: Inicializando plugin');
 
     // Create and load plugin instance
     $plugin = new OptimizadorPro\Core\Plugin(
@@ -67,6 +73,8 @@ function optimizador_pro_init(): void {
 
     // Load the plugin
     $plugin->load();
+
+    error_log('OptimizadorPro: Plugin cargado completamente');
 }
 add_action('plugins_loaded', 'optimizador_pro_init');
 
@@ -130,6 +138,8 @@ function optimizador_pro_activate(): void {
     add_option('optimizador_pro_optimize_logged_users', false);
     add_option('optimizador_pro_lazyload_logged_users', false);
     add_option('optimizador_pro_defer_logged_users', false);
+    add_option('optimizador_pro_critical_css', '');
+    add_option('optimizador_pro_restore_console', false);
 
     // Flush rewrite rules
     flush_rewrite_rules();

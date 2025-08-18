@@ -4,6 +4,10 @@ namespace OptimizadorPro\Admin;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use OptimizadorPro\Common\Subscriber\AdminSubscriber;
+use OptimizadorPro\Common\Subscriber\CriticalCSSSubscriber;
+use OptimizadorPro\Common\Subscriber\DelayJSExecutionSubscriber;
+use OptimizadorPro\Common\Subscriber\GoogleFontsSubscriber;
+use OptimizadorPro\Common\Subscriber\GzipSubscriber;
 
 /**
  * Admin Service Provider
@@ -22,6 +26,10 @@ class AdminServiceProvider extends AbstractServiceProvider {
      */
     protected $provides = [
         'admin_subscriber',
+        'critical_css_subscriber',
+        'delay_js_execution_subscriber',
+        'google_fonts_subscriber',
+        'gzip_subscriber',
     ];
 
     /**
@@ -42,5 +50,17 @@ class AdminServiceProvider extends AbstractServiceProvider {
         $this->getContainer()->add('admin_subscriber', AdminSubscriber::class)
             ->addArgument('plugin_version')
             ->addArgument('plugin_url');
+
+        // Register critical CSS subscriber
+        $this->getContainer()->add('critical_css_subscriber', CriticalCSSSubscriber::class);
+
+        // Register delay JS execution subscriber
+        $this->getContainer()->add('delay_js_execution_subscriber', DelayJSExecutionSubscriber::class);
+
+        // Register Google Fonts subscriber
+        $this->getContainer()->add('google_fonts_subscriber', GoogleFontsSubscriber::class);
+
+        // Register GZIP subscriber
+        $this->getContainer()->add('gzip_subscriber', GzipSubscriber::class);
     }
 }

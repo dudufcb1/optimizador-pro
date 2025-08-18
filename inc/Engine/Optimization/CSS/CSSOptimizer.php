@@ -38,6 +38,13 @@ class CSSOptimizer {
     private $excluded_files = [];
 
     /**
+     * Flag to indicate if critical CSS is active for this request
+     *
+     * @var bool
+     */
+    private $is_critical_css_active = false;
+
+    /**
      * Constructor
      *
      * @param string $cache_dir Cache directory path
@@ -74,32 +81,48 @@ class CSSOptimizer {
      * @return string Optimized HTML
      */
     public function optimize(string $html): string {
+        // Check if critical CSS is active for this request
+        $this->is_critical_css_active = !empty(\get_option('optimizador_pro_critical_css'));
+
         // Find all CSS link tags
         $css_links = $this->extract_css_links($html);
-        
-        if (empty($css_links)) {
+
+        // Extract inline styles if option is enabled
+        $inline_styles = [];
+        if (\get_option('optimizador_pro_combine_inline_css', false)) {
+            $inline_styles = $this->extract_inline_styles($html);
+        }
+
+        if (empty($css_links) && empty($inline_styles)) {
             return $html;
         }
 
         // Filter out excluded files and external files
         $optimizable_links = $this->filter_optimizable_links($css_links);
-        
-        if (empty($optimizable_links)) {
+
+        if (empty($optimizable_links) && empty($inline_styles)) {
             return $html;
         }
 
-        // Generate cache key based on files and their modification times
-        $cache_key = $this->generate_cache_key($optimizable_links);
+        // Generate cache key based on files, their modification times, and inline styles
+        $cache_key = $this->generate_cache_key($optimizable_links, $inline_styles);
         $cached_file = $this->cache_dir . 'css/combined-' . $cache_key . '.css';
         $cached_url = $this->plugin_url . 'cache/css/combined-' . $cache_key . '.css';
 
         // Create combined CSS if not cached
         if (!file_exists($cached_file)) {
-            $this->create_combined_css($optimizable_links, $cached_file);
+            $this->create_combined_css($optimizable_links, $cached_file, $inline_styles);
         }
 
         // Replace original CSS links with combined one
-        return $this->replace_css_links($html, $css_links, $cached_url);
+        $html = $this->replace_css_links($html, $css_links, $cached_url);
+
+        // Remove inline styles if they were combined
+        if (!empty($inline_styles)) {
+            $html = $this->remove_inline_styles($html, $inline_styles);
+        }
+
+        return $html;
     }
 
     /**
@@ -164,18 +187,24 @@ class CSSOptimizer {
     }
 
     /**
-     * Generate cache key based on files and modification times
+     * Generate cache key based on files, modification times, and inline styles
      *
      * @param array $links CSS links
+     * @param array $inline_styles Inline styles (optional)
      * @return string Cache key
      */
-    private function generate_cache_key(array $links): string {
+    private function generate_cache_key(array $links, array $inline_styles = []): string {
         $key_data = [];
-        
+
         foreach ($links as $link) {
             $key_data[] = $link['href'] . filemtime($link['path']);
         }
-        
+
+        // Add inline styles to cache key
+        foreach ($inline_styles as $style) {
+            $key_data[] = 'inline:' . md5($style['content']);
+        }
+
         return md5(implode('|', $key_data));
     }
 
@@ -184,23 +213,34 @@ class CSSOptimizer {
      *
      * @param array $links CSS links
      * @param string $output_file Output file path
+     * @param array $inline_styles Inline styles to include (optional)
      */
-    private function create_combined_css(array $links, string $output_file): void {
+    private function create_combined_css(array $links, string $output_file, array $inline_styles = []): void {
         $minifier = new CSSMinifier();
-        
+
+        // Add CSS files first
         foreach ($links as $link) {
             $css_content = file_get_contents($link['path']);
             if ($css_content !== false) {
                 $minifier->add($css_content);
             }
         }
-        
+
+        // Add inline styles at the end to preserve cascade order
+        if (!empty($inline_styles)) {
+            $inline_css = "\n\n/* === Inline styles from <style> tags === */\n";
+            foreach ($inline_styles as $style) {
+                $inline_css .= "\n/* Inline style block */\n" . $style['content'] . "\n";
+            }
+            $minifier->add($inline_css);
+        }
+
         // Ensure output directory exists
         $output_dir = dirname($output_file);
         if (!is_dir($output_dir)) {
             \wp_mkdir_p($output_dir);
         }
-        
+
         // Save minified CSS
         file_put_contents($output_file, $minifier->minify());
     }
@@ -222,9 +262,19 @@ class CSSOptimizer {
         }
         
         // Add combined CSS link at the end of head
-        $combined_tag = '<link rel="stylesheet" href="' . \esc_url($combined_url) . '" />';
+        $combined_tag = '';
+        if ($this->is_critical_css_active) {
+            // Si el CSS crítico está activo, cargamos el combinado de forma asíncrona
+            $escaped_url = \esc_url($combined_url);
+            $combined_tag = "<link rel='preload' href='{$escaped_url}' as='style' onload=\"this.rel='stylesheet'\">";
+            $combined_tag .= "<noscript><link rel='stylesheet' href='{$escaped_url}'></noscript>";
+        } else {
+            // Si no, lo cargamos de forma normal (bloqueante)
+            $combined_tag = '<link rel="stylesheet" href="' . \esc_url($combined_url) . '" />';
+        }
+
         $html = str_replace('</head>', $combined_tag . "\n</head>", $html);
-        
+
         return $html;
     }
 
@@ -296,5 +346,105 @@ class CSSOptimizer {
         if (!is_dir($css_cache_dir)) {
             \wp_mkdir_p($css_cache_dir);
         }
+    }
+
+    /**
+     * Extract inline styles from <style> tags in the head
+     *
+     * @param string $html HTML content
+     * @return array Array of inline style information
+     */
+    private function extract_inline_styles(string $html): array {
+        $styles = [];
+
+        // Only extract styles from the <head> section
+        if (preg_match('/<head[^>]*>(.*?)<\/head>/is', $html, $head_match)) {
+            $head_content = $head_match[1];
+
+            // Find all <style> tags in the head
+            $pattern = '/<style[^>]*>(.*?)<\/style>/is';
+
+            if (preg_match_all($pattern, $head_content, $matches, PREG_SET_ORDER)) {
+                foreach ($matches as $match) {
+                    $full_tag = $match[0];
+                    $css_content = $match[1];
+
+                    // Skip empty styles
+                    if (empty(trim($css_content))) {
+                        continue;
+                    }
+
+                    // Skip styles that should be excluded
+                    if ($this->should_exclude_inline_style($full_tag, $css_content)) {
+                        continue;
+                    }
+
+                    $styles[] = [
+                        'tag' => $full_tag,
+                        'content' => $css_content
+                    ];
+                }
+            }
+        }
+
+        return $styles;
+    }
+
+    /**
+     * Check if inline style should be excluded
+     *
+     * @param string $style_tag Full style tag
+     * @param string $css_content CSS content
+     * @return bool
+     */
+    private function should_exclude_inline_style(string $style_tag, string $css_content): bool {
+        // Exclude styles with specific attributes that indicate they're critical
+        $critical_patterns = [
+            'id=["\']wp-custom-css["\']',  // WordPress Customizer CSS
+            'id=["\']customizer-css["\']', // Theme customizer
+            'data-ampdevmode',             // AMP development mode
+            'data-no-optimize',            // Manual exclusion
+        ];
+
+        foreach ($critical_patterns as $pattern) {
+            if (preg_match('/' . $pattern . '/i', $style_tag)) {
+                return true;
+            }
+        }
+
+        // Exclude very small CSS (likely critical)
+        if (strlen(trim($css_content)) < 50) {
+            return true;
+        }
+
+        // Exclude CSS that contains critical selectors
+        $critical_css_patterns = [
+            '@media\s+print',           // Print styles
+            '@keyframes',               // Animations
+            'body\s*{[^}]*display\s*:\s*none', // Hidden body
+        ];
+
+        foreach ($critical_css_patterns as $pattern) {
+            if (preg_match('/' . $pattern . '/i', $css_content)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove inline styles from HTML
+     *
+     * @param string $html HTML content
+     * @param array $inline_styles Array of inline styles to remove
+     * @return string Modified HTML
+     */
+    private function remove_inline_styles(string $html, array $inline_styles): string {
+        foreach ($inline_styles as $style) {
+            $html = str_replace($style['tag'], '', $html);
+        }
+
+        return $html;
     }
 }

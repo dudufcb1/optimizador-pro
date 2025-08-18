@@ -8,6 +8,7 @@ use OptimizadorPro\Engine\Optimization\JS\JSOptimizer;
 use OptimizadorPro\Engine\Optimization\DeferJS\DeferJSOptimizer;
 use OptimizadorPro\Common\Subscriber\OptimizationSubscriber;
 use OptimizadorPro\Common\Subscriber\DeferJSSubscriber;
+use OptimizadorPro\Common\Subscriber\CriticalCSSSubscriber;
 
 /**
  * Optimization Service Provider
@@ -30,6 +31,7 @@ class OptimizationServiceProvider extends AbstractServiceProvider {
         'defer_js_optimizer',
         'optimization_subscriber',
         'defer_js_subscriber',
+        'critical_css_subscriber',
     ];
 
     /**
@@ -67,5 +69,8 @@ class OptimizationServiceProvider extends AbstractServiceProvider {
         // Register Defer JS Subscriber
         $this->getContainer()->add('defer_js_subscriber', DeferJSSubscriber::class)
             ->addArgument('defer_js_optimizer');
+
+        // Register Critical CSS Subscriber
+        $this->getContainer()->add('critical_css_subscriber', CriticalCSSSubscriber::class);
     }
 }

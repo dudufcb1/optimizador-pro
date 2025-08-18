@@ -32,33 +32,47 @@ class LazyloadSubscriber {
      * @param LazyloadOptimizer $lazyload_optimizer LazyLoad optimizer instance
      */
     public function __construct(LazyloadOptimizer $lazyload_optimizer) {
+        error_log('OptimizadorPro: LazyloadSubscriber constructor ejecutado');
+
         $this->lazyload_optimizer = $lazyload_optimizer;
-        
+
         // Register WordPress hooks
         $this->register_hooks();
+
+        error_log('OptimizadorPro: LazyloadSubscriber hooks registrados');
     }
 
     /**
      * Register WordPress hooks
      */
     private function register_hooks(): void {
-        // Start output buffer early
-        add_action('template_redirect', [$this, 'start_buffer'], 3);
+        error_log('OptimizadorPro: Registrando hooks de LazyloadSubscriber');
+
+        // Start output buffer BEFORE OptimizationSubscriber (priority 1 vs 2)
+        add_action('template_redirect', [$this, 'start_buffer'], 1);
+
+        error_log('OptimizadorPro: LazyloadSubscriber hooks registrados - template_redirect prioridad 1');
     }
 
     /**
      * Start output buffer to capture HTML
      */
     public function start_buffer(): void {
+        error_log('OptimizadorPro: LazyloadSubscriber start_buffer llamado');
+
         // Don't process in admin, during AJAX, or if already started
         if (is_admin() || wp_doing_ajax() || $this->buffer_started) {
+            error_log('OptimizadorPro: LazyloadSubscriber saltando - admin: ' . (is_admin() ? 'true' : 'false') . ', ajax: ' . (wp_doing_ajax() ? 'true' : 'false') . ', buffer_started: ' . ($this->buffer_started ? 'true' : 'false'));
             return;
         }
 
         // Don't process if LazyLoad is disabled
         if (!$this->is_lazyload_enabled()) {
+            error_log('OptimizadorPro: LazyloadSubscriber saltando - LazyLoad deshabilitado');
             return;
         }
+
+        error_log('OptimizadorPro: LazyloadSubscriber iniciando buffer');
 
         // Don't process if user is logged in and preview mode is disabled
         if (is_user_logged_in() && !$this->should_process_for_logged_users()) {
@@ -82,15 +96,21 @@ class LazyloadSubscriber {
      * @return string Processed HTML content
      */
     public function process_buffer(string $html): string {
+        error_log('OptimizadorPro: LazyloadSubscriber process_buffer ejecutado, HTML length: ' . strlen($html));
+
         // Skip processing if HTML is too small
         if (strlen($html) < 255) {
+            error_log('OptimizadorPro: LazyloadSubscriber HTML muy pequeño, saltando');
             return $html;
         }
 
         // Skip if no HTML structure detected
         if (strpos($html, '<html') === false && strpos($html, '<!DOCTYPE') === false) {
+            error_log('OptimizadorPro: LazyloadSubscriber no se detectó estructura HTML, saltando');
             return $html;
         }
+
+        error_log('OptimizadorPro: LazyloadSubscriber procesando HTML válido');
 
         try {
             // Apply LazyLoad optimization

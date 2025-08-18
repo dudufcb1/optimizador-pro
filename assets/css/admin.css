@@ -55,6 +55,21 @@
     background-color: #ff6900 !important;
 }
 
+/* Experimental Options */
+.experimental-option {
+    border: 2px solid #f44336 !important;
+}
+
+.experimental-option:checked {
+    background-color: #f44336 !important;
+}
+
+/* Option descriptions with warnings */
+.experimental-option + .description strong {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
 /* Status Indicators */
 .status-enabled {
     color: #46b450;

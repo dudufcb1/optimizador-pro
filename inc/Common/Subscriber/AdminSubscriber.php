@@ -80,12 +80,18 @@ class AdminSubscriber {
     public function register_settings(): void {
         // Register setting groups
         register_setting('optimizador_pro_css', 'optimizador_pro_minify_css');
+        register_setting('optimizador_pro_css', 'optimizador_pro_combine_inline_css');
+        register_setting('optimizador_pro_css', 'optimizador_pro_optimize_google_fonts');
         register_setting('optimizador_pro_css', 'optimizador_pro_css_exclusions');
+        register_setting('optimizador_pro_css', 'optimizador_pro_critical_css');
+        register_setting('optimizador_pro_css', 'optimizador_pro_google_fonts_exclusions');
         
         register_setting('optimizador_pro_js', 'optimizador_pro_minify_js');
         register_setting('optimizador_pro_js', 'optimizador_pro_js_exclusions');
         register_setting('optimizador_pro_js', 'optimizador_pro_defer_js');
         register_setting('optimizador_pro_js', 'optimizador_pro_defer_js_exclusions');
+        register_setting('optimizador_pro_js', 'optimizador_pro_delay_js');
+        register_setting('optimizador_pro_js', 'optimizador_pro_delay_js_exclusions');
         register_setting('optimizador_pro_js', 'optimizador_pro_dequeue_jquery');
         
         register_setting('optimizador_pro_media', 'optimizador_pro_lazyload_enabled');
@@ -96,6 +102,8 @@ class AdminSubscriber {
         register_setting('optimizador_pro_general', 'optimizador_pro_excluded_pages');
         register_setting('optimizador_pro_general', 'optimizador_pro_optimize_logged_users');
         register_setting('optimizador_pro_general', 'optimizador_pro_defer_logged_users');
+        register_setting('optimizador_pro_general', 'optimizador_pro_enable_gzip');
+        register_setting('optimizador_pro_general', 'optimizador_pro_restore_console');
 
         // Add settings sections
         add_settings_section(
@@ -275,6 +283,19 @@ class AdminSubscriber {
                 'description' => 'Apply optimizations for logged-in users (useful for testing).'
             ]
         );
+
+        add_settings_field(
+            'optimizador_pro_restore_console',
+            'Restore Console Debug',
+            [$this, 'render_checkbox_field'],
+            'optimizador_pro_general',
+            'optimizador_pro_general_section',
+            [
+                'option_name' => 'optimizador_pro_restore_console',
+                'description' => '<strong>Debug Tool:</strong> Restore browser console.log when suppressed by other plugins. Enable this to see OptimizadorPro debug messages.',
+                'class' => 'debug-option'
+            ]
+        );
     }
 
     /**
@@ -366,11 +387,12 @@ class AdminSubscriber {
         $option_name = $args['option_name'];
         $description = $args['description'] ?? '';
         $class = $args['class'] ?? '';
+        $disabled = $args['disabled'] ?? false;
 
         $value = \get_option($option_name, false);
 
         echo '<label>';
-        echo '<input type="checkbox" name="' . esc_attr($option_name) . '" value="1" ' . checked(1, $value, false) . ' class="' . esc_attr($class) . '" />';
+        echo '<input type="checkbox" name="' . esc_attr($option_name) . '" value="1" ' . checked(1, $value, false) . ' class="' . esc_attr($class) . '"' . ($disabled ? ' disabled' : '') . ' />';
         echo ' ' . $description;
         echo '</label>';
     }
@@ -461,14 +483,20 @@ class AdminSubscriber {
         $options = [
             // CSS Options
             'optimizador_pro_minify_css' => 'checkbox',
+            'optimizador_pro_combine_inline_css' => 'checkbox',
+            'optimizador_pro_optimize_google_fonts' => 'checkbox',
             'optimizador_pro_css_exclusions' => 'textarea',
+            'optimizador_pro_critical_css' => 'textarea',
+            'optimizador_pro_google_fonts_exclusions' => 'textarea',
 
             // JS Options
             'optimizador_pro_minify_js' => 'checkbox',
             'optimizador_pro_defer_js' => 'checkbox',
+            'optimizador_pro_delay_js' => 'checkbox',
             'optimizador_pro_dequeue_jquery' => 'checkbox',
             'optimizador_pro_js_exclusions' => 'textarea',
             'optimizador_pro_defer_js_exclusions' => 'textarea',
+            'optimizador_pro_delay_js_exclusions' => 'textarea',
 
             // Media Options
             'optimizador_pro_lazyload_enabled' => 'checkbox',
@@ -478,6 +506,7 @@ class AdminSubscriber {
 
             // General Options
             'optimizador_pro_excluded_pages' => 'textarea',
+            'optimizador_pro_enable_gzip' => 'checkbox',
             'optimizador_pro_optimize_logged_users' => 'checkbox',
             'optimizador_pro_defer_logged_users' => 'checkbox',
         ];
@@ -511,9 +540,33 @@ class AdminSubscriber {
                 </td>
             </tr>
             <tr>
+                <th scope="row">Combine Inline Styles</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_combine_inline_css', 'description' => '<strong>⚠️ Experimental:</strong> Extract CSS from &lt;style&gt; tags in the head and add it to the combined CSS file. This cleans up the HTML but <strong>may affect your design</strong>. Enable and check visually that everything still works correctly.', 'class' => 'experimental-option']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Optimize Google Fonts</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_optimize_google_fonts', 'description' => 'Combine multiple Google Fonts requests into one, add preconnect hints, and optimize loading with font-display: swap.']); ?>
+                </td>
+            </tr>
+            <tr>
                 <th scope="row">CSS Exclusions</th>
                 <td>
                     <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_css_exclusions', 'description' => 'Enter CSS files to exclude from optimization (one per line). Use partial matches.', 'placeholder' => "admin-bar\nwp-admin\ncustomize-controls"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Critical CSS (Manual)</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_critical_css', 'description' => '<strong>Advanced:</strong> Paste your critical CSS here. This will be inserted inline in the &lt;head&gt; for optimal visual loading. The rest of the CSS will be loaded asynchronously. <br><br><strong>How to generate:</strong> Use tools like <a href="https://www.sitelocity.com/critical-path-css-generator" target="_blank">Critical Path CSS Generator</a> or <a href="https://jonassebastianohlsson.com/criticalpathcssgenerator/" target="_blank">Critical CSS Generator</a>.', 'placeholder' => "/* Paste your critical CSS here */\nbody { margin: 0; }\n.header { background: #fff; }\n/* Only include CSS for above-the-fold content */"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Google Fonts Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_google_fonts_exclusions', 'description' => 'Enter Google Fonts URLs or font names to exclude from optimization (one per line).', 'placeholder' => "Open Sans\nRoboto\nfonts.googleapis.com/css?family=Custom"]); ?>
                 </td>
             </tr>
         </table>
@@ -539,6 +592,12 @@ class AdminSubscriber {
                 </td>
             </tr>
             <tr>
+                <th scope="row">Delay JavaScript Execution</th>
+                <td>
+                    <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_delay_js', 'description' => '<strong>Advanced:</strong> Delay JavaScript execution until user interaction (click, scroll, keydown). This can significantly improve initial page load speed.', 'class' => 'advanced-option']); ?>
+                </td>
+            </tr>
+            <tr>
                 <th scope="row">Smart jQuery Dequeue</th>
                 <td>
                     <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_dequeue_jquery', 'description' => '<strong>Advanced:</strong> Allow jQuery to be dequeued when safe. Automatically detects jQuery usage.', 'class' => 'advanced-option']); ?>
@@ -554,6 +613,12 @@ class AdminSubscriber {
                 <th scope="row">Defer JS Exclusions</th>
                 <td>
                     <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_defer_js_exclusions', 'description' => 'Enter JavaScript files to exclude from defer (one per line).', 'placeholder' => "critical-script\ninline-script"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Delay JS Exclusions</th>
+                <td>
+                    <?php $this->render_textarea_field(['option_name' => 'optimizador_pro_delay_js_exclusions', 'description' => 'Enter JavaScript files to exclude from delay execution (one per line). These scripts will load normally.', 'placeholder' => "critical-script\nanalytics\ngtag"]); ?>
                 </td>
             </tr>
         </table>
@@ -610,6 +675,44 @@ class AdminSubscriber {
                 <th scope="row">Defer JS for Logged Users</th>
                 <td>
                     <?php $this->render_checkbox_field(['option_name' => 'optimizador_pro_defer_logged_users', 'description' => 'Enable JavaScript defer for logged-in users.']); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Enable GZIP Compression</th>
+                <td>
+                    <?php
+                    $gzip_subscriber = new \OptimizadorPro\Common\Subscriber\GzipSubscriber();
+                    $server_type = $gzip_subscriber->get_server_type();
+                    $is_supported = $gzip_subscriber->is_gzip_supported();
+
+                    if ($is_supported) {
+                        $description = 'Add GZIP compression rules to your .htaccess file to reduce file sizes and improve loading speed. <strong>Server:</strong> ' . $server_type;
+                    } else {
+                        $description = '<strong>⚠️ Not supported:</strong> Your server (' . $server_type . ') doesn\'t support automatic GZIP configuration.';
+                        if ($server_type === 'Nginx') {
+                            $description .= '<br><br><strong>Manual Configuration Required:</strong><br><pre style="background:#f1f1f1;padding:10px;font-size:12px;">' . $gzip_subscriber->get_nginx_instructions() . '</pre>';
+                        }
+                    }
+
+                    $this->render_checkbox_field([
+                        'option_name' => 'optimizador_pro_enable_gzip',
+                        'description' => $description,
+                        'disabled' => !$is_supported
+                    ]);
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Restore Console Debug</th>
+                <td>
+                    <?php $this->render_checkbox_field([
+                        'option_name' => 'optimizador_pro_restore_console',
+                        'description' => '<strong>🔧 Debug Tool:</strong> Restore browser console.log when suppressed by other plugins. Enable this to see OptimizadorPro debug messages in browser console.',
+                        'class' => 'debug-option'
+                    ]); ?>
+                    <p class="description" style="color: #666; font-style: italic;">
+                        💡 <strong>Tip:</strong> If you don\'t see OptimizadorPro logs in browser console, enable this option and refresh the page.
+                    </p>
                 </td>
             </tr>
         </table>
