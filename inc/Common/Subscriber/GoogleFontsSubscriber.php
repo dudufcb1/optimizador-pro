@@ -409,7 +409,10 @@ class GoogleFontsSubscriber {
         }
 
         $async_html = '';
-        foreach ($google_fonts as $font_url) {
+        foreach ($google_fonts as $font_data) {
+            // Handle both array format (new) and string format (legacy)
+            $font_url = is_array($font_data) ? $font_data['url'] : $font_data;
+
             $async_html .= '<link rel="preload" href="' . esc_url($font_url) . '" as="style" onload="this.rel=\'stylesheet\'">' . "\n";
             $async_html .= '<noscript><link rel="stylesheet" href="' . esc_url($font_url) . '"></noscript>' . "\n";
         }
